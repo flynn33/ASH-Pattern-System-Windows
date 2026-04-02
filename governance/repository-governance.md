@@ -2,7 +2,7 @@
 
 ## Repository role
 
-This repository is the canonical semantic definition of the ASH Engine.
+This repository is the canonical semantic definition of the ASH Pattern System.
 It is not a language implementation repository.
 
 ## Governance rules
@@ -33,10 +33,23 @@ A document is only complete if a downstream coding agent can determine:
 - what boundary separates planning from materialization
 - what behaviors are prohibited
 
-### 6. Fresh-repo rule
+### 6. Standalone baseline rule
 
-This repository stands on its own as a fresh baseline.
+This repository stands on its own as a canonical agnostic baseline.
 It should not depend on explanation through older implementation layouts.
+
+### 7. State-layer closure discipline
+
+Specifications that define foundational state-layer behavior (control-bit derivation, core admissibility, state-validity diagnostics) are authoritative.
+
+Downstream implementation repositories must not:
+
+- invent foundational semantics that are not defined in this repository
+- guess values for unresolved closure items (e.g., derivation formulas, codeword sets)
+- silently use placeholder values for unresolved closure items in production code
+- treat convenience behavior as canonical if the specifications do not define it
+
+If a specification marks a rule as an **unresolved closure item**, that item must be resolved by an explicit design decision recorded in this repository before any downstream implementation may treat it as settled.
 
 ## Admission rule for future files
 

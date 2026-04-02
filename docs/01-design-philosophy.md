@@ -2,7 +2,7 @@
 
 ## Primary principle
 
-The ASH Engine must be specified in terms of **semantic invariants**, not implementation accidents.
+The ASH Pattern System must be specified in terms of **semantic invariants**, not implementation accidents.
 
 ## Governing ideas
 

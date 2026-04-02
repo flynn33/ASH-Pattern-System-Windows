@@ -3,7 +3,7 @@
 ## Canonical structure
 
 ```text
-ash-engine/
+ash-pattern-system/
 ├── README.md
 ├── docs/
 │   ├── 00-repository-purpose.md
@@ -13,6 +13,9 @@ ash-engine/
 ├── specs/
 │   ├── core/
 │   │   ├── ash-state-space.pseudo.md
+│   │   ├── control-bit-derivation.pseudo.md
+│   │   ├── core-admissibility.pseudo.md
+│   │   ├── state-validity-diagnostics.pseudo.md
 │   │   └── realm-identity.pseudo.md
 │   ├── algorithms/
 │   │   ├── transition-system.pseudo.md
@@ -47,7 +50,7 @@ Contains repository rules and handoff rules for coding agents.
 
 ## Exclusions from this repository shape
 
-This fresh repository shape intentionally excludes canonical dependence on:
+This repository shape intentionally excludes canonical dependence on:
 
 - `src/`
 - `include/`

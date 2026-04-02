@@ -2,7 +2,7 @@
 
 ## What this repository is
 
-This repository is the **fresh specification baseline** for the ASH Engine.
+This repository is the **canonical agnostic specification baseline** for the ASH Pattern System.
 
 Its job is to define the engine in a way that survives translation across:
 
@@ -46,4 +46,4 @@ If a future implementation disagrees with this repository, this repository wins.
 
 ## Success condition
 
-A reader should be able to understand the ASH Engine as a coherent system **without seeing implementation language code**.
+A reader should be able to understand the ASH Pattern System as a coherent system **without seeing implementation language code**.
