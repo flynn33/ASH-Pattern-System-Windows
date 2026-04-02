@@ -18,10 +18,13 @@ Every downstream implementation must provide semantic equivalents of the followi
 ### `StateModel`
 Must:
 
-- normalize states
+- normalize states deterministically where normalization is defined
 - distinguish the 8-bit core from the derived control dimension
-- derive the control bit deterministically
-- validate state consistency
+- derive the control bit deterministically using the function defined in `control-bit-derivation.pseudo.md`
+- classify core admissibility using the rules defined in `core-admissibility.pseudo.md`
+- validate state consistency and produce a `StateValidityDiagnostic` as defined in `state-validity-diagnostics.pseudo.md`
+- report diagnosable failure when normalization cannot proceed (e.g., inadmissible core beyond correctable distance, or derivation formula not yet locked)
+- never silently invent missing semantics — if a specification marks a rule as an unresolved closure item, the implementation must not guess a value and must report the gap in diagnostics
 
 ### `RealmEncoder`
 Must:
@@ -75,6 +78,30 @@ A downstream implementation must not:
 - skip normalization before encoding or transition application
 - collapse planning and materialization into one opaque semantic step
 - replace semantic validation with superficial metadata checks
+- silently accept an inadmissible core as valid
+- produce a control bit by any means other than the canonical derivation function
+- skip admissibility classification before normalization
+
+## Prohibited guessing of unresolved semantics
+
+Some specifications in this repository contain explicitly marked **unresolved closure items** — foundational design decisions that have not yet been locked. These include (but are not limited to):
+
+- the exact derivation formula for the control bit (see `control-bit-derivation.pseudo.md`)
+- the exact codeword set / generator matrix for core admissibility (see `core-admissibility.pseudo.md`)
+
+A downstream implementation **must not**:
+
+- invent a derivation formula where the specification has not locked one
+- invent a codeword set where the specification has not locked one
+- use a placeholder formula or codeword set in production without explicit acknowledgment
+- treat a guessed value as canonical
+- assume that any particular formula or codeword set is correct based on general knowledge of coding theory — the ASH Pattern System may choose a specific variant for semantic reasons
+
+A downstream implementation **must**:
+
+- structure its code so that unresolved closure items are single replaceable points of definition
+- report `UNABLE_TO_DERIVE` or equivalent in diagnostics when a closure item is not yet locked
+- refuse to normalize or validate states when required closure items are missing, rather than silently producing incorrect results
 
 ## Portability rule
 

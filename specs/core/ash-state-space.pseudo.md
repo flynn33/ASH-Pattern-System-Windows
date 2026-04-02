@@ -66,8 +66,10 @@ END TYPE
 
 A valid ASH state must satisfy both conditions:
 
-1. the 8-bit core is structurally admissible under the engine's stabilizing rules
-2. the control bit is consistent with the derivation rule currently defined by the engine
+1. the 8-bit core is structurally admissible under the admissibility rules defined in `core-admissibility.pseudo.md`
+2. the control bit is consistent with the derivation rule defined in `control-bit-derivation.pseudo.md`
+
+If either condition fails, the state-validity diagnostic system (defined in `state-validity-diagnostics.pseudo.md`) must be able to explain why.
 
 ## Normal form
 
@@ -83,6 +85,7 @@ This is preferred because it makes the special role of the 9th coordinate explic
 
 ```text
 FUNCTION make_state(core_bits[8]) -> AshState
+    -- derive_control_bit is defined in control-bit-derivation.pseudo.md
     state.core_bits = core_bits
     state.control_bit = derive_control_bit(core_bits)
     RETURN state
@@ -91,7 +94,17 @@ END FUNCTION
 
 ```text
 FUNCTION normalize_state(candidate_state) -> AshState
+    -- derive_control_bit is defined in control-bit-derivation.pseudo.md
+    -- admissibility must be checked per core-admissibility.pseudo.md
     core = extract_core_bits(candidate_state)
+    admissibility = classify_core_admissibility(core)
+
+    IF admissibility == INADMISSIBLE_CORRECTABLE THEN
+        core = correct_to_nearest_codeword(core)
+    ELSE IF admissibility IN [INADMISSIBLE_DETECTABLE, INADMISSIBLE_UNRECOVERABLE] THEN
+        FAIL with diagnostic (see state-validity-diagnostics.pseudo.md)
+    END IF
+
     control = derive_control_bit(core)
     RETURN AshState(core_bits = core, control_bit = control)
 END FUNCTION
@@ -106,5 +119,12 @@ Any change in the control bit during ordinary evolution must come through re-der
 
 1. normalization is deterministic
 2. equal 8-bit cores produce equal derived control bits
-3. state validity can be explained diagnostically
+3. state validity can be explained diagnostically (see `state-validity-diagnostics.pseudo.md`)
 4. the 9th coordinate remains semantically distinguished from the first 8
+5. normalization must not proceed on inadmissible cores that cannot be corrected (see `core-admissibility.pseudo.md`)
+
+## Related specifications
+
+- `specs/core/control-bit-derivation.pseudo.md` — defines `derive_control_bit`, the function that computes the 9th coordinate from the 8-bit core
+- `specs/core/core-admissibility.pseudo.md` — defines `classify_core_admissibility`, the function that determines whether an 8-bit core is a valid codeword under the [8,4,4] extended Hamming code structure
+- `specs/core/state-validity-diagnostics.pseudo.md` — defines the diagnostic record produced when state validity is evaluated

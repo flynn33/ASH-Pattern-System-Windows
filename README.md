@@ -1,10 +1,10 @@
-# ASH Engine
+# ASH Pattern System
 
-## Fresh Agnostic Repository
+## Canonical Agnostic Repository
 
-This repository is the **platform-neutral, language-neutral source of truth** for the ASH Engine.
+This repository is the **platform-neutral, language-neutral source of truth** for the ASH Pattern System.
 
-It is a fresh specification repository built around the corrected ASH state-space model and the current ASH design philosophy.
+It is the agnostic specification repository built around the corrected ASH state-space model and the current ASH design philosophy.
 
 ## Repository purpose
 
@@ -59,6 +59,9 @@ The 9th coordinate is therefore **not** treated as an ordinary peer bit for unre
 - `docs/02-target-repository-shape.md` — canonical repository structure
 - `docs/03-design-roadmap.md` — planning sequence for future work
 - `specs/core/ash-state-space.pseudo.md` — canonical ASH state definition
+- `specs/core/control-bit-derivation.pseudo.md` — control-bit derivation semantics and closure status
+- `specs/core/core-admissibility.pseudo.md` — core admissibility rules and state classification
+- `specs/core/state-validity-diagnostics.pseudo.md` — canonical state-validity diagnostic model
 - `specs/core/realm-identity.pseudo.md` — realm identity and encoding semantics
 - `specs/algorithms/transition-system.pseudo.md` — transition semantics
 - `specs/algorithms/topology-expansion.pseudo.md` — topology generation semantics
@@ -72,12 +75,12 @@ The 9th coordinate is therefore **not** treated as an ordinary peer bit for unre
 
 A future coding agent should receive this repository plus a build-target instruction such as:
 
-- implement the ASH Engine for Rust
-- implement the ASH Engine for Swift
-- implement the ASH Engine for C++
-- implement the ASH Engine for TypeScript
-- implement the ASH Engine for a service runtime
-- implement the ASH Engine for a mobile runtime
+- implement the ASH Pattern System for Rust
+- implement the ASH Pattern System for Swift
+- implement the ASH Pattern System for C++
+- implement the ASH Pattern System for TypeScript
+- implement the ASH Pattern System for a service runtime
+- implement the ASH Pattern System for a mobile runtime
 
 The build target may change.
 The semantic source of truth must not.
