@@ -28,6 +28,7 @@ This repository defines:
 - canonical fallback-policy registry for deterministic fallback selection
 - unified diagnostic schema and rule-ID taxonomy for auditable diagnostics
 - locked implementation contracts for all 9 required semantic modules
+- invariant-based verification requirements for downstream conformance
 - deterministic transition semantics
 - deterministic topology expansion semantics
 - axiom evaluation semantics
@@ -99,6 +100,9 @@ The 9th coordinate is therefore **not** treated as an ordinary peer bit for unre
 - `specs/interfaces/contracts/generation-planner-contract.md` — GenerationPlanner implementation contract
 - `specs/interfaces/contracts/artifact-emitter-contract.md` — ArtifactEmitter implementation contract
 - `specs/interfaces/contracts/diagnostics-module-contract.md` — Diagnostics module implementation contract
+- `specs/verification/invariant-spec.md` — canonical invariant set for downstream conformance verification
+- `specs/verification/conformance-categories.md` — 5 conformance categories for verification grouping
+- `specs/verification/implementation-acceptance.md` — acceptance criteria and judgment language
 - `governance/repository-governance.md` — governance rules for this repository
 - `governance/ai-coding-handoff.md` — handoff instructions for coding agents
 

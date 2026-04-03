@@ -94,6 +94,14 @@ The following implementation contracts are **locked** (Phase 2) and are canonica
 
 The coding agent must not invent module behavior outside the canonical contract files.
 
+The following verification requirements are **locked** (Phase 3) and are mandatory for downstream conformance:
+
+- **Invariant specification** — the canonical invariant set in `specs/verification/invariant-spec.md` must be satisfied. No invariant may be skipped.
+- **Conformance categories** — all 5 categories in `specs/verification/conformance-categories.md` must be covered in the test suite. No category may be omitted.
+- **Implementation acceptance** — the acceptance criteria in `specs/verification/implementation-acceptance.md` define the threshold for conformance. An implementation is not conformant without satisfying Phase 3 requirements.
+
+The coding agent must not claim conformance without passing the Phase 3 verification layer.
+
 ## Design package status
 
 - **Design Package A** — complete (state-layer formal foundation)
@@ -101,6 +109,7 @@ The coding agent must not invent module behavior outside the canonical contract 
 - **Design Package C** — complete (algebraic lock package)
 - **Design Package D** — complete (registry and diagnostics layer closure)
 - **Phase 2** — complete (implementation-contract lock)
+- **Phase 3** — complete (invariant-based verification requirements)
 
 ## Required delivery shape for implementation repos
 

@@ -28,6 +28,10 @@ ash-pattern-system/
 │   │   └── containment-safe-failure-semantics.pseudo.md
 │   ├── registries/
 │   │   └── fallback-policy-registry.md
+│   ├── verification/
+│   │   ├── invariant-spec.md
+│   │   ├── conformance-categories.md
+│   │   └── implementation-acceptance.md
 │   └── interfaces/
 │       ├── semantic-contracts.md
 │       ├── diagnostic-schema.md

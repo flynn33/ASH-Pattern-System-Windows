@@ -98,15 +98,19 @@ Update `semantic-contracts.md` as the umbrella contract document referencing the
 
 ### Phase 3 — define invariant-based verification requirements
 
-Describe what downstream test suites must prove, including:
+Define the canonical verification layer that downstream implementations must satisfy:
 
-- deterministic normalization
-- deterministic realm encoding
-- no uncontrolled mutation of the control dimension
-- deterministic transition outcomes
-- deterministic topology expansion
-- stable axiom diagnostics
-- stable generation-plan structure
+- **invariant specification** — canonical invariant set covering normalization, control integrity, transitions, topology, axiom diagnostics, recovery/fallback/containment, generation-plan structure, materialization boundary, and diagnostic schema/taxonomy conformance
+- **conformance categories** — 5 verification buckets: algebraic/state, recovery/fallback/containment, diagnostics, generation/materialization-boundary, contract/module
+- **implementation acceptance** — minimum acceptance threshold, failure conditions, non-waivable locked requirements, and acceptance judgment language (CONFORMANT / NON-CONFORMANT)
+
+Specifications created:
+
+- `specs/verification/invariant-spec.md`
+- `specs/verification/conformance-categories.md`
+- `specs/verification/implementation-acceptance.md`
+
+**Status**: Complete. Phase 3 is the invariant-based verification requirements package. The verification layer is canonical.
 
 ### Phase 4 — create platform build handoff packages
 
@@ -121,6 +125,6 @@ For each target implementation repo, the coding agent should receive:
 
 ## Immediate next design step
 
-Design Packages A–D and Phase 2 are complete. The semantic, algebraic, diagnostic, and implementation-contract foundation is fully locked. The immediate next step is **Phase 3 — define invariant-based verification requirements**.
+Design Packages A–D, Phase 2, and Phase 3 are complete. The semantic, algebraic, diagnostic, implementation-contract, and verification foundation is fully locked. The immediate next step is **Phase 4 — create platform build handoff packages**.
 
-Phase 3 will describe what downstream test suites must prove, ensuring that every locked semantic, algebraic, and contractual requirement can be verified through deterministic, repeatable tests.
+Phase 4 will create target-specific handoff packages that combine this repository with platform constraints, language constraints, and runtime constraints for each downstream implementation.
