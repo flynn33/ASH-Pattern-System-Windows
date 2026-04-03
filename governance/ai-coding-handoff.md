@@ -1,16 +1,22 @@
 # AI Coding Handoff
 
+> **REALIGNED — Research Math Realignment Package R1**
+>
+> The ASH Pattern System has been realigned to the **full 9-dimensional research baseline**. The previous 8+1 formalization (8-bit core + derived control bit) is **superseded and not canonical**.
+>
+> Platform build handoff work is **paused** until post-realignment rebuild (R2–R3) is complete. The contract, verification, and conformance layers built on the 8+1 model require revalidation before downstream implementation may proceed.
+
 ## Purpose
 
 This document tells a coding agent how to use this repository when building a target implementation.
 
-The ASH Pattern System is a **resilient software semantics framework** — not just an abstract state model. It defines the semantic foundation for self-healing, self-correcting, safe-failure, fallback, and deterministic recovery behavior. Every implementation must preserve these resilience semantics.
+The ASH Pattern System is a **resilient software semantics framework** grounded in the **full 9D ASH research math**. The canonical state space is F2^9 with 512 vertices, XOR-by-codeword transformations, an averaging operator with T²=T, and first-class branching semantics.
 
 ## Handoff rule
 
 Treat this repository as the semantic authority.
 Do not infer core semantics from convenience, local idiom, or language defaults.
-The corrected-core derivation rule is authoritative: expected control semantics for correctable cores are defined on the corrected admissible core.
+The **research baseline** is canonical — not the superseded 8+1 drift formalization.
 
 ## Required coding-agent workflow
 
@@ -70,46 +76,47 @@ The coding agent must not:
 - allow a `FAILED` state to continue normal operations without escalation
 - allow transitions from `SAFE_HALT` to any other state
 
-## Locked design decisions
+## Canonical design decisions (Research Baseline — R1)
 
-The following foundational algebraic items are **locked** (Design Package C) and must be implemented exactly:
+The following are canonical after Research Math Realignment R1:
 
-- **Control-bit derivation formula** — overall parity: `b0 ⊕ b1 ⊕ b2 ⊕ b3 ⊕ b4 ⊕ b5 ⊕ b6 ⊕ b7` (see `specs/core/control-bit-derivation.pseudo.md`)
-- **Admissibility law** — the exact [8,4,4] extended Hamming code with normative 16-codeword set and generator matrix G (see `specs/core/core-admissibility.pseudo.md`)
-- **Corrected-core derivation rule** — for correctable cores, expected control is derived from the corrected admissible core, not the raw core
+- **State space** — full F2^9, 512 vertices, 9-bit states
+- **Transformation** — XOR-by-codeword: `x' = x ⊕ c` where `c ∈ C ⊂ F2^9`
+- **Averaging operator** — `T f(x) = (1/|C|) Σ f(x ⊕ c)` with `T² = T`
+- **Branching** — first-class canonical capability
+- **No derived 9th bit** — the 9th coordinate is not canonically a derived control/parity bit computed from the first 8
 
-These are not open choices. The coding agent must not substitute alternatives.
+## Superseded design decisions (8+1 formalization)
 
-The following structural items are **locked** (Design Package D) and must be implemented exactly:
+The following are **superseded and not canonical** after R1:
 
-- **Fallback-policy registry** — the canonical registry for deterministic fallback selection (see `specs/registries/fallback-policy-registry.md`). Implementations must implement fallback selection against this registry. Local invention of fallback policy is prohibited.
-- **Diagnostic schema** — the shared diagnostic envelope for all diagnostic contexts (see `specs/interfaces/diagnostic-schema.md`). All diagnostics must conform to this schema. Local invention of diagnostic structures is prohibited.
-- **Rule-ID taxonomy** — the canonical rule identifier structure and governance (see `specs/interfaces/rule-id-taxonomy.md`). All rule IDs in diagnostics must conform to this taxonomy.
+- Control-bit derivation formula (`b8 = b0 ⊕ ... ⊕ b7`) — superseded
+- 8-bit [8,4,4] core admissibility law — superseded
+- Corrected-core derivation rule — superseded
+- All contracts, verification, and conformance layers built on the 8+1 model — **pending revalidation**
 
-The following implementation contracts are **locked** (Phase 2) and are canonical for module-level behavior:
+The coding agent must not treat the superseded 8+1 formalization as authoritative for implementation.
 
-- **Detailed contract files** — 9 contract files in `specs/interfaces/contracts/` define the exact implementation behavior for each required semantic module. These are authoritative for module-level implementation decisions.
-- **Materialization boundary** — `GenerationPlanner` plans (no artifacts, no side effects); `ArtifactEmitter` materializes (no inventing semantics). Neither may cross the other's boundary.
-- **Umbrella contract** — `specs/interfaces/semantic-contracts.md` is the umbrella contract document referencing the detailed contracts.
+## Layers pending revalidation
 
-The coding agent must not invent module behavior outside the canonical contract files.
+The following layers require research-baseline revalidation before they can be used as authority:
 
-The following verification requirements are **locked** (Phase 3) and are mandatory for downstream conformance:
+- Contract layer (`specs/interfaces/semantic-contracts.md` and `specs/interfaces/contracts/`)
+- Verification layer (`specs/verification/`)
+- Recovery/fallback/containment semantics built on the 8+1 model
+- Diagnostic schema and rule-ID taxonomy (structural concepts may survive, but 8+1-specific invariants must be revalidated)
 
-- **Invariant specification** — the canonical invariant set in `specs/verification/invariant-spec.md` must be satisfied. No invariant may be skipped.
-- **Conformance categories** — all 5 categories in `specs/verification/conformance-categories.md` must be covered in the test suite. No category may be omitted.
-- **Implementation acceptance** — the acceptance criteria in `specs/verification/implementation-acceptance.md` define the threshold for conformance. An implementation is not conformant without satisfying Phase 3 requirements.
-
-The coding agent must not claim conformance without passing the Phase 3 verification layer.
+Platform build handoff work is **paused** until R2–R3 revalidation is complete.
 
 ## Design package status
 
-- **Design Package A** — complete (state-layer formal foundation)
-- **Design Package B** — formally closed (resilient software semantics layer)
-- **Design Package C** — complete (algebraic lock package)
-- **Design Package D** — complete (registry and diagnostics layer closure)
-- **Phase 2** — complete (implementation-contract lock)
-- **Phase 3** — complete (invariant-based verification requirements)
+- **Design Package A** — complete, then **partially superseded by R1**
+- **Design Package B** — formally closed, then **partially superseded by R1**
+- **Design Package C** — complete, then **superseded by R1** (algebraic locks based on 8+1 model)
+- **Design Package D** — complete, **pending revalidation after R1**
+- **Phase 2** — complete, **pending revalidation after R1**
+- **Phase 3** — complete, **pending revalidation after R1**
+- **R1 — Foundational Math Reset** — complete (current)
 
 ## Required delivery shape for implementation repos
 

@@ -1,4 +1,14 @@
-# Conformance Categories — canonical verification requirements
+# Conformance Categories — PENDING REVALIDATION
+
+> **PENDING REVALIDATION — Research Math Realignment Package R1**
+>
+> This verification layer was built on the **superseded 8+1 drift formalization**. The conformance categories defined here require **research-baseline revalidation** before they can be treated as authoritative.
+>
+> No downstream implementation may claim conformance based on these categories until they are revalidated against the restored 9D research baseline. Revalidation is planned for realignment packages R2–R3.
+
+---
+
+# Conformance Categories — verification requirements (pending revalidation)
 
 ## Purpose
 

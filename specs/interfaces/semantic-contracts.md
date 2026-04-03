@@ -1,5 +1,13 @@
 # Semantic Contracts for Future Implementations
 
+> **PENDING REVALIDATION — Research Math Realignment Package R1**
+>
+> This contract layer was built on the **superseded 8+1 drift formalization**. It requires **research-baseline revalidation** before it can be treated as authoritative.
+>
+> No downstream implementation may claim canonical conformance based on contracts that assume the 8+1 model (8-bit "stabilizing algebraic core" + derived 9th "control/parity bit"). The canonical mathematical foundation is now the **full 9-dimensional ASH research baseline**.
+>
+> This file and the detailed contract files it references are pending rewrite in realignment packages R2–R3. Platform build handoff work is paused until post-realignment contract rebuild is complete.
+
 ## Umbrella contract document
 
 This file is the **umbrella contract document** for the ASH Pattern System. It lists the required semantic modules and references the detailed contract files that define module-level implementation behavior.

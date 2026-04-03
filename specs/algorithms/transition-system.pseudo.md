@@ -1,16 +1,24 @@
-# Transition System — agnostic specification
+# Transition System — canonical specification (Research Baseline)
+
+> **Realigned in Research Math Realignment Package R1.**
+> Transitions now operate on the full 9-bit state via XOR-by-codeword.
+> The previous model ("acts on 8-bit core, then re-derives control bit") is superseded.
 
 ## Purpose
 
-The transition system defines how an ASH state evolves while preserving the corrected distinction between:
-
-- the 8-bit stabilizing core
-- the derived control/parity dimension
+The transition system defines how an ASH state evolves. In the research baseline, the canonical transition mechanism is **XOR-by-codeword** on the full 9-bit state in F2^9.
 
 ## Transition model
 
-A transition acts primarily on the **core state**.
-After the transition is applied, the control dimension is re-derived.
+A transition applies a **codeword transformation** to the full 9-bit state:
+
+```text
+x' = x ⊕ c    where x ∈ F2^9, c ∈ C ⊂ F2^9
+```
+
+The transition operates on all 9 coordinates simultaneously. There is no separate "apply to core, then re-derive control" step at the foundational level.
+
+See `specs/algorithms/codeword-transformation-semantics.pseudo.md` for the canonical transformation definition.
 
 ## Canonical transition record
 
@@ -19,8 +27,8 @@ TYPE TransitionDefinition
     transition_id: String
     display_name: String
     description: String
-    core_transform: Function
-    applicability_rule: Function
+    state_transform: Function (AshState -> AshState)
+    applicability_rule: Function (AshState -> Boolean)
 END TYPE
 ```
 
@@ -34,31 +42,36 @@ END TYPE
 
 ## Application rule
 
-1. normalize input state
-2. check applicability of requested transition
-3. apply the transition to the 8-bit core
-4. re-derive the control bit from the transformed core
-5. return normalized transformed state
+1. Accept input state (full 9-bit vector)
+2. Check applicability of requested transition
+3. Apply the transition to the full 9-bit state
+4. Return the transformed state
 
 ## Pseudocode
 
 ```text
 FUNCTION apply_transition(state: AshState, transition: TransitionDefinition) -> AshState
-    normalized = normalize_state(state)
-
-    IF transition.applicability_rule(normalized) == false THEN
+    IF transition.applicability_rule(state) == false THEN
         RAISE TransitionNotApplicable
     END IF
 
-    transformed_core = transition.core_transform(normalized.core_bits)
-    result = make_state(transformed_core)
+    result = transition.state_transform(state)
+    RETURN result
+END FUNCTION
+```
+
+```text
+FUNCTION apply_codeword_transition(state: AshState, codeword[9]) -> AshState
+    PRECONDITION: codeword ∈ C (the canonical codeword set)
+
+    result.bits = state.bits XOR codeword
     RETURN result
 END FUNCTION
 ```
 
 ```text
 FUNCTION apply_transition_chain(state: AshState, transitions: List<TransitionDefinition>) -> AshState
-    current = normalize_state(state)
+    current = state
     FOR each transition IN transitions
         current = apply_transition(current, transition)
     END FOR
@@ -66,14 +79,15 @@ FUNCTION apply_transition_chain(state: AshState, transitions: List<TransitionDef
 END FUNCTION
 ```
 
-## Key rule
-
-The transition definition may not treat the 9th coordinate as an unrestricted peer bit under ordinary evolution.
-The control bit must be obtained by derivation unless the engine later defines a special class of meta-transition with explicit justification.
-
 ## Required invariants
 
-1. equal input state + equal transition => equal output state
-2. transitions operate on normalized states
-3. control bit is re-derived after core transformation
-4. failed applicability checks return explainable diagnostics
+1. Equal input state + equal transition => equal output state
+2. Codeword transformations are deterministic and pure
+3. `(x ⊕ c) ⊕ c = x` — applying the same codeword twice returns to the original state
+4. Failed applicability checks return explainable diagnostics
+
+## Relation to other specifications
+
+- **codeword-transformation-semantics.pseudo.md** — defines the canonical XOR-by-codeword operation
+- **ash-state-space.pseudo.md** — defines the canonical F2^9 state space
+- **averaging-operator-semantics.pseudo.md** — the averaging operator is defined over codeword transformations

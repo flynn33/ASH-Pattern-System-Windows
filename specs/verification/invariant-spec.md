@@ -1,4 +1,14 @@
-# Invariant Specification — canonical verification requirements
+# Invariant Specification — PENDING REVALIDATION
+
+> **PENDING REVALIDATION — Research Math Realignment Package R1**
+>
+> This verification layer was built on the **superseded 8+1 drift formalization**. The invariants defined here (e.g., INV-NORM, INV-CONTROL referencing the 8-bit core + derived control bit model) require **research-baseline revalidation** before they can be treated as authoritative.
+>
+> No downstream implementation may claim conformance based on these invariants until they are revalidated against the restored 9D research baseline. Revalidation is planned for realignment packages R2–R3.
+
+---
+
+# Invariant Specification — verification requirements (pending revalidation)
 
 ## Purpose
 

@@ -20,6 +20,9 @@ ash-pattern-system/
 │   │   ├── recoverability-semantics.pseudo.md
 │   │   └── realm-identity.pseudo.md
 │   ├── algorithms/
+│   │   ├── codeword-transformation-semantics.pseudo.md
+│   │   ├── averaging-operator-semantics.pseudo.md
+│   │   ├── branching-semantics.pseudo.md
 │   │   ├── transition-system.pseudo.md
 │   │   ├── topology-expansion.pseudo.md
 │   │   ├── axiom-evaluation.pseudo.md

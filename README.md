@@ -4,7 +4,9 @@
 
 This repository is the **platform-neutral, language-neutral source of truth** for the ASH Pattern System.
 
-It is the agnostic specification repository built around the corrected ASH state-space model and the current ASH design philosophy.
+It is the agnostic specification repository grounded in the **full 9-dimensional ASH research math**.
+
+> **Research Math Realignment R1**: This repository has been realigned to the full 9D ASH research baseline. The previous 8+1 formalization (8-bit "stabilizing algebraic core" + derived 9th "control/parity bit") is superseded. Later contract, verification, and conformance layers are pending revalidation.
 
 ## Repository purpose
 
@@ -19,21 +21,17 @@ The ASH Pattern System is a **platform-agnostic and code-agnostic framework** fo
 
 This repository defines:
 
-- the canonical ASH state space in **F2^9**
-- the stabilizing algebraic role of the first 8 coordinates
-- the derived role of the 9th control/parity dimension
-- system-state classification (stable, unstable, correctable, degraded, contained, failed, safe-halt)
-- recoverability semantics and deterministic recovery-category mapping
-- recovery, fallback, containment, and safe-failure algorithms
-- canonical fallback-policy registry for deterministic fallback selection
-- unified diagnostic schema and rule-ID taxonomy for auditable diagnostics
-- locked implementation contracts for all 9 required semantic modules
-- invariant-based verification requirements for downstream conformance
-- deterministic transition semantics
+- the canonical ASH state space as **F2^9** — full 9-dimensional binary state space with 512 vertices
+- canonical state transformations via **XOR-by-codeword** (`x' = x ⊕ c` for `c ∈ C ⊂ F2^9`)
+- canonical **averaging operator** `T` with `T² = T` (projection onto C-invariant functions)
+- canonical **branching / leaf expansion** as a first-class capability
+- deterministic transition semantics on full 9-bit states
 - deterministic topology expansion semantics
 - axiom evaluation semantics
 - generation-planning semantics
-- implementation contracts for future coding agents
+- realm identity encoding from full 9-bit states
+- resilient software semantics (classification, recovery, fallback, containment, safe failure) — pending revalidation against research baseline
+- implementation contracts and verification requirements — pending revalidation against research baseline
 
 This repository does **not** define:
 
@@ -56,17 +54,13 @@ That means:
 - planning comes before materialization
 - the state model comes before platform behavior
 
-## Core state-space correction
+## Core state-space model (Research Baseline)
 
-The ASH state space is defined as **F2^9**.
+The ASH state space is **F2^9** — the full 9-dimensional binary state space with **512 states** (vertices / realms).
 
-Within that space:
+Each state is a 9-bit binary vector `(b0, b1, b2, b3, b4, b5, b6, b7, b8)`. All 9 coordinates participate in the algebraic structure. No coordinate is structurally privileged as a "derived" dimension at the foundational level.
 
-- coordinates `b0` through `b7` form the primary stabilizing algebraic core
-- that 8-bit core is modeled against the **[8,4,4] extended Hamming-code structure**
-- coordinate `b8` is a **derived control/parity dimension** used for stabilization, detection, and self-referential state semantics
-
-The 9th coordinate is therefore **not** treated as an ordinary peer bit for unrestricted direct mutation during ordinary state evolution.
+Canonical motion between states is **XOR-by-codeword**: `x' = x ⊕ c` where `c ∈ C ⊂ F2^9`.
 
 ## Repository map
 
@@ -81,9 +75,12 @@ The 9th coordinate is therefore **not** treated as an ordinary peer bit for unre
 - `specs/core/system-state-classification.pseudo.md` — canonical system-state classes and class-to-action mapping
 - `specs/core/recoverability-semantics.pseudo.md` — recoverability categories and deterministic recovery mapping
 - `specs/core/realm-identity.pseudo.md` — realm identity and encoding semantics
-- `specs/algorithms/recovery-fallback-semantics.pseudo.md` — deterministic recovery and fallback selection
-- `specs/algorithms/containment-safe-failure-semantics.pseudo.md` — containment and safe-failure behavior
-- `specs/algorithms/transition-system.pseudo.md` — transition semantics
+- `specs/algorithms/codeword-transformation-semantics.pseudo.md` — canonical XOR-by-codeword state transformation
+- `specs/algorithms/averaging-operator-semantics.pseudo.md` — canonical averaging operator (T² = T)
+- `specs/algorithms/branching-semantics.pseudo.md` — canonical branching / leaf expansion
+- `specs/algorithms/recovery-fallback-semantics.pseudo.md` — deterministic recovery and fallback selection (pending revalidation)
+- `specs/algorithms/containment-safe-failure-semantics.pseudo.md` — containment and safe-failure behavior (pending revalidation)
+- `specs/algorithms/transition-system.pseudo.md` — transition semantics (realigned to XOR-by-codeword)
 - `specs/algorithms/topology-expansion.pseudo.md` — topology generation semantics
 - `specs/algorithms/axiom-evaluation.pseudo.md` — axiom evaluation semantics
 - `specs/algorithms/generation-planning.pseudo.md` — abstract generation planning flow

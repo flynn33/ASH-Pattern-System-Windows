@@ -1,4 +1,17 @@
-# Core Admissibility — agnostic specification
+# Core Admissibility — SUPERSEDED
+
+> **SUPERSEDED — Research Math Realignment Package R1**
+>
+> This file reflects the **superseded 8+1 drift formalization**. It defined admissibility in terms of an 8-bit [8,4,4] extended Hamming code "stabilizing algebraic core" separate from a derived 9th bit. That model is **not canonical** after R1.
+>
+> The canonical ASH mathematical foundation is now the **full 9-dimensional research baseline** defined in `ash-state-space.pseudo.md` and the research-baseline algorithm specs.
+>
+> **This file must not be used as authority for downstream implementation work.**
+> It is retained for historical reference only and is pending replacement in later realignment packages (R2).
+
+---
+
+# Core Admissibility — superseded specification (historical reference)
 
 ## Purpose
 

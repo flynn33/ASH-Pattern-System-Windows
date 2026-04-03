@@ -1,4 +1,17 @@
-# Control-Bit Derivation — agnostic specification
+# Control-Bit Derivation — SUPERSEDED
+
+> **SUPERSEDED — Research Math Realignment Package R1**
+>
+> This file reflects the **superseded 8+1 drift formalization**. It defined the 9th coordinate as a "derived control/parity bit" computed by XOR-parity of the first 8 coordinates. That model is **not canonical** after R1.
+>
+> The canonical ASH mathematical foundation is now the **full 9-dimensional research baseline** defined in `ash-state-space.pseudo.md` and the research-baseline algorithm specs.
+>
+> **This file must not be used as authority for downstream implementation work.**
+> It is retained for historical reference only and is pending replacement in later realignment packages (R2).
+
+---
+
+# Control-Bit Derivation — superseded specification (historical reference)
 
 ## Purpose
 

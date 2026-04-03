@@ -1,4 +1,14 @@
-# Implementation Acceptance — canonical verification requirements
+# Implementation Acceptance — PENDING REVALIDATION
+
+> **PENDING REVALIDATION — Research Math Realignment Package R1**
+>
+> This acceptance specification was built on the **superseded 8+1 drift formalization**. The acceptance criteria, non-waivable requirements, and judgment language defined here require **research-baseline revalidation** before they can be treated as authoritative.
+>
+> No downstream implementation may claim conformance or receive a CONFORMANT judgment based on these criteria until they are revalidated against the restored 9D research baseline. Revalidation is planned for realignment packages R2–R3.
+
+---
+
+# Implementation Acceptance — verification requirements (pending revalidation)
 
 ## Purpose
 

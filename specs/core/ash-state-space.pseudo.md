@@ -1,48 +1,42 @@
-# ASH State Space — agnostic specification
+# ASH State Space — canonical specification (Research Baseline)
+
+> **Realigned in Research Math Realignment Package R1.**
+> This file now reflects the full 9-dimensional ASH research model.
+> The previous 8+1 formalization (8-bit "stabilizing algebraic core" + derived 9th "control/parity bit") is superseded.
 
 ## Design decision
 
-The ASH state space is **F2^9**.
+The ASH state space is **F2^9** — the set of all 9-bit binary vectors.
 
-An ASH state is therefore a 9-coordinate binary state vector:
+An ASH state is a **full 9-coordinate binary vector**:
 
 ```text
 S = (b0, b1, b2, b3, b4, b5, b6, b7, b8)
 where each bi ∈ F2
 ```
 
+There are **512 states** (vertices / realms) in the state space.
+
 ## Structural interpretation
 
-### Coordinates `b0..b7`
+All 9 coordinates participate in the algebraic structure of the ASH state space. No single coordinate is structurally privileged as a "derived" dimension at the foundational level.
 
-The first 8 coordinates form the **stabilizing algebraic core**.
+The state space structure is defined by the **codeword set** `C ⊂ F2^9`, which determines:
 
-This core is modeled against the structure of the **[8,4,4] extended Hamming code**.
-That means the 8-bit layer is the primary substrate for:
+- the allowed transformations (XOR-by-codeword motion between states)
+- the orbit structure (which states are reachable from which)
+- the averaging operator and its invariant subspaces
+- the branching / expansion topology
 
-- stabilization
-- detection
-- consistency checking
-- structured state interpretation
+### Observation about published examples
 
-### Coordinate `b8`
-
-The 9th coordinate is the **derived control/parity dimension**.
-Its role is not to behave as an ordinary peer bit under ordinary state evolution.
-
-Its purposes include:
-
-- control-state signaling
-- stabilization support
-- consistency checking
-- self-referential state semantics
+Some published ASH example codewords have their 9th coordinate set to `0`. This is an observable property of those specific codewords. It does **not** justify promoting the 9th coordinate to a canonical "derived control/parity dimension" or inferring that `b8` must always be derived from `b0..b7` by a parity formula. The research baseline treats all 9 coordinates as part of the full algebraic structure.
 
 ## Canonical state record
 
 ```text
 TYPE AshState
-    core_bits: Vector[8] over F2
-    control_bit: Bit
+    bits: Vector[9] over F2
 END TYPE
 ```
 
@@ -62,83 +56,68 @@ TYPE AshStateExpanded
 END TYPE
 ```
 
-## Validity rule
+The canonical form is the **full 9-bit vector**. Implementations may use either representation, but the 9-bit vector is the semantic normal form.
 
-A valid ASH state must satisfy both conditions:
+## Canonical transformation
 
-1. the 8-bit core is structurally admissible under the admissibility rules defined in `core-admissibility.pseudo.md`
-2. the control bit is consistent with the derivation rule defined in `control-bit-derivation.pseudo.md`
-
-If either condition fails, the state-validity diagnostic system (defined in `state-validity-diagnostics.pseudo.md`) must be able to explain why.
-
-## Normal form
-
-The preferred semantic normal form is:
+Ordinary movement between states is defined by **XOR-by-codeword**:
 
 ```text
-AshState = { core_bits, control_bit }
+x' = x ⊕ c    where x ∈ F2^9, c ∈ C ⊂ F2^9
 ```
 
-This is preferred because it makes the special role of the 9th coordinate explicit.
+See `specs/algorithms/codeword-transformation-semantics.pseudo.md` for the full definition.
 
 ## Pseudocode
 
 ```text
-FUNCTION make_state(core_bits[8]) -> AshState
-    -- derive_control_bit is defined in control-bit-derivation.pseudo.md
-    state.core_bits = core_bits
-    state.control_bit = derive_control_bit(core_bits)
+FUNCTION make_state(bits[9]) -> AshState
+    PRECONDITION: length(bits) == 9
+    PRECONDITION: all elements of bits are in F2
+
+    state.bits = bits
     RETURN state
 END FUNCTION
 ```
 
 ```text
-FUNCTION normalize_state(candidate_state) -> AshState
-    -- derive_control_bit is defined in control-bit-derivation.pseudo.md
-    -- admissibility must be checked per core-admissibility.pseudo.md
-    core = extract_core_bits(candidate_state)
-    admissibility = classify_core_admissibility(core)
+FUNCTION transform_state(state: AshState, codeword[9]) -> AshState
+    PRECONDITION: length(codeword) == 9
+    PRECONDITION: codeword ∈ C (the canonical codeword set)
 
-    IF admissibility == INADMISSIBLE_CORRECTABLE THEN
-        core = correct_to_nearest_codeword(core)
-    ELSE IF admissibility IN [INADMISSIBLE_DETECTABLE, INADMISSIBLE_UNRECOVERABLE] THEN
-        FAIL with diagnostic (see state-validity-diagnostics.pseudo.md)
-    END IF
-
-    control = derive_control_bit(core)
-    RETURN AshState(core_bits = core, control_bit = control)
+    result.bits = state.bits XOR codeword
+    RETURN result
 END FUNCTION
 ```
 
-## Prohibition
+## Validity and admissibility
 
-Ordinary transition logic must not directly mutate the control bit as if it were just another free coordinate.
-Any change in the control bit during ordinary evolution must come through re-derivation from the core state.
+The validity and admissibility framework for the full 9D model is being defined as part of the research math realignment. The previous 8+1 admissibility framing (based on an 8-bit [8,4,4] extended Hamming code core) is superseded.
 
-## Corrected-core derivation rule
+The restored research baseline defines validity in terms of:
+- membership in algebraic substructures of F2^9
+- codeword-orbit relationships
+- averaging-operator invariance
 
-When a core is `INADMISSIBLE_CORRECTABLE`, the expected control dimension for normalization, validity, and recovery semantics is defined on the **corrected admissible core**, not on the raw inadmissible core.
-
-The sequence is:
-1. Extract raw core from candidate state
-2. Classify admissibility
-3. If correctable: correct to nearest admissible codeword
-4. Derive expected control from the corrected admissible core
-5. Diagnostics may report both the raw core and the corrected core for transparency
-
-This rule ensures semantic consistency between normalization (which corrects before deriving) and diagnostics (which must predict what normalization would produce).
+The exact admissibility rules for the full 9D model will be formalized in realignment package R2.
 
 ## Required invariants
 
-1. normalization is deterministic
-2. equal 8-bit cores produce equal derived control bits
-3. state validity can be explained diagnostically (see `state-validity-diagnostics.pseudo.md`)
-4. the 9th coordinate remains semantically distinguished from the first 8
-5. normalization must not proceed on inadmissible cores that cannot be corrected (see `core-admissibility.pseudo.md`)
+1. The state space is F2^9 — all states are 9-bit binary vectors
+2. Normalization is deterministic — the same candidate state always produces the same result
+3. Codeword transformations are deterministic — the same state and codeword always produce the same result
+4. State validity can be explained diagnostically
+5. All 9 coordinates are part of the algebraic structure — no coordinate is excluded from the foundational model
 
 ## Related specifications
 
-- `specs/core/control-bit-derivation.pseudo.md` — defines `derive_control_bit`, the function that computes the 9th coordinate from the 8-bit core
-- `specs/core/core-admissibility.pseudo.md` — defines `classify_core_admissibility`, the function that determines whether an 8-bit core is a valid codeword under the [8,4,4] extended Hamming code structure
-- `specs/core/state-validity-diagnostics.pseudo.md` — defines the diagnostic record produced when state validity is evaluated
-- `specs/core/system-state-classification.pseudo.md` — canonical mapping of admissibility/control conditions to runtime behavior classes
+- `specs/algorithms/codeword-transformation-semantics.pseudo.md` — canonical XOR-by-codeword transformation
+- `specs/algorithms/averaging-operator-semantics.pseudo.md` — canonical averaging operator `T` with `T² = T`
+- `specs/algorithms/branching-semantics.pseudo.md` — canonical branching / leaf expansion
+- `specs/core/realm-identity.pseudo.md` — realm identity encoding from full 9-bit state
+
+### Superseded specifications (not canonical after R1)
+
+- `specs/core/control-bit-derivation.pseudo.md` — superseded 8+1 control-bit model
+- `specs/core/core-admissibility.pseudo.md` — superseded 8-bit [8,4,4] admissibility model
+- `specs/core/state-validity-diagnostics.pseudo.md` — superseded 8+1 diagnostic model

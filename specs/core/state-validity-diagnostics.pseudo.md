@@ -1,4 +1,17 @@
-# State-Validity Diagnostics — agnostic specification
+# State-Validity Diagnostics — SUPERSEDED
+
+> **SUPERSEDED — Research Math Realignment Package R1**
+>
+> This file reflects the **superseded 8+1 drift formalization**. Its diagnostic structure (extracted_core, corrected_core, control_derivation_status, etc.) is tied to the 8-bit core + derived control bit model. That model is **not canonical** after R1.
+>
+> The canonical ASH mathematical foundation is now the **full 9-dimensional research baseline**. A new diagnostic model aligned to the restored 9D research baseline will be defined in later realignment packages (R2).
+>
+> **This file must not be used as authority for downstream implementation work.**
+> It is retained for historical reference only and is pending rewrite.
+
+---
+
+# State-Validity Diagnostics — superseded specification (historical reference)
 
 ## Purpose
 
