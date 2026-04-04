@@ -81,8 +81,8 @@ Canonical motion between states is **XOR-by-codeword**: `x' = x ⊕ c` where `c 
 - `specs/algorithms/codeword-transformation-semantics.pseudo.md` — canonical XOR-by-codeword state transformation
 - `specs/algorithms/averaging-operator-semantics.pseudo.md` — canonical averaging operator (T² = T)
 - `specs/algorithms/branching-semantics.pseudo.md` — canonical branching / leaf expansion
-- `specs/algorithms/recovery-fallback-semantics.pseudo.md` — deterministic recovery and fallback selection (pending revalidation)
-- `specs/algorithms/containment-safe-failure-semantics.pseudo.md` — containment and safe-failure behavior (pending revalidation)
+- `specs/algorithms/recovery-fallback-semantics.pseudo.md` — deterministic recovery and fallback selection (9D)
+- `specs/algorithms/containment-safe-failure-semantics.pseudo.md` — containment and safe-failure behavior (9D)
 - `specs/algorithms/transition-system.pseudo.md` — transition semantics (realigned to XOR-by-codeword)
 - `specs/algorithms/topology-expansion.pseudo.md` — topology generation semantics
 - `specs/algorithms/axiom-evaluation.pseudo.md` — axiom evaluation semantics

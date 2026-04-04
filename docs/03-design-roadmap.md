@@ -4,7 +4,7 @@
 
 Move from the ASH research math baseline to implementation-ready handoff materials without collapsing the design into any single language or platform.
 
-> **Research Math Realignment R1**: The foundational math has been reset to the full 9D ASH research baseline. Phases and packages built on the superseded 8+1 formalization are noted as such below. Later layers require revalidation before platform handoff can proceed.
+> **Research Math Realignment R1**: The foundational math has been reset to the full 9D ASH research baseline. Phases and packages built on the superseded 8+1 formalization are noted as such below. Later layers have been rebuilt in R2 and R3.
 
 ## Pre-realignment history
 
@@ -14,11 +14,11 @@ The following phases were completed under the original 8+1 formalization. Their 
 
 - **Phase 1** — semantic foundation (state space, realm identity, transitions, topology, axioms, generation planning)
 - **Phase 1.5 / Design Package A** — formal state layers (control-bit derivation, core admissibility, state-validity diagnostics) — **mathematical basis superseded by R1**
-- **Phase 1.75 / Design Package B** — resilient software semantics (system-state classification, recoverability, recovery/fallback, containment/safe-failure) — **pending revalidation**
+- **Phase 1.75 / Design Package B** — resilient software semantics (system-state classification, recoverability, recovery/fallback, containment/safe-failure) — **rewritten in R2**
 - **Phase 1.85 / Design Package C** — algebraic locks (parity formula, [8,4,4] codeword set) — **superseded by R1**
-- **Phase 1.9 / Design Package D** — registry and diagnostics layer (fallback-policy registry, diagnostic schema, rule-ID taxonomy) — **structural concepts preserved, specific invariants pending revalidation**
-- **Phase 2** — implementation contracts (9 module contracts, materialization boundary) — **pending revalidation**
-- **Phase 3** — invariant-based verification requirements — **pending revalidation**
+- **Phase 1.9 / Design Package D** — registry and diagnostics layer (fallback-policy registry, diagnostic schema, rule-ID taxonomy) — **structural concepts preserved, invariants revalidated in R3**
+- **Phase 2** — implementation contracts (9 module contracts, materialization boundary) — **rebuilt in R3**
+- **Phase 3** — invariant-based verification requirements — **rebuilt in R3**
 
 ## Research math realignment sequence
 
@@ -31,7 +31,7 @@ Reset the canonical mathematical foundation to the full 9D ASH research baseline
 - **Averaging operator** — `T f(x) = (1/|C|) Σ f(x ⊕ c)` with `T² = T`
 - **Branching** — first-class canonical capability
 
-De-authorize the 8+1 drift formalization. Suspend later-layer authority pending revalidation.
+De-authorize the 8+1 drift formalization. Later layers were rebuilt in R2 and R3.
 
 New specifications created:
 
