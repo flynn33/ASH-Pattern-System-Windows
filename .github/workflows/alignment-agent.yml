@@ -14,9 +14,9 @@ name: Alignment Agent
 
 on:
   push:
-    branches: ["**"]
+    branches: [main]
   pull_request:
-    branches: ["**"]
+    branches: [main]
 
 env:
   REPORT_ONLY: "1"
