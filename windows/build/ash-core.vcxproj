@@ -54,6 +54,7 @@
 
   <ItemGroup>
     <ClCompile Include="..\src\Codeword.cpp" />
+    <ClCompile Include="..\src\DiagnosticEnvelope.cpp" />
     <ClCompile Include="..\src\StateModel.cpp" />
     <ClCompile Include="..\src\TransitionRegistry.cpp" />
     <ClCompile Include="..\src\Diagnostics.cpp" />
