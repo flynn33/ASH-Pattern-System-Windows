@@ -121,5 +121,5 @@ Diagnostics form a **chain** from initial detection through terminal halt:
 - **recovery-fallback-semantics.pseudo.md** — produces `RECOVERY` and `FALLBACK` diagnostics conforming to this schema
 - **containment-safe-failure-semantics.pseudo.md** — produces `CONTAINMENT` and `SAFE_HALT` diagnostics conforming to this schema
 - **rule-id-taxonomy.md** — governs the `rule_ids` field
-- **semantic-contracts.md** — requires downstream implementations to expose diagnostics conforming to this schema
+- **semantic-contracts.md** — requires Windows implementation modules to expose diagnostics conforming to this schema
 - **fallback-policy-registry.md** — fallback diagnostics must reference the registry policy_id

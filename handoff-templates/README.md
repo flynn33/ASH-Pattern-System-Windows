@@ -1,35 +1,33 @@
-# Handoff Templates
+# Windows Implementation Reference Templates
 
 ## Purpose
 
-This directory contains **downstream build handoff templates** for the ASH Pattern System.
+This directory is retained as APS implementation reference material for the Windows edition.
 
-Each template defines what a downstream implementation repository must contain, how it must map to the canonical specifications, and what proof-of-conformance deliverables it must produce — without prescribing a specific programming language, framework, or implementation stack.
+The active target for this repository is Windows desktop. The common and desktop files describe the deliverables the Windows edition uses for module mapping, verification, diagnostics, materialization, packaging, release evidence, and acceptance status.
 
-## Authority model
+The mobile and service files are retained only to make target-class boundaries explicit. They are not active release targets for this repository.
 
-The **canonical agnostic repository** remains the semantic authority. Handoff templates constrain downstream repository structure, required deliverables, and proof-of-conformance inputs. They do not override canonical semantics.
+## Windows Boundary
 
-Downstream implementations must satisfy:
-1. The canonical specifications in `specs/`
-2. The contract layer in `specs/interfaces/`
-3. The verification layer in `specs/verification/`
-4. The handoff requirements defined here
+The Windows edition must satisfy the APS semantic contract files under `specs/`, the module contracts under `specs/interfaces/`, and the verification requirements under `specs/verification/`.
+
+These reference files describe how the Windows repository organizes proof of implementation. They do not change APS behavior.
 
 ## Contents
 
-| File | Description |
+| File | Windows edition role |
 |---|---|
-| `common-downstream-handoff-requirements.md` | Universal requirements every downstream handoff must satisfy |
-| `desktop-implementation-handoff-template.md` | Template for desktop target class |
-| `mobile-implementation-handoff-template.md` | Template for mobile target class |
-| `service-implementation-handoff-template.md` | Template for service/backend target class |
+| `common-downstream-handoff-requirements.md` | Shared Windows implementation deliverable checklist |
+| `desktop-implementation-handoff-template.md` | Active Windows desktop target checklist |
+| `mobile-implementation-handoff-template.md` | Not applicable to this Windows repository |
+| `service-implementation-handoff-template.md` | Not applicable to this Windows repository |
 
 ## Usage
 
-A coding agent building a downstream implementation should:
+For Windows work:
 
-1. Read the canonical specifications, contracts, and verification requirements first
-2. Read `common-downstream-handoff-requirements.md` for universal handoff expectations
-3. Read the appropriate target-class template for the implementation target
-4. Use the template to structure the downstream repository, plan deliverables, and track conformance
+1. Read the APS semantic contract files in `specs/`.
+2. Use `common-downstream-handoff-requirements.md` for the required Windows evidence set.
+3. Use `desktop-implementation-handoff-template.md` for Windows desktop-specific release gates.
+4. Treat mobile and service files as out-of-scope markers for this repository.

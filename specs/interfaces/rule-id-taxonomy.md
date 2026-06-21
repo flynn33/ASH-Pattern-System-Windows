@@ -90,4 +90,4 @@ Example: `ASH-STATE-VALIDITY-001`
 - **state-validity-diagnostics.pseudo.md** — uses `ASH-STATE` family rule IDs
 - **recovery-fallback-semantics.pseudo.md** — uses `ASH-RECOVERY` and `ASH-FALLBACK` family rule IDs
 - **containment-safe-failure-semantics.pseudo.md** — uses `ASH-CONTAINMENT` and `ASH-HALT` family rule IDs
-- **semantic-contracts.md** — requires downstream implementations to emit taxonomy-compliant rule IDs
+- **semantic-contracts.md** — requires Windows implementation modules to emit taxonomy-compliant rule IDs

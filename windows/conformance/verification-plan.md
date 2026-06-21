@@ -1,6 +1,6 @@
 # Verification Plan — APS Windows
 
-This plan maps Windows C++ tests to APS module behavior and platform release gates. Canonical APS main remains the semantic authority.
+This plan maps Windows C++ tests to APS module behavior and platform release gates.
 
 ## Local Test Executables
 

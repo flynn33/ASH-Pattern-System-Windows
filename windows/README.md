@@ -1,76 +1,81 @@
-# ASH Pattern System — Windows C++ Implementation Branch
+# ASH Pattern System - Windows Edition
 
-> **Downstream implementation branch.** This branch (`windows-cpp`) is a Windows C++ implementation of the ASH Pattern System. The canonical agnostic main repository remains the semantic authority. This branch consumes the canonical specifications and implements them for a desktop Windows target class. It does not redefine, override, or extend canonical semantics.
+This directory contains the Windows-native implementation of the ASH Pattern System semantic core. It is written in C++20, built with Visual Studio/MSBuild, and verified through native C++ test executables.
 
-## Role of this branch
+## Platform Role
 
-The canonical main repository (closed as the agnostic specification baseline in commit `6310479`) is the source of truth for the ASH Pattern System. Main defines what the system means. This branch defines how one specific downstream target — Windows desktop, C++ — implements it. The two are not equal; main wins on every semantic question.
+The Windows edition implements APS behavior for a Windows desktop target. Platform-specific decisions such as compiler flags, CRT linkage, solution layout, PowerShell wrappers, and release packaging evidence are documented here and under `windows/conformance/`.
 
-See [`CANONICAL-DEFERENCE.md`](CANONICAL-DEFERENCE.md) for the explicit boundary statement.
+See [`CANONICAL-DEFERENCE.md`](CANONICAL-DEFERENCE.md) for the semantic boundary between APS behavior and Windows-specific implementation decisions.
 
-## Target class
+## Target Environment
 
-This branch treats Windows as a **desktop target class** implementation of the ASH Pattern System, as defined in `handoff-templates/desktop-implementation-handoff-template.md` on main. The nine required sections of the desktop template are addressed across this branch:
+- **Operating systems:** Windows 10 version 1809 or later and Windows 11.
+- **Architectures:** x64 and ARM64.
+- **Language:** C++20.
+- **Compiler:** MSVC `cl.exe`.
+- **Build system:** MSBuild (`.sln` and `.vcxproj`).
+- **Script host:** PowerShell 5.1 or PowerShell 7.
+- **Runtime dependency policy:** no third-party runtime dependencies.
 
-| Desktop template section | Where it lives on this branch |
+## Windows Documentation Map
+
+| Area | Document |
 |---|---|
-| 1. Target environment | `windows/docs/architecture.md` |
-| 2. Semantic-module mapping | `windows/conformance/module-mapping.md` |
-| 3. Invariant / conformance verification inputs | `windows/conformance/verification-plan.md` |
-| 4. Diagnostics integration | `windows/conformance/diagnostics-conformance-plan.md` |
-| 5. Materialization-boundary expectations | `windows/conformance/materialization-boundary-plan.md` |
-| 6. Packaging / build / deployment decisions | `windows/docs/build-run-instructions.md` |
-| 7. Performance / resource constraints | `windows/docs/architecture.md` (performance section) |
-| 8. Caveat / deviation tracking | `windows/conformance/deviation-log.md` |
-| 9. Proof-of-conformance deliverables | `windows/conformance/` (all six files) |
+| Target environment and architecture | `windows/docs/architecture.md` |
+| Semantic module mapping | `windows/conformance/module-mapping.md` |
+| Verification plan | `windows/conformance/verification-plan.md` |
+| Diagnostics integration | `windows/conformance/diagnostics-conformance-plan.md` |
+| Materialization boundary | `windows/conformance/materialization-boundary-plan.md` |
+| Build and test instructions | `windows/docs/build-run-instructions.md` |
+| Caveat and deviation tracking | `windows/conformance/deviation-log.md` |
+| Acceptance status | `windows/conformance/acceptance-judgment.md` |
 
-## Language and tooling policy
+## Directory Layout
 
-Per the instruction package governing this branch:
-
-- **Primary language:** C++20, compiled with MSVC `cl.exe`.
-- **Secondary languages (allowed, justified):** JSON for configuration or structured data where useful. TypeScript only where strictly needed and only as a secondary/supporting language. Neither is used in the current Windows implementation.
-- **Build system:** MSBuild (`.sln` / `.vcxproj`) plus a PowerShell wrapper. All Microsoft-produced.
-- **Third-party libraries:** none. C++ standard library only.
-- **Testing:** a minimal single-header homegrown test harness in `windows/tests/test_runner.hpp`. Built as plain C++ executables with MSVC. No external test framework.
-
-The full policy is: **Windows-native tools and libraries may be used only if they are produced and supported by Microsoft.**
-
-## Directory layout
-
-```
+```text
 windows/
-├── README.md                    # this file
-├── CANONICAL-DEFERENCE.md       # explicit deference statement
-├── build/                       # MSBuild solution, project files, PowerShell wrapper
+├── README.md
+├── CANONICAL-DEFERENCE.md
+├── build/                       # Visual Studio solution, project files, PowerShell wrapper
 ├── src/
-│   ├── include/ash/             # public headers (all 9 canonical modules + shared types)
-│   └── *.cpp                    # module implementations for all 9 modules
-├── tests/                       # test_runner.hpp + per-module tests
-├── conformance/                 # 6 downstream conformance deliverables
+│   ├── include/ash/             # public C++ headers
+│   └── *.cpp                    # module implementations
+├── tests/                       # test_runner.hpp and module tests
+├── conformance/                 # Windows conformance and release-gate documentation
 └── docs/                        # architecture and build/run instructions
 ```
 
-## Semantic core coverage
+## Semantic Core Coverage
 
-This branch implements the nine APS semantic modules in native C++:
-`StateModel`, `TransitionRegistry`, `Diagnostics`, `RecoveryEngine`,
-`RealmEncoder`, `TopologyGenerator`, `AxiomEvaluator`, `GenerationPlanner`,
-and `ArtifactEmitter`.
+The Windows semantic core implements:
 
-See `windows/conformance/module-mapping.md` for the complete mapping and
-`windows/conformance/verification-plan.md` for the current test coverage.
+- `StateModel`
+- `TransitionRegistry`
+- `Diagnostics`
+- `RecoveryEngine`
+- `RealmEncoder`
+- `TopologyGenerator`
+- `AxiomEvaluator`
+- `GenerationPlanner`
+- `ArtifactEmitter`
 
-## Current acceptance status
+See `windows/conformance/module-mapping.md` for complete file mapping and `windows/conformance/verification-plan.md` for test coverage.
 
-**`NOT_SHIPPABLE`** — see `windows/conformance/acceptance-judgment.md`.
-The local semantic core tests pass, but release-critical Windows gates remain:
-MSVC/MSBuild release matrix, packaging, production signing, clean install,
-accessibility, SBOM, and final owner-controlled release approvals.
+## Current Acceptance Status
 
-## How to build and run
+`NOT_SHIPPABLE`
 
-See `windows/docs/build-run-instructions.md`. In short:
+The semantic core exists, but release-critical Windows gates remain:
+
+- MSVC/MSBuild release matrix;
+- packaging model and signed distribution evidence;
+- production signing verification;
+- clean install, launch, upgrade, repair, and uninstall validation;
+- product UI and accessibility validation;
+- SBOM, checksums, release manifest, and final owner-controlled approvals.
+
+## Build And Run
 
 ```powershell
 cd windows\build
@@ -78,4 +83,4 @@ cd windows\build
 ..\tests\run_all.ps1
 ```
 
-Prerequisites: Visual Studio 2022 (or Build Tools for Visual Studio 2022) with the C++ workload, and PowerShell 5.1+ or PowerShell 7.
+Prerequisites: Visual Studio 2022 or Build Tools for Visual Studio 2022 with the C++ workload, plus PowerShell 5.1 or PowerShell 7.

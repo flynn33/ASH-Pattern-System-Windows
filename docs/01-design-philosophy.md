@@ -1,62 +1,56 @@
 # Design Philosophy
 
-## Primary principle
+## Primary Principle
 
-The ASH Pattern System must be specified in terms of **semantic invariants**, not implementation accidents.
+The Windows edition implements APS semantics with native Windows tooling while keeping platform decisions explicit, testable, and auditable.
 
-## Governing ideas
+## Governing Ideas
 
-### 1. State before platform
+### 1. Semantics Before Platform Mechanics
 
-The ASH state model is the root layer.
-Platform behavior, tooling, and materialization must be downstream of that state model.
+Windows build files, compiler flags, and packaging decisions must support the APS state model and recovery behavior. They must not change what the semantic modules mean.
 
-### 2. Semantics before syntax
+### 2. Native Windows Tooling
 
-The repository defines what operations mean.
-It does not define the syntax a language must use to express them.
+Production implementation work uses C++20, MSVC, MSBuild, Visual Studio project files, and PowerShell. Third-party runtime dependencies are not part of the current Windows core.
 
-### 3. Planning before side effects
-
-The engine must first produce an abstract, inspectable generation plan.
-Only then may a downstream adapter materialize files, modules, services, views, or packages.
-
-### 4. Derived control, not arbitrary mutation
-
-The 9th ASH dimension is a derived control/parity dimension.
-It is not treated as a regular peer coordinate under ordinary transitions.
-
-### 5. Stabilization is part of the model
-
-The first 8 coordinates are not just a convenient storage layout.
-They are the stabilizing algebraic substrate of the ASH state model.
-
-### 6. Determinism matters
+### 3. Determinism Matters
 
 Equal inputs must produce equal semantic outputs for:
 
-- normalization
-- control derivation
-- realm identity
-- transition application
-- topology expansion
-- axiom diagnosis
-- generation planning
+- state classification;
+- normalization;
+- realm and orbit identity;
+- transition application;
+- topology generation;
+- axiom evaluation;
+- generation planning;
+- artifact descriptor emission.
 
-### 7. Explanation matters
+### 4. Diagnostics Are Part of Behavior
 
-The engine should expose diagnostics that explain:
+The Windows core must expose diagnostics that explain:
 
-- why a state is valid or invalid
-- why a transition is allowed or rejected
-- why an axiom passes or fails
-- why a plan is acceptable or unstable
+- why a state is valid or invalid;
+- why a transition is accepted or rejected;
+- why recovery, fallback, containment, or safe halt occurred;
+- why an axiom passed, failed, or was indeterminate;
+- why an emission request was accepted or blocked.
 
-### 8. Implementations are replaceable
+Silent correction and silent failure are not acceptable behavior.
 
-No single language implementation should become the identity of the engine.
-The engine must be portable by design.
+### 5. Planning Before Materialization
 
-## Design test
+`GenerationPlanner` produces an inspectable in-memory plan before any output is materialized. `ArtifactEmitter` consumes that plan and produces traceable descriptors. The current semantic core does not write files.
 
-A design decision is aligned only if it preserves the semantic model while leaving room for multiple correct implementations.
+### 6. Fail Closed On Missing Release Evidence
+
+If packaging, signing, installation, accessibility, security, migration, or platform build evidence is missing, the Windows edition remains `NOT_SHIPPABLE`.
+
+### 7. Platform Decisions Stay Local
+
+Windows-specific choices, such as MSVC flags, CRT linkage, integer encoding, and PowerShell wrappers, are documented as implementation decisions for this edition. They do not redefine APS semantics.
+
+## Design Test
+
+A design decision is aligned only if it preserves APS behavior, fits the Windows-native architecture, and can be verified through code, tests, or release evidence.
