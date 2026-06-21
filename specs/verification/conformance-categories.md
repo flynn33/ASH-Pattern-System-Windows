@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This specification groups the canonical invariants from `invariant-spec.md` into **5 conformance categories**. Each category represents a distinct verification bucket that downstream implementations must satisfy.
+This specification groups the canonical invariants from `invariant-spec.md` into **5 conformance categories**. Each category represents a distinct verification bucket that the Windows implementation must satisfy.
 
 **Open research-closure item**: Invariants that depend on the specific codeword set `C ⊂ F2^9` are marked in `invariant-spec.md`. Full verification of codeword-dependent invariants requires the codeword-set closure to be resolved.
 
@@ -98,6 +98,6 @@ Verifies that the implementation satisfies the per-module contracts for modules 
 
 ## Category coverage rule
 
-All 5 conformance categories are **required**. A downstream implementation must not skip any category. Partial coverage is not sufficient for conformance.
+All 5 conformance categories are **required**. The Windows implementation must not skip any category. Partial coverage is not sufficient for conformance.
 
 See `implementation-acceptance.md` for the full acceptance threshold.

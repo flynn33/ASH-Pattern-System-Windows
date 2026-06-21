@@ -1,6 +1,6 @@
 # Module Mapping — APS Windows
 
-This document maps the nine APS semantic modules to their Windows C++ source files and test coverage. The canonical APS main line remains the semantic authority; this platform repository implements those semantics for the Windows native target.
+This document maps the nine APS semantic modules to their Windows C++ source files and test coverage. The Windows edition implements these modules for supported native Windows desktop targets.
 
 ## Mapping Table
 

@@ -1,51 +1,41 @@
 # Repository Purpose
 
-## What this repository is
+## What This Repository Is
 
-This repository is the **canonical agnostic specification baseline** for the ASH Pattern System — a platform-agnostic framework for **self-healing, self-correcting, safe-failure, fallback, and deterministic recovery** in software systems.
+This repository is the Windows edition of the ASH Pattern System. It contains a native C++20 semantic core, Windows build assets, platform conformance documentation, and release-readiness evidence for supported Windows desktop targets.
 
-Its job is to define the system's resilient software semantics in a way that survives translation across:
+Its job is to turn the APS semantic contract into a Windows-native implementation that can be built, tested, packaged, and audited with Microsoft-supported tooling.
 
-- languages
-- operating systems
-- runtime environments
-- developer toolchains
-- packaging models
-- future implementation repositories
+## What This Repository Must Accomplish
 
-## What this repository must accomplish
+The Windows edition must make the following explicit:
 
-This repository must provide enough semantic clarity that a coding agent can build a correct implementation without needing a preexisting language-bound repository as the authority.
+- how each APS semantic module is represented in C++20;
+- how 9-bit state, codewords, transitions, diagnostics, recovery, topology, axiom evaluation, planning, and emission are implemented;
+- how deterministic behavior is verified by C++ tests;
+- how Windows build outputs are produced with Visual Studio/MSBuild;
+- where release blockers remain for packaging, signing, accessibility, installation, and owner approval;
+- which platform decisions are Windows-specific and how they are tracked.
 
-That means the repository must make the following explicit:
+## What This Repository Is Not For
 
-- what an ASH state is
-- how the control dimension is derived
-- what makes a state valid
-- how states are classified for resilient behavior (stable, unstable, correctable, degraded, contained, failed, safe-halt)
-- what recovery, fallback, containment, and safe-failure actions are required for each state class
-- what transitions are allowed
-- how topology is expanded
-- how axioms are evaluated
-- how a generation plan is produced before side effects occur
-- what downstream implementations must preserve
+This repository is not a neutral design-only package. It is not the place to describe every possible language, operating system, runtime, or package model.
 
-## What this repository is not for
+Examples of concerns outside this Windows edition:
 
-This repository is not a place to settle language-specific engineering decisions.
+- non-Windows build systems;
+- non-C++ production implementations;
+- mobile packaging;
+- service deployment;
+- Unix-specific runtime behavior;
+- product claims that are not backed by Windows evidence.
 
-Examples of concerns that do not belong here as canonical truth:
+## Platform Boundary
 
-- whether implementation uses structs, classes, enums, or traits
-- whether validation is compile-time, runtime, or hybrid
-- whether artifacts are emitted through a CLI, GUI, service, or IDE extension
-- whether storage is local, remote, or in-memory
-- whether emitted projects use one directory layout or another
+Windows-specific choices belong in this repository when they are needed to build, test, package, or validate the Windows edition.
 
-## Source-of-truth rule
+Semantic behavior must remain consistent with the APS contract files bundled in this repository. If a platform decision conflicts with those semantics, the platform decision must be changed or recorded as an unresolved release blocker.
 
-If a future implementation disagrees with this repository, this repository wins.
+## Success Condition
 
-## Success condition
-
-A reader should be able to understand the ASH Pattern System as a coherent system **without seeing implementation language code**.
+A reader should be able to understand how the Windows edition is built, how its semantic modules are wired, how its tests map to APS behavior, and why the current product is or is not ready for release.

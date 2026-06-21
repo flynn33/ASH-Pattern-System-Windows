@@ -1,4 +1,4 @@
-# Generation Planning — agnostic specification
+# Generation Planning - APS Semantic Contract
 
 ## Purpose
 

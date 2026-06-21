@@ -1,63 +1,97 @@
-# Desktop Implementation Handoff Template
+# Windows Desktop Implementation Checklist
 
-## Target class
+## Target Class
 
-**Desktop application** — a native or cross-platform desktop application implementing the ASH Pattern System.
+Windows desktop implementation of the ASH Pattern System.
 
-## Canonical-authority boundary
+## Scope
 
-The canonical agnostic repository is the semantic authority. This template constrains the downstream desktop repository structure, required deliverables, and proof-of-conformance inputs. It does not override canonical semantics, prescribe a specific programming language, or mandate a specific desktop framework.
+This checklist applies to the active Windows edition in this repository. It covers native C++ implementation, Windows build tooling, desktop release packaging, and release evidence.
 
-## Required sections in downstream repository
+## Required Sections In This Repository
 
-### 1. Target environment
-Document the specific desktop target:
-- Operating system(s)
-- Runtime environment
-- Windowing / UI framework (if applicable)
-- File system access model
-- Concurrency / threading model
+### 1. Target Environment
 
-### 2. Semantic-module mapping
-Map each of the 9 canonical semantic modules to concrete desktop implementation modules. See `common-downstream-handoff-requirements.md` for the full module list.
+Document the specific Windows target:
 
-### 3. Invariant / conformance verification inputs
-Document how the desktop implementation will verify conformance:
-- Test framework and tooling
-- Coverage of all 5 conformance categories
-- How invariants are tested in the desktop environment
-- Any desktop-specific verification considerations
+- supported Windows versions;
+- supported processor architectures;
+- native runtime environment;
+- UI framework status;
+- filesystem access model;
+- concurrency and threading model.
 
-### 4. Diagnostics integration
-Document how diagnostics will be surfaced in the desktop context:
-- Diagnostic output format and destination (log files, UI, telemetry)
-- Schema and taxonomy conformance
-- Chain integrity in the desktop execution model
+Active document: `windows/docs/architecture.md`.
 
-### 5. Materialization-boundary expectations
+### 2. Semantic-Module Mapping
+
+Map each of the 9 APS semantic modules to concrete C++ modules.
+
+Active document: `windows/conformance/module-mapping.md`.
+
+### 3. Verification Inputs
+
+Document how the Windows implementation verifies conformance:
+
+- test framework and tooling;
+- coverage of all 5 conformance categories;
+- x64 and ARM64 build/test matrix;
+- any Windows-specific verification considerations.
+
+Active document: `windows/conformance/verification-plan.md`.
+
+### 4. Diagnostics Integration
+
+Document how diagnostics are represented and validated in the Windows core:
+
+- diagnostic envelope type;
+- schema and taxonomy conformance;
+- chain integrity;
+- runtime validation behavior.
+
+Active document: `windows/conformance/diagnostics-conformance-plan.md`.
+
+### 5. Materialization Boundary
+
 Document how the planner/emitter boundary is respected:
-- Where planning occurs in the desktop application lifecycle
-- Where materialization occurs (file emission, UI rendering, etc.)
-- How the boundary is enforced architecturally
 
-### 6. Packaging / build / deployment decisions
-Document target-specific decisions:
-- Build system and toolchain
-- Dependency management
-- Installer / distribution format
-- Update / versioning strategy
-- Configuration management
+- where planning occurs;
+- where descriptor emission occurs;
+- how the boundary is enforced by interfaces and tests.
 
-### 7. Performance / resource constraints
-Document desktop-specific constraints:
-- Memory budget
-- Startup time requirements
-- Responsiveness requirements
-- Storage constraints
-- Offline / disconnected operation requirements (if applicable)
+Active document: `windows/conformance/materialization-boundary-plan.md`.
 
-### 8. Caveat / deviation tracking
-Maintain a deviation log for any departures from canonical semantics. See `common-downstream-handoff-requirements.md` for tracking requirements.
+### 6. Packaging / Build / Deployment Decisions
 
-### 9. Proof-of-conformance deliverables
-Produce all deliverables listed in `common-downstream-handoff-requirements.md` before the desktop implementation is considered implementation-ready.
+Document Windows-specific decisions:
+
+- MSBuild solution and project layout;
+- MSVC settings;
+- PowerShell wrappers;
+- installer or package format;
+- signing and verification;
+- update and configuration strategy.
+
+Active document: `windows/docs/build-run-instructions.md`.
+
+### 7. Performance / Resource Constraints
+
+Document Windows-specific constraints:
+
+- memory behavior;
+- startup time;
+- responsiveness requirements after a UI exists;
+- storage behavior;
+- offline operation requirements if applicable.
+
+Active document: `windows/docs/architecture.md`.
+
+### 8. Caveat / Deviation Tracking
+
+Maintain a deviation log for Windows limitations and release blockers.
+
+Active document: `windows/conformance/deviation-log.md`.
+
+### 9. Proof-Of-Conformance Deliverables
+
+Produce the deliverables listed in `common-downstream-handoff-requirements.md` before the Windows product can move beyond `NOT_SHIPPABLE`.

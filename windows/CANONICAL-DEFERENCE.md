@@ -1,53 +1,53 @@
-# Canonical Deference
+# Semantic Contract Boundary
 
-This file records the branch's explicit deference to the canonical ASH Pattern System main repository.
+This file records how the Windows edition separates APS semantic requirements from Windows-specific implementation decisions.
 
-## Statement of deference
+## Boundary Statement
 
-The `windows-cpp` branch is a downstream implementation branch of the ASH Pattern System. It is not the authority on any ASH semantic question. When any file on this branch — source code, tests, documentation, conformance deliverables, or design notes — conflicts with the canonical specifications on `main`, the canonical specification wins. No exception.
+The Windows edition implements the APS semantic contract in native C++20. If a Windows-specific choice conflicts with the APS semantic contract files bundled in this repository, the platform choice must change or the conflict must remain an unresolved release blocker.
 
-The canonical agnostic main repository is the source of truth. The `windows-cpp` branch is one Windows C++ interpretation of that source of truth, scoped to the desktop target class defined in `handoff-templates/desktop-implementation-handoff-template.md`.
+Windows implementation details may document how behavior is built, tested, packaged, or released on Windows. They may not redefine APS state semantics, recovery behavior, diagnostic requirements, module responsibilities, or acceptance rules.
 
-## What this branch may do
+## What The Windows Edition May Do
 
-- Implement the nine canonical semantic modules for Windows desktop C++
-- Contain Windows-specific source code, MSBuild project files, PowerShell scripts, tests, and implementation documentation
-- Record branch-local decisions (integer encoding, realm identity string format, test framework) that are not prescribed by the canonical spec, provided those decisions do not bind the canonical spec and are documented in the deviation log
-- Preserve the canonical meaning of every ASH module and interface
+- Implement the nine APS semantic modules for Windows desktop C++.
+- Contain Windows-specific source code, MSBuild project files, PowerShell scripts, tests, and implementation documentation.
+- Record platform decisions such as integer encoding, realm identity string format, CRT linkage, compiler flags, and test harness design.
+- Track unresolved platform limitations in `windows/conformance/deviation-log.md`.
+- Preserve APS behavior while adapting implementation mechanics to Windows-native tooling.
 
-## What this branch may not do
+## What The Windows Edition May Not Do
 
-- Modify the canonical files at the repository root (`README.md`, `specs/`, `docs/`, `governance/`, `handoff-templates/`)
-- Redefine, override, extend, or restrict canonical ASH semantics
-- Reintroduce the superseded 8+1 canonical model (decomposing 9-bit state into 8-bit core plus derived 9th bit)
-- Weaken contracts, diagnostics, registries, invariants, or conformance requirements
-- Back-propagate platform or implementation decisions into canonical docs on main
-- Claim that this branch is the source of truth for any ASH semantic question
+- Redefine, override, extend, or restrict APS semantics.
+- Reintroduce the superseded 8+1 model as current behavior.
+- Weaken contracts, diagnostics, registries, invariants, or conformance requirements.
+- Treat Windows build, packaging, UI, or release decisions as semantic requirements for other platforms.
+- Mark the Windows product shippable without the required Windows release evidence.
 
-## Authority boundary in source and test files
+## Source And Test Discipline
 
-Every C++ header file in `windows/src/include/ash/` carries a contract comment block quoting the canonical contract or specification it implements. Every test file verifies properties of the canonical specification as applied to this branch's implementation, not properties of the branch's private conventions.
+C++ headers under `windows/src/include/ash/` describe the APS contract each module implements. Tests verify behavior of the Windows implementation, including deterministic state behavior, transition semantics, diagnostic chain integrity, recovery/fallback behavior, topology generation, axiom evaluation, generation planning, and artifact descriptor emission.
 
-Where a branch-local decision exists (for example, the integer encoding from `F2^9` to `uint16_t`, or the realm identity string format), the deviation is documented in `windows/conformance/deviation-log.md` with:
+Where a Windows-specific decision exists, the relevant conformance document records:
 
-1. A statement that the canonical spec does not prescribe the decision
-2. The branch-local choice
-3. The resolution path — how the branch would accept a future canonical resolution that replaces the branch-local choice
+1. the platform choice;
+2. why the choice is local to the Windows edition;
+3. how the choice would be changed if later release requirements require it.
 
-Branch-local decisions are not presented as canonical. They are presented as implementation conventions that apply only on this branch.
+## Conflict Resolution
 
-## Resolution rule for conflicts
+If a proposed Windows change conflicts with the APS semantic contract:
 
-If a future change on this branch would conflict with the canonical spec on main, the correct response is:
+1. Stop the change.
+2. Record the conflict as a blocker or deviation.
+3. Resolve the semantic ambiguity before shipping the Windows product.
+4. Do not silently adapt Windows code or documentation in a way that changes APS behavior.
 
-1. Stop the change
-2. Escalate to the canonical spec (if the spec is ambiguous, raise the ambiguity on main, not here)
-3. Do not silently adapt the branch in a way that diverges from main
+## Reference Documents
 
-This rule exists because the canonical repository is the only place where ASH semantics are negotiated. The `windows-cpp` branch is where one target class's implementation of those semantics lives.
-
-## Reference
-
-- Canonical governance rule: `governance/repository-governance.md` on main (§ Main-repository closeout)
-- Governing downstream template: `handoff-templates/desktop-implementation-handoff-template.md` on main
-- Canonical specifications: `specs/core/`, `specs/algorithms/`, `specs/interfaces/`, `specs/verification/` on main
+- `specs/core/`
+- `specs/algorithms/`
+- `specs/interfaces/`
+- `specs/verification/`
+- `windows/conformance/deviation-log.md`
+- `windows/conformance/acceptance-judgment.md`

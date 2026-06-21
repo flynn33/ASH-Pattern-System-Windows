@@ -15,7 +15,7 @@
 | Ref | HEAD | Platform evidence | Unique work | Disposition |
 |---|---|---|---|---|
 | `origin/main` | `b832f6e9b76a8c08038ba9dfdaf76f64691405e5` | Windows tree, Visual Studio solution/projects, C++ source, PowerShell build, tests, conformance docs | Preserved Windows implementation line | Selected platform base |
-| `upstream/main` | `cc253f3d137a27f0eeb471bed62bbdb939e3b6d1` | Canonical agnostic product baseline | Canonical data, conformance corpus, release evidence | Reference only |
+| `upstream/main` | `cc253f3d137a27f0eeb471bed62bbdb939e3b6d1` | Pre-split APS product baseline | APS data, conformance corpus, release evidence | Reference only |
 | `upstream/release/aps-1.0.0-completion-clean` | `44a28980639e79bd68161422ce53c50e0791356f` | Canonical release-candidate line | APS 1.0 release candidate | Reference only |
 | `upstream/release/aps-1.0.0-release-corrections` | `e620c1207b3cd05307371e5d25a89b4bd472ec33` | Canonical release-correction line | Release correction work | Reference only |
 
@@ -49,7 +49,7 @@
 
 | ID | Evidence | Root cause | Decision | Owner | Tests |
 |---|---|---|---|---|---|
-| APSWIN-DIV-001 | `git diff --stat origin/main..upstream/main` shows upstream main would delete `windows/` | Platform repo split from canonical agnostic repo | Do not merge upstream wholesale into Windows branch | Windows platform | Local C++20 test executables |
+| APSWIN-DIV-001 | `git diff --stat origin/main..upstream/main` shows upstream main would delete `windows/` | Platform repo split from pre-split APS baseline | Do not merge upstream wholesale into Windows branch | Windows platform | Local C++20 test executables |
 | APSWIN-DIV-002 | Canonical corpus exists upstream but not in this repo branch | Product data was finalized after the Windows branch split | Record as release blocker until corpus is consumed and run | Windows platform | Not complete |
 | APSWIN-DIV-003 | MSBuild and PowerShell not present in local environment | Local host is not a Windows build host | Use local C++20 compiler for syntax/behavior; keep native build/signing unverified | Windows platform | Local C++20 test executables |
 

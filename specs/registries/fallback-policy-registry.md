@@ -174,6 +174,6 @@ Rule IDs used in fallback diagnostics must conform to the `ASH-FALLBACK` family 
 
 - **recovery-fallback-semantics.pseudo.md** — invokes this registry during the `FALLBACK_REQUIRED` recovery path
 - **containment-safe-failure-semantics.pseudo.md** — receives escalation when no valid fallback candidate exists
-- **semantic-contracts.md** — requires downstream implementations to implement fallback selection against this canonical registry
+- **semantic-contracts.md** — requires Windows implementation modules to implement fallback selection against this registry
 - **system-state-classification.pseudo.md** — provides the `DEGRADED` classification that triggers fallback
 - **state-validity-diagnostics.pseudo.md** — provides the diagnostic used for candidate eligibility and post-selection validation

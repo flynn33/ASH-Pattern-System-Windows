@@ -1,12 +1,12 @@
 # Deviation Log — APS Windows
 
-This log records known Windows-platform limitations relative to the final product-completion package. A deviation here is not a canonical reinterpretation.
+This log records known Windows-platform limitations relative to the final product-completion package. A deviation here is not a change to APS behavior.
 
 ## D-001 — Empty Fallback Policy Instance Store
 
 **What:** `RecoveryEngine::select_fallback()` currently observes an empty in-memory fallback policy instance store and escalates with a diagnostic.
 
-**Why:** APS does not declare a universal domain-safe fallback state. Concrete fallback candidates must come from validated operational context or downstream policy instances. Until such an instance is supplied to the Windows product, selecting no replacement and escalating is the fail-closed behavior.
+**Why:** APS does not declare a universal domain-safe fallback state. Concrete fallback candidates must come from validated operational context or declared policy instances. Until such an instance is supplied to the Windows product, selecting no replacement and escalating is the fail-closed behavior.
 
 **Scope:** `windows/src/RecoveryEngine.cpp`, `windows/tests/RecoveryEngine.test.cpp`.
 
