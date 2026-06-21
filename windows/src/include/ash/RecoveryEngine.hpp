@@ -29,9 +29,9 @@
 //
 // Branch-local behavior (documented in deviation-log.md item 1):
 //   The canonical fallback-policy registry content is unresolved. This
-//   branch ships with an empty in-memory registry stub. select_fallback()
+//   branch ships with an empty in-memory registry. select_fallback()
 //   always observes an empty candidate list and escalates to
-//   CONTAINMENT_REQUIRED — this is exactly the behavior the canonical
+//   CONTAINMENT_ACTIVE — this is exactly the behavior the canonical
 //   recovery/fallback semantics prescribe when the registry is
 //   unavailable or empty.
 
@@ -62,7 +62,7 @@ struct FallbackResult {
 
 class RecoveryEngine {
 public:
-    // The engine composes the other three slice modules. They are
+    // The engine composes StateModel and TransitionRegistry. They are
     // passed by const reference and not owned.
     RecoveryEngine(const StateModel& state_model,
                    const TransitionRegistry& transition_registry) noexcept
@@ -72,7 +72,7 @@ public:
     // Returns true iff the engine has been placed in SAFE_HALT.
     [[nodiscard]] bool is_halted() const noexcept { return halted_; }
 
-    // Execute a NORMALIZE_STATE recovery. Delegates to StateModel::normalize,
+    // Execute structural normalization. Delegates to StateModel::normalize,
     // wraps the result diagnostic as a RECOVERY-stage child.
     // If already halted, returns an ERROR diagnostic (INV-RECOVERY-005)
     // and does not invoke the state model.

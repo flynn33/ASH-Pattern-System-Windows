@@ -1,6 +1,6 @@
 // ash/ArtifactEmitter.hpp
 //
-// ArtifactEmitter — canonical module (non-slice, stub on this branch).
+// ArtifactEmitter — canonical module.
 //
 // ┌──────────────────────────────────────────────────────────────────┐
 // │  LOCKED MATERIALIZATION BOUNDARY                                 │
@@ -37,9 +37,8 @@
 //   GenerationPlanner is accepted. This is the architectural
 //   enforcement of "no callback to planner" at the header level.
 //
-// Branch-local status: STUB. materialize_plan() returns an empty
-// artifact list and a NOT_IMPLEMENTED diagnostic with the
-// ASH-WINDOWS-STUB-001 rule ID.
+// materialize_plan() emits deterministic artifact descriptors for the
+// supplied plan and blocks incomplete plans.
 
 #pragma once
 

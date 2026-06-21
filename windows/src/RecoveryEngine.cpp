@@ -18,8 +18,8 @@
 //   execute_apply_correction(s, c)
 //     - If halted: return ERROR diagnostic.
 //     - Otherwise: delegate to TransitionRegistry::apply_transition;
-//       re-classify the result. If not VALID, emit a RECOVERY_FAILED
-//       diagnostic at stage ESCALATION.
+//       re-classify the result. If the result is not STABLE, emit a
+//       RECOVERY_FAILED diagnostic at stage ESCALATION.
 //
 //   select_fallback(category)
 //     - If halted: return ERROR diagnostic.
@@ -186,7 +186,7 @@ FallbackResult RecoveryEngine::select_fallback(RecoveryCategory category) {
             .note("Canonical recovery/fallback semantics prescribe escalation "
                   "to containment when the fallback registry is unavailable "
                   "or empty. The windows-cpp branch ships with an empty "
-                  "in-memory registry stub. See "
+                  "in-memory registry. See "
                   "windows/conformance/deviation-log.md item 1.")
             .build_root();
     return FallbackResult{std::nullopt, std::move(diagnostic)};

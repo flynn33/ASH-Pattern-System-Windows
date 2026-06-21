@@ -12,11 +12,10 @@
 //    (b0, b1, b2, b3, b4, b5, b6, b7, b8). All 9 coordinates participate
 //    in the algebraic structure."
 //
-// Branch-local convention (not canonical, see windows/conformance/deviation-log.md):
-//   The integer encoding used below packs a 9-bit state into a uint16_t
-//   with `bit i = (encoded >> i) & 1`, so b0 is the least significant
-//   bit and b8 is bit 8. The canonical spec does not prescribe an
-//   integer encoding.
+// Canonical convention:
+//   b0 is the most significant bit and b8 is the least significant bit.
+//   The integer encoding is therefore:
+//     state_index = sum(bi * 2^(8-i)) for i = 0..8
 //
 // This file is implementation-facing. It does not redefine canonical
 // semantics. On every semantic question, the canonical spec wins.
@@ -26,6 +25,7 @@
 #include <bitset>
 #include <cstddef>
 #include <cstdint>
+#include <string>
 
 namespace ash {
 
@@ -36,15 +36,46 @@ using Bit9State = std::bitset<9>;
 // Exact number of distinct 9-bit states in F2^9 (2^9 = 512).
 inline constexpr std::size_t kStateSpaceSize = 512;
 
-// Branch-local integer encoding. Deterministic, reversible.
-// See deviation-log.md item "Branch-local integer encoding".
-inline constexpr Bit9State from_int(std::uint16_t encoded) noexcept {
-    // Take only the low 9 bits. Bits 9..15 are ignored.
-    return Bit9State{static_cast<unsigned long long>(encoded & 0x1FFu)};
+// Canonical integer encoding. Deterministic, reversible.
+inline Bit9State from_int(std::uint16_t encoded) noexcept {
+    Bit9State state{};
+    const std::uint16_t masked = static_cast<std::uint16_t>(encoded & 0x1FFu);
+    for (std::size_t i = 0; i < 9; ++i) {
+        const std::uint16_t mask = static_cast<std::uint16_t>(1u << (8u - i));
+        state.set(i, (masked & mask) != 0);
+    }
+    return state;
 }
 
-inline constexpr std::uint16_t to_int(const Bit9State& s) noexcept {
-    return static_cast<std::uint16_t>(s.to_ulong() & 0x1FFu);
+inline std::uint16_t to_int(const Bit9State& s) noexcept {
+    std::uint16_t encoded = 0;
+    for (std::size_t i = 0; i < 9; ++i) {
+        if (s.test(i)) {
+            encoded = static_cast<std::uint16_t>(encoded | (1u << (8u - i)));
+        }
+    }
+    return encoded;
+}
+
+inline std::string canonical_signature(const Bit9State& s) {
+    std::string out;
+    out.reserve(9);
+    for (std::size_t i = 0; i < 9; ++i) {
+        out.push_back(s.test(i) ? '1' : '0');
+    }
+    return out;
+}
+
+inline std::string canonical_realm_id(const Bit9State& s) {
+    const std::uint16_t index = to_int(s);
+    std::string id = "APS-REALM-";
+    if (index < 10) {
+        id += "00";
+    } else if (index < 100) {
+        id += "0";
+    }
+    id += std::to_string(index);
+    return id;
 }
 
 // Coordinate accessors. Named bN() for clarity in unit tests.

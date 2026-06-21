@@ -1,6 +1,6 @@
 // ash/GenerationPlanner.hpp
 //
-// GenerationPlanner — canonical module (non-slice, stub on this branch).
+// GenerationPlanner — canonical module.
 //
 // ┌──────────────────────────────────────────────────────────────────┐
 // │  LOCKED MATERIALIZATION BOUNDARY                                 │
@@ -45,11 +45,9 @@
 //   value and takes only pure-data inputs. No I/O stream, filesystem
 //   path, or side-effecting callback is accepted as a parameter. This
 //   is the architectural enforcement of the LOCKED boundary at the
-//   header level; runtime enforcement is a future expansion item
-//   tracked in windows/conformance/materialization-boundary-plan.md.
+//   header level; runtime tests cover plan hash and emitter traceability.
 //
-// Branch-local status: STUB. Returns an empty plan and a
-// NOT_IMPLEMENTED diagnostic with the ASH-WINDOWS-STUB-001 rule ID.
+// Produces an inspectable plan with a deterministic SHA-256 hash.
 
 #pragma once
 
@@ -75,9 +73,13 @@ struct TargetMetadata {
 // The emitter must be able to materialize it with only this value
 // plus a TargetConfiguration — no planner callback.
 struct GenerationPlan {
-    std::vector<std::string> artifact_descriptions;  // empty on this branch
-    std::vector<std::string> role_assignments;        // empty on this branch
-    std::string target_class;                         // copied from TargetMetadata
+    std::string source_signature;
+    std::string source_realm_id;
+    std::vector<std::string> artifact_descriptions;
+    std::vector<std::string> role_assignments;
+    std::string target_class;
+    std::string registry_version;
+    std::string plan_hash;
 };
 
 struct PlanResult {
@@ -89,9 +91,6 @@ class GenerationPlanner {
 public:
     GenerationPlanner() = default;
 
-    // Stub on this branch. The signature accepts only pure data and
-    // returns a plan by value — it cannot perform side effects by
-    // construction.
     [[nodiscard]] PlanResult generate_plan(const Bit9State& state,
                                            const TargetMetadata& target) const;
 };

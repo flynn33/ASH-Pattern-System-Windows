@@ -102,7 +102,8 @@ TEST_CASE(validate_rule_id_accepts_canonical_examples) {
     ASSERT_TRUE(d.validate_rule_id("ASH-CODEWORD-004"));
     ASSERT_TRUE(d.validate_rule_id("ASH-RECOVERY-005"));
     ASSERT_TRUE(d.validate_rule_id("ASH-HALT-001"));
-    ASSERT_TRUE(d.validate_rule_id("ASH-WINDOWS-STUB-001"));
+    ASSERT_TRUE(d.validate_rule_id("ASH-GENERATION-001"));
+    ASSERT_TRUE(d.validate_rule_id("ASH-EMISSION-001"));
 }
 
 TEST_CASE(validate_rule_id_rejects_lowercase) {

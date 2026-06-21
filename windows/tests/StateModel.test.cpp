@@ -16,12 +16,11 @@
 
 using namespace ash;
 
-TEST_CASE(classify_admissibility_all_16_codewords_are_valid) {
-    // INV-CODEWORD-004, INV-ADMISSIBILITY-001: every canonical codeword
-    // classifies as VALID.
+TEST_CASE(classify_admissibility_all_16_codewords_are_well_formed) {
+    // Every canonical codeword is a well-formed realm.
     StateModel sm;
     for (const auto& c : kCanonicalCodewords) {
-        ASSERT_EQ(sm.classify_admissibility(c), AdmissibilityStatus::VALID);
+        ASSERT_EQ(sm.classify_admissibility(c), AdmissibilityStatus::WELL_FORMED);
     }
 }
 
@@ -35,30 +34,25 @@ TEST_CASE(classify_admissibility_is_deterministic) {
 }
 
 TEST_CASE(classify_admissibility_is_total_over_512_states) {
-    // INV-ADMISSIBILITY-002: every 9-bit vector maps to exactly one
-    // of the four admissibility statuses. On this branch with a
-    // fully-closed codeword set, every state classifies as VALID or
-    // TRANSFORMATION_COMPATIBLE — no state should ever be UNCLASSIFIED.
+    // Every Bit9State is exactly nine binary coordinates and therefore
+    // structurally well formed.
     StateModel sm;
     for (std::uint16_t i = 0; i < kStateSpaceSize; ++i) {
         const Bit9State s = from_int(i);
         const auto status = sm.classify_admissibility(s);
-        ASSERT_TRUE(status == AdmissibilityStatus::VALID ||
-                    status == AdmissibilityStatus::TRANSFORMATION_COMPATIBLE);
+        ASSERT_EQ(status, AdmissibilityStatus::WELL_FORMED);
     }
 }
 
-TEST_CASE(classify_admissibility_16_of_512_are_valid) {
-    // Exactly 16 states are VALID (one per canonical codeword).
-    StateModel sm;
-    int valid_count = 0;
+TEST_CASE(canonical_codeword_membership_is_16_of_512_states) {
+    int codeword_count = 0;
     for (std::uint16_t i = 0; i < kStateSpaceSize; ++i) {
         const Bit9State s = from_int(i);
-        if (sm.classify_admissibility(s) == AdmissibilityStatus::VALID) {
-            ++valid_count;
+        if (is_canonical_codeword(s)) {
+            ++codeword_count;
         }
     }
-    ASSERT_EQ(valid_count, 16);
+    ASSERT_EQ(codeword_count, 16);
 }
 
 TEST_CASE(classify_system_state_total_over_512_states) {
@@ -84,15 +78,15 @@ TEST_CASE(classify_recoverability_maps_all_7_classes) {
     ASSERT_EQ(sm.classify_recoverability(SystemStateClass::STABLE),
               RecoveryCategory::NO_ACTION);
     ASSERT_EQ(sm.classify_recoverability(SystemStateClass::UNSTABLE),
-              RecoveryCategory::NORMALIZE_STATE);
+              RecoveryCategory::TARGET_RESOLUTION_REQUIRED);
     ASSERT_EQ(sm.classify_recoverability(SystemStateClass::CORRECTABLE),
               RecoveryCategory::APPLY_CORRECTION);
     ASSERT_EQ(sm.classify_recoverability(SystemStateClass::DEGRADED),
               RecoveryCategory::FALLBACK_REQUIRED);
     ASSERT_EQ(sm.classify_recoverability(SystemStateClass::CONTAINED),
-              RecoveryCategory::CONTAINMENT_REQUIRED);
+              RecoveryCategory::CONTAINMENT_ACTIVE);
     ASSERT_EQ(sm.classify_recoverability(SystemStateClass::FAILED),
-              RecoveryCategory::ESCALATION_REQUIRED);
+              RecoveryCategory::EXTERNAL_ESCALATION_REQUIRED);
     ASSERT_EQ(sm.classify_recoverability(SystemStateClass::SAFE_HALT),
               RecoveryCategory::TERMINAL_NO_RECOVERY);
 }
@@ -107,6 +101,17 @@ TEST_CASE(normalize_valid_state_is_identity_with_resolved_diagnostic) {
     ASSERT_EQ(result.diagnostic->disposition, Disposition::RESOLVED);
     ASSERT_EQ(result.diagnostic->stage, Stage::CLASSIFICATION);
     ASSERT_TRUE(!result.diagnostic->rule_ids.empty());
+}
+
+TEST_CASE(normalize_all_well_formed_states_is_identity_with_resolved_diagnostic) {
+    StateModel sm;
+    for (std::uint16_t i = 0; i < kStateSpaceSize; ++i) {
+        const Bit9State state = from_int(i);
+        auto result = sm.normalize(state);
+        ASSERT_EQ(result.state, state);
+        ASSERT_TRUE(result.diagnostic != nullptr);
+        ASSERT_EQ(result.diagnostic->disposition, Disposition::RESOLVED);
+    }
 }
 
 TEST_CASE(normalize_always_produces_a_diagnostic) {

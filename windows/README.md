@@ -29,7 +29,7 @@ This branch treats Windows as a **desktop target class** implementation of the A
 Per the instruction package governing this branch:
 
 - **Primary language:** C++20, compiled with MSVC `cl.exe`.
-- **Secondary languages (allowed, justified):** JSON for configuration or structured data where useful. TypeScript only where strictly needed and only as a secondary/supporting language. Neither is used in the initial commit.
+- **Secondary languages (allowed, justified):** JSON for configuration or structured data where useful. TypeScript only where strictly needed and only as a secondary/supporting language. Neither is used in the current Windows implementation.
 - **Build system:** MSBuild (`.sln` / `.vcxproj`) plus a PowerShell wrapper. All Microsoft-produced.
 - **Third-party libraries:** none. C++ standard library only.
 - **Testing:** a minimal single-header homegrown test harness in `windows/tests/test_runner.hpp`. Built as plain C++ executables with MSVC. No external test framework.
@@ -45,21 +45,28 @@ windows/
 ├── build/                       # MSBuild solution, project files, PowerShell wrapper
 ├── src/
 │   ├── include/ash/             # public headers (all 9 canonical modules + shared types)
-│   └── *.cpp                    # module implementations (4 functional, 5 stubs)
-├── tests/                       # test_runner.hpp + per-slice-module tests
+│   └── *.cpp                    # module implementations for all 9 modules
+├── tests/                       # test_runner.hpp + per-module tests
 ├── conformance/                 # 6 downstream conformance deliverables
 └── docs/                        # architecture and build/run instructions
 ```
 
-## Minimal conformance slice
+## Semantic core coverage
 
-This branch currently implements the minimal conformance slice required by the instruction package: **`StateModel`, `TransitionRegistry`, `Diagnostics`, `RecoveryEngine`**. The remaining five modules (`RealmEncoder`, `TopologyGenerator`, `AxiomEvaluator`, `GenerationPlanner`, `ArtifactEmitter`) ship as headers with full contract comments plus `.cpp` stubs that return well-formed `NOT_IMPLEMENTED` diagnostics. The module mapping document names the specific files.
+This branch implements the nine APS semantic modules in native C++:
+`StateModel`, `TransitionRegistry`, `Diagnostics`, `RecoveryEngine`,
+`RealmEncoder`, `TopologyGenerator`, `AxiomEvaluator`, `GenerationPlanner`,
+and `ArtifactEmitter`.
 
-See `windows/conformance/module-mapping.md` for the complete mapping and `windows/conformance/verification-plan.md` for the invariant coverage.
+See `windows/conformance/module-mapping.md` for the complete mapping and
+`windows/conformance/verification-plan.md` for the current test coverage.
 
 ## Current acceptance status
 
-**`NON-CONFORMANT (IN PROGRESS)`** — see `windows/conformance/acceptance-judgment.md` for the placeholder judgment. The acceptance tiers are defined in `specs/verification/implementation-acceptance.md` on main. Full conformance will be achieved in future expansion passes as the non-slice modules are implemented and their canonical invariants are dynamically verified.
+**`NOT_SHIPPABLE`** — see `windows/conformance/acceptance-judgment.md`.
+The local semantic core tests pass, but release-critical Windows gates remain:
+MSVC/MSBuild release matrix, packaging, production signing, clean install,
+accessibility, SBOM, and final owner-controlled release approvals.
 
 ## How to build and run
 

@@ -47,7 +47,7 @@ TransitionRegistry::resolve_transition(const Bit9State& state,
     if (transition_id >= kCodewordCount) {
         auto diagnostic =
             DiagnosticEnvelopeBuilder{}
-                .kind(DiagnosticKind::STATE_VALIDITY)
+                .kind(DiagnosticKind::TRANSITION)
                 .severity(Severity::ERROR)
                 .stage(Stage::DETECTION)
                 .disposition(Disposition::BLOCKED)
@@ -66,7 +66,7 @@ TransitionRegistry::resolve_transition(const Bit9State& state,
 
     auto diagnostic =
         DiagnosticEnvelopeBuilder{}
-            .kind(DiagnosticKind::STATE_VALIDITY)
+            .kind(DiagnosticKind::TRANSITION)
             .severity(Severity::INFO)
             .stage(Stage::CLASSIFICATION)
             .disposition(Disposition::RESOLVED)
@@ -86,14 +86,13 @@ TransitionRegistry::apply_transition(const Bit9State& state,
                                      const Codeword& codeword) const {
     // XOR is applied to all 9 bits by the std::bitset implementation.
     // INV-CODEWORD-001, INV-TRANS-002.
-    const Bit9State result = state ^ codeword;
-
     const bool is_canonical = is_canonical_codeword(codeword);
     const Severity sev = is_canonical ? Severity::INFO : Severity::ERROR;
     const Disposition disp = is_canonical ? Disposition::RESOLVED : Disposition::BLOCKED;
+    const Bit9State result = is_canonical ? (state ^ codeword) : state;
 
     DiagnosticEnvelopeBuilder builder;
-    builder.kind(DiagnosticKind::STATE_VALIDITY)
+    builder.kind(DiagnosticKind::TRANSITION)
         .severity(sev)
         .stage(Stage::RECOVERY)
         .disposition(disp)
@@ -108,12 +107,12 @@ TransitionRegistry::apply_transition(const Bit9State& state,
     } else {
         builder.rule_id(rule_ids::kCodeword004)
             .summary("Codeword is not a member of the canonical set C")
-            .note("apply_transition computed the XOR but the supplied codeword "
+            .note("apply_transition rejected the supplied codeword because it "
                   "is not in kCanonicalCodewords. Per "
                   "specs/core/codeword-set.pseudo.md downstream implementations "
-                  "must not use non-canonical codewords. The result state is "
-                  "returned with BLOCKED disposition so the caller may "
-                  "escalate.");
+                  "must not use non-canonical codewords. The input state is "
+                  "returned unchanged with BLOCKED disposition so the caller "
+                  "may escalate.");
     }
 
     return TransitionResult{result, builder.build_root()};

@@ -49,6 +49,11 @@ namespace ash {
 // Canonical diagnostic kind — specs/interfaces/diagnostic-schema.md
 enum class DiagnosticKind {
     STATE_VALIDITY,
+    TRANSITION,
+    TOPOLOGY,
+    AXIOM,
+    GENERATION_PLAN,
+    EMISSION,
     RECOVERY,
     FALLBACK,
     CONTAINMENT,

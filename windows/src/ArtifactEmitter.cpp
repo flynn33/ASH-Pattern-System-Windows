@@ -1,17 +1,4 @@
-// ArtifactEmitter.cpp — NOT_IMPLEMENTED stub.
-//
-// See ash/ArtifactEmitter.hpp for the LOCKED materialization
-// boundary rules. The materialize_plan() signature takes exactly
-// one GenerationPlan and one TargetConfiguration, with no reference
-// to a GenerationPlanner. This is the architectural enforcement of
-// "no callback to planner" (INV-BOUNDARY-001) at the header level.
-//
-// Branch-local: ASH-WINDOWS-STUB-001.
-//
-// IMPORTANT: this stub MUST NOT include <filesystem>, <fstream>, or
-// any I/O header. Runtime materialization is a future expansion; for
-// now the emitter is a pure function that describes what it would do
-// without doing anything.
+// ArtifactEmitter.cpp
 
 #include "ash/ArtifactEmitter.hpp"
 
@@ -21,27 +8,50 @@
 namespace ash {
 
 EmissionResult
-ArtifactEmitter::materialize_plan(const GenerationPlan& /*plan*/,
-                                  const TargetConfiguration& /*config*/) const {
+ArtifactEmitter::materialize_plan(const GenerationPlan& plan,
+                                  const TargetConfiguration& config) const {
+    if (plan.artifact_descriptions.empty() || plan.plan_hash.empty() ||
+        (!config.target_class.empty() && config.target_class != plan.target_class)) {
+        auto diagnostic =
+            DiagnosticEnvelopeBuilder{}
+                .kind(DiagnosticKind::EMISSION)
+                .severity(Severity::ERROR)
+                .stage(Stage::DETECTION)
+                .disposition(Disposition::BLOCKED)
+                .subject("ArtifactEmitter::materialize_plan")
+                .rule_id(rule_ids::kEmission002)
+                .summary("Incomplete or incompatible generation plan blocked")
+                .note("ArtifactEmitter requires a complete plan with at least "
+                      "one artifact description, a plan hash, and a compatible target class.")
+                .build_root();
+        return EmissionResult{{}, std::move(diagnostic)};
+    }
+
+    std::vector<Artifact> artifacts;
+    artifacts.reserve(plan.artifact_descriptions.size());
+    for (std::size_t i = 0; i < plan.artifact_descriptions.size(); ++i) {
+        artifacts.push_back(Artifact{
+            "artifact_descriptions[" + std::to_string(i) + "]",
+            "descriptor",
+            plan.artifact_descriptions[i],
+        });
+    }
+
     auto diagnostic =
         DiagnosticEnvelopeBuilder{}
-            .kind(DiagnosticKind::STATE_VALIDITY)
+            .kind(DiagnosticKind::EMISSION)
             .severity(Severity::INFO)
-            .stage(Stage::DETECTION)
-            .disposition(Disposition::PENDING)
+            .stage(Stage::RECOVERY)
+            .disposition(Disposition::RESOLVED)
             .subject("ArtifactEmitter::materialize_plan")
-            .rule_id(rule_ids::kWindowsStub001)
-            .summary("NOT_IMPLEMENTED on windows-cpp minimal conformance slice")
-            .note("ArtifactEmitter is a non-slice module on windows-cpp. "
-                  "The LOCKED materialization boundary is architecturally "
-                  "enforced: this signature takes only the plan and target "
-                  "config, with no reference to the planner. See "
-                  "specs/interfaces/semantic-contracts.md on main "
-                  "\u00a7 Materialization boundary (locked) and "
-                  "windows/conformance/materialization-boundary-plan.md.")
+            .rule_id(rule_ids::kEmission001)
+            .summary("Materialized every plan-described artifact descriptor")
+            .note("Each emitted artifact traces directly to one plan artifact "
+                  "description. The emitter did not call back into the planner "
+                  "or invent plan elements.")
             .build_root();
 
-    return EmissionResult{{}, std::move(diagnostic)};
+    return EmissionResult{std::move(artifacts), std::move(diagnostic)};
 }
 
 }  // namespace ash

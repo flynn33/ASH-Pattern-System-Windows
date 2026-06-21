@@ -1,6 +1,6 @@
 // ash/AxiomEvaluator.hpp
 //
-// AxiomEvaluator — canonical module (non-slice, stub on this branch).
+// AxiomEvaluator — canonical module.
 //
 // Canonical source of truth:
 //   specs/interfaces/contracts/axiom-evaluator-contract.md on main
@@ -22,9 +22,7 @@
 //   - MUST NOT suppress failure diagnostics
 //   - MUST NOT produce unexplained results
 //
-// Branch-local status: STUB. Returns a NOT_IMPLEMENTED diagnostic
-// with the branch-local ASH-WINDOWS-STUB-001 rule ID. See
-// windows/conformance/deviation-log.md item 6.
+// Uses the APS 1.0 tri-state result model: PASS, FAIL, INDETERMINATE.
 
 #pragma once
 
@@ -37,24 +35,44 @@
 
 namespace ash {
 
-// Placeholder axiom identifier. Shape will be defined when the
-// canonical axiom set is formalized on a target.
+enum class AxiomEvidence {
+    PRESENT_PASS,
+    PRESENT_FAIL,
+    MISSING,
+};
+
+enum class AxiomResultStatus {
+    PASS,
+    FAIL,
+    INDETERMINATE,
+};
+
 struct Axiom {
     std::string identifier;
+    AxiomEvidence evidence{AxiomEvidence::MISSING};
+    bool required{true};
+    std::string limitation;
+};
+
+struct AxiomEvaluationResult {
+    AxiomResultStatus status{AxiomResultStatus::INDETERMINATE};
+    std::shared_ptr<DiagnosticEnvelope> diagnostic;
+};
+
+struct AxiomBatchResult {
+    AxiomResultStatus overall_status{AxiomResultStatus::INDETERMINATE};
+    std::vector<AxiomEvaluationResult> results;
+    std::shared_ptr<DiagnosticEnvelope> diagnostic;
 };
 
 class AxiomEvaluator {
 public:
     AxiomEvaluator() = default;
 
-    // Stub on this branch. Returns a NOT_IMPLEMENTED diagnostic.
-    [[nodiscard]] std::shared_ptr<DiagnosticEnvelope>
+    [[nodiscard]] AxiomEvaluationResult
     evaluate_axiom(const Bit9State& state, const Axiom& axiom) const;
 
-    // Stub on this branch. Returns a single NOT_IMPLEMENTED diagnostic
-    // that covers the entire axiom list, rather than pretending to
-    // evaluate each axiom individually.
-    [[nodiscard]] std::vector<std::shared_ptr<DiagnosticEnvelope>>
+    [[nodiscard]] AxiomBatchResult
     evaluate_axioms(const Bit9State& state, const std::vector<Axiom>& axioms) const;
 };
 
