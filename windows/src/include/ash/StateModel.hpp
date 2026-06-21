@@ -15,21 +15,20 @@
 //   and recoverability classification.
 //
 // Preconditions (canonical):
-//   - Access to canonical codeword set C ⊂ F2^9
-//   - All 9 coordinates participate in state processing (no 8+1
-//     decomposition for canonical classification)
+//   - All 9 coordinates participate in state processing.
+//   - Operational health requires explicit context. The no-context
+//     classifier retained here is a default in-memory helper for the
+//     current semantic core tests, not a universal safety judgment.
 //
 // Postconditions and invariants (canonical):
-//   - Normalization is deterministic (INV-STATE-002)
-//   - Classification is total: every state maps to exactly one class
-//     (INV-ADMISSIBILITY-002)
-//   - No silent normalization; every normalize() produces a diagnostic
-//     (INV-STATE-003)
+//   - Structural normalization is deterministic and realm-preserving.
+//   - Every Bit9State is a well-formed realm.
+//   - Every normalize() produces a diagnostic.
 //   - All 9 bits participate equally in algebraic structure
 //
 // Prohibited behaviors (canonical):
 //   - MUST NOT decompose 9-bit state into 8-bit core + derived 9th bit
-//   - MUST NOT silently treat transformation-incompatible state as valid
+//   - MUST NOT change realm identity during structural normalization.
 
 #pragma once
 
@@ -41,12 +40,9 @@
 
 namespace ash {
 
-// Four-way canonical admissibility enum — specs/core/state-admissibility.pseudo.md
 enum class AdmissibilityStatus {
-    VALID,                        // structurally valid, in C
-    TRANSFORMATION_COMPATIBLE,    // in same orbit as a VALID state
-    TRANSFORMATION_INCOMPATIBLE,  // codeword set not fully specified OR outside all orbits
-    UNCLASSIFIED,                 // malformed input
+    WELL_FORMED,
+    MALFORMED,
 };
 
 // Seven-class canonical system-state enum — specs/core/system-state-classification.pseudo.md
@@ -63,11 +59,11 @@ enum class SystemStateClass {
 // Seven-category canonical recovery enum — specs/core/recoverability-semantics.pseudo.md
 enum class RecoveryCategory {
     NO_ACTION,
-    NORMALIZE_STATE,
+    TARGET_RESOLUTION_REQUIRED,
     APPLY_CORRECTION,
     FALLBACK_REQUIRED,
-    CONTAINMENT_REQUIRED,
-    ESCALATION_REQUIRED,
+    CONTAINMENT_ACTIVE,
+    EXTERNAL_ESCALATION_REQUIRED,
     TERMINAL_NO_RECOVERY,
 };
 
@@ -82,8 +78,7 @@ class StateModel {
 public:
     StateModel() = default;
 
-    // Classify the admissibility of a 9-bit state. Linear scan over
-    // the canonical codeword set. Deterministic and total.
+    // Classify structural input status. Bit9State is always well formed.
     [[nodiscard]] AdmissibilityStatus classify_admissibility(const Bit9State& s) const noexcept;
 
     // Classify the system-state class of a 9-bit state. Composes
@@ -95,11 +90,8 @@ public:
     [[nodiscard]] RecoveryCategory classify_recoverability(SystemStateClass cls) const noexcept;
 
     // Normalize a candidate state. Always produces a diagnostic.
-    // Conservative implementation on this branch: for VALID states,
-    // returns the input unchanged with a RESOLVED diagnostic. For
-    // TRANSFORMATION_COMPATIBLE states, returns the input unchanged
-    // with a PENDING diagnostic pointing at the future normalization
-    // path algorithm (see deviation-log.md item 5).
+    // Structural normalization returns the input unchanged with a
+    // RESOLVED diagnostic for every well-formed Bit9State.
     [[nodiscard]] NormalizeResult normalize(const Bit9State& candidate) const;
 };
 

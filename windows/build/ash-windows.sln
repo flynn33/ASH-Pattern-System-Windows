@@ -24,6 +24,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ash-test-recoveryengine", "
 		{A5E1C0A0-1111-4B11-9A11-0000AA000001} = {A5E1C0A0-1111-4B11-9A11-0000AA000001}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ash-test-completionmodules", "ash-test-completionmodules.vcxproj", "{A5E1C0A0-1111-4B11-9A11-0000AA000014}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A5E1C0A0-1111-4B11-9A11-0000AA000001} = {A5E1C0A0-1111-4B11-9A11-0000AA000001}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -72,6 +77,14 @@ Global
 		{A5E1C0A0-1111-4B11-9A11-0000AA000013}.Release|x64.Build.0 = Release|x64
 		{A5E1C0A0-1111-4B11-9A11-0000AA000013}.Release|ARM64.ActiveCfg = Release|ARM64
 		{A5E1C0A0-1111-4B11-9A11-0000AA000013}.Release|ARM64.Build.0 = Release|ARM64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Debug|x64.ActiveCfg = Debug|x64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Debug|x64.Build.0 = Debug|x64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Debug|ARM64.Build.0 = Debug|ARM64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Release|x64.ActiveCfg = Release|x64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Release|x64.Build.0 = Release|x64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Release|ARM64.ActiveCfg = Release|ARM64
+		{A5E1C0A0-1111-4B11-9A11-0000AA000014}.Release|ARM64.Build.0 = Release|ARM64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

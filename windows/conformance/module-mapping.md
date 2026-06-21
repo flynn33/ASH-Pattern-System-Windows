@@ -1,47 +1,42 @@
-# Module Mapping — windows-cpp
+# Module Mapping — APS Windows
 
-This document maps each of the 9 canonical ASH Pattern System semantic modules to its concrete file location on the `windows-cpp` branch. This is the first of the six downstream conformance deliverables required by `handoff-templates/common-downstream-handoff-requirements.md` on main.
+This document maps the nine APS semantic modules to their Windows C++ source files and test coverage. The canonical APS main line remains the semantic authority; this platform repository implements those semantics for the Windows native target.
 
-## Authority boundary
+## Mapping Table
 
-The canonical agnostic main repository is the semantic authority for the ASH Pattern System. This document is a literal mapping — it names files; it does not add interpretation. Where any discrepancy exists between this document and the canonical contracts on main, the canonical contracts win. See `windows/CANONICAL-DEFERENCE.md`.
+| # | Canonical module | Windows header | Windows implementation | Primary tests | Status |
+|---|---|---|---|---|---|
+| 1 | `StateModel` | `windows/src/include/ash/StateModel.hpp` | `windows/src/StateModel.cpp` | `windows/tests/StateModel.test.cpp` | Implemented |
+| 2 | `RecoveryEngine` | `windows/src/include/ash/RecoveryEngine.hpp` | `windows/src/RecoveryEngine.cpp` | `windows/tests/RecoveryEngine.test.cpp` | Implemented |
+| 3 | `TransitionRegistry` | `windows/src/include/ash/TransitionRegistry.hpp` | `windows/src/TransitionRegistry.cpp` | `windows/tests/TransitionRegistry.test.cpp` | Implemented |
+| 4 | `Diagnostics` | `windows/src/include/ash/Diagnostics.hpp` | `windows/src/Diagnostics.cpp` | `windows/tests/Diagnostics.test.cpp` | Implemented |
+| 5 | `RealmEncoder` | `windows/src/include/ash/RealmEncoder.hpp` | `windows/src/RealmEncoder.cpp` | `windows/tests/CompletionModules.test.cpp` | Implemented with realm and orbit IDs |
+| 6 | `TopologyGenerator` | `windows/src/include/ash/TopologyGenerator.hpp` | `windows/src/TopologyGenerator.cpp` | `windows/tests/CompletionModules.test.cpp` | Implemented |
+| 7 | `AxiomEvaluator` | `windows/src/include/ash/AxiomEvaluator.hpp` | `windows/src/AxiomEvaluator.cpp` | `windows/tests/CompletionModules.test.cpp` | Implemented |
+| 8 | `GenerationPlanner` | `windows/src/include/ash/GenerationPlanner.hpp` | `windows/src/GenerationPlanner.cpp` | `windows/tests/CompletionModules.test.cpp` | Implemented |
+| 9 | `ArtifactEmitter` | `windows/src/include/ash/ArtifactEmitter.hpp` | `windows/src/ArtifactEmitter.cpp` | `windows/tests/CompletionModules.test.cpp` | Implemented |
 
-## Mapping table
+## Shared Types
 
-| # | Canonical module | Canonical contract on `main` | Windows header | Windows implementation | Slice? | Status |
-|---|---|---|---|---|---|---|
-| 1 | `StateModel` | `specs/interfaces/contracts/state-model-contract.md` | `windows/src/include/ash/StateModel.hpp` | `windows/src/StateModel.cpp` | ✓ | Implemented |
-| 2 | `RecoveryEngine` | `specs/interfaces/contracts/recovery-engine-contract.md` | `windows/src/include/ash/RecoveryEngine.hpp` | `windows/src/RecoveryEngine.cpp` | ✓ | Implemented |
-| 3 | `TransitionRegistry` | `specs/interfaces/contracts/transition-registry-contract.md` | `windows/src/include/ash/TransitionRegistry.hpp` | `windows/src/TransitionRegistry.cpp` | ✓ | Implemented |
-| 4 | `Diagnostics` | `specs/interfaces/contracts/diagnostics-module-contract.md` | `windows/src/include/ash/Diagnostics.hpp` | `windows/src/Diagnostics.cpp` | ✓ | Implemented |
-| 5 | `RealmEncoder` | `specs/interfaces/contracts/realm-encoder-contract.md` | `windows/src/include/ash/RealmEncoder.hpp` | `windows/src/RealmEncoder.cpp` |   | Stub (NOT_IMPLEMENTED) |
-| 6 | `TopologyGenerator` | `specs/interfaces/contracts/topology-generator-contract.md` | `windows/src/include/ash/TopologyGenerator.hpp` | `windows/src/TopologyGenerator.cpp` |   | Stub (NOT_IMPLEMENTED) |
-| 7 | `AxiomEvaluator` | `specs/interfaces/contracts/axiom-evaluator-contract.md` | `windows/src/include/ash/AxiomEvaluator.hpp` | `windows/src/AxiomEvaluator.cpp` |   | Stub (NOT_IMPLEMENTED) |
-| 8 | `GenerationPlanner` | `specs/interfaces/contracts/generation-planner-contract.md` | `windows/src/include/ash/GenerationPlanner.hpp` | `windows/src/GenerationPlanner.cpp` |   | Stub (NOT_IMPLEMENTED) |
-| 9 | `ArtifactEmitter` | `specs/interfaces/contracts/artifact-emitter-contract.md` | `windows/src/include/ash/ArtifactEmitter.hpp` | `windows/src/ArtifactEmitter.cpp` |   | Stub (NOT_IMPLEMENTED) |
-
-## Shared types and cross-cutting files
-
-| Purpose | File on this branch |
+| Purpose | File |
 |---|---|
-| 9-bit state type (`Bit9State`) and coordinate accessors | `windows/src/include/ash/State.hpp` |
-| Canonical 16-codeword set and generators | `windows/src/include/ash/Codeword.hpp` + `windows/src/Codeword.cpp` |
-| `DiagnosticEnvelope` schema and builder | `windows/src/include/ash/DiagnosticEnvelope.hpp` + `windows/src/DiagnosticEnvelope.cpp` |
-| Rule-ID constants (taxonomy-compliant) | `windows/src/include/ash/RuleIds.hpp` |
+| 9-bit state type, canonical integer encoding, signatures, realm IDs | `windows/src/include/ash/State.hpp` |
+| Canonical 16-codeword set and generators | `windows/src/include/ash/Codeword.hpp`, `windows/src/Codeword.cpp` |
+| Diagnostic envelope schema and builder | `windows/src/include/ash/DiagnosticEnvelope.hpp`, `windows/src/DiagnosticEnvelope.cpp` |
+| Rule-ID constants | `windows/src/include/ash/RuleIds.hpp` |
 
-## Slice modules — functional
+## Implementation Notes
 
-The four minimal conformance slice modules (`StateModel`, `RecoveryEngine`, `TransitionRegistry`, `Diagnostics`) have working C++ implementations. They share the shared types above and compose without cycles: `StateModel` is foundational, `TransitionRegistry` provides XOR-by-codeword, `Diagnostics` is a cross-cutting validator, and `RecoveryEngine` composes all three. Each slice module has a dedicated test executable under `windows/tests/` that covers its canonical invariants.
+The Windows core is a native C++ static library. The semantic core remains independent of UI, packaging, signing, and deployment concerns. The planner/emitter boundary is preserved: `GenerationPlanner` returns an inspectable in-memory plan and deterministic hash; `ArtifactEmitter` consumes only that plan plus target configuration and traces each emitted descriptor to a plan element.
 
-## Non-slice modules — stubs
+## Test Coverage
 
-The five non-slice modules (`RealmEncoder`, `TopologyGenerator`, `AxiomEvaluator`, `GenerationPlanner`, `ArtifactEmitter`) ship on this branch as:
+The solution now builds five test executables:
 
-- A header file (`.hpp`) containing the full interface declaration with doxygen-style contract comments that quote the canonical contract from main.
-- A `.cpp` stub whose every method returns a well-formed `NOT_IMPLEMENTED` `DiagnosticEnvelope`. The envelope carries the branch-local `ASH-WINDOWS-STUB-001` rule ID (documented in `deviation-log.md` item 4).
+- `ash-test-statemodel`
+- `ash-test-transitionregistry`
+- `ash-test-diagnostics`
+- `ash-test-recoveryengine`
+- `ash-test-completionmodules`
 
-`GenerationPlanner.hpp` and `ArtifactEmitter.hpp` carry a boxed LOCKED MATERIALIZATION BOUNDARY comment quoting `specs/interfaces/semantic-contracts.md` on main. Architectural enforcement of the boundary is at the header signature level: `GenerationPlanner::generate_plan` accepts no side-effecting inputs; `ArtifactEmitter::materialize_plan` takes only the plan and target configuration, with no reference to the planner. See `materialization-boundary-plan.md`.
-
-## Expansion path
-
-The non-slice module stubs are structured so that implementation work in future passes fills in `.cpp` bodies without changing headers. Each stub's method signature is already final per the canonical contract; only the behavior is deferred.
+`windows/tests/run_all.ps1` runs all five after a successful MSBuild build. Local non-Windows syntax and behavior checks can compile the same test files with a C++20 compiler, but the release gate remains MSVC/MSBuild on Windows.

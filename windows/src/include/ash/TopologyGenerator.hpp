@@ -1,6 +1,6 @@
 // ash/TopologyGenerator.hpp
 //
-// TopologyGenerator — canonical module (non-slice, stub on this branch).
+// TopologyGenerator — canonical module.
 //
 // Canonical source of truth:
 //   specs/interfaces/contracts/topology-generator-contract.md on main
@@ -24,17 +24,13 @@
 //   - MUST NOT allow ordering to depend on platform-specific behavior
 //   - MUST NOT silently skip invalid conditions
 //
-// Branch-local status: STUB. Detailed branching and expansion
-// algorithms are pending in the canonical R2 realignment
-// (see specs/algorithms/branching-semantics.pseudo.md) and are not
-// yet prescribed at the level needed for a faithful implementation.
-// generate_topology() returns a NOT_IMPLEMENTED diagnostic with the
-// branch-local ASH-WINDOWS-STUB-001 rule ID.
-// See windows/conformance/deviation-log.md item 6.
+// Implements the APS 1.0 ordered ternary structural topology:
+// root path R, child tokens C/P/N, and deterministic path-based IDs.
 
 #pragma once
 
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "DiagnosticEnvelope.hpp"
@@ -42,11 +38,19 @@
 
 namespace ash {
 
-// Placeholder topology structure. Shape will be defined when the
-// canonical branching/topology algorithms are formalized.
+struct TopologyNode {
+    std::string path;
+    std::string node_id;
+    std::size_t depth{0};
+    std::size_t generation_ordinal{0};
+    std::size_t global_ordinal{0};
+    std::size_t parent_index{0};
+    bool has_parent{false};
+};
+
 struct TopologyStructure {
-    std::vector<Bit9State> nodes;  // empty on this branch
-    std::vector<std::pair<std::size_t, std::size_t>> edges;  // empty on this branch
+    std::vector<TopologyNode> nodes;
+    std::vector<std::size_t> leaf_indices;
 };
 
 struct TopologyResult {
@@ -56,11 +60,12 @@ struct TopologyResult {
 
 class TopologyGenerator {
 public:
+    static constexpr std::size_t kDefaultMaxDepth = 6;
+
     TopologyGenerator() = default;
 
-    // Stub on this branch. Returns an empty topology and a
-    // NOT_IMPLEMENTED diagnostic.
-    [[nodiscard]] TopologyResult generate_topology(const Bit9State& state) const;
+    [[nodiscard]] TopologyResult generate_topology(const Bit9State& state,
+                                                   std::size_t requested_depth = 0) const;
 };
 
 }  // namespace ash

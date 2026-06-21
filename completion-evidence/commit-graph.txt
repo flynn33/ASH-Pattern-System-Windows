@@ -1,0 +1,32 @@
+Repository: https://github.com/flynn33/ASH-Pattern-System-Windows.git
+Audit date: 2026-06-21
+
+Relevant ancestry:
+cc253f3 upstream/main Merge pull request #12 from flynn33/fix/release-evidence-main-alignment
+51f48e5 Refresh release evidence
+639e0cf Add canonical conformance evidence
+b832f6e release/aps-windows-1.0.0-completion-clean, origin/main, main Add attribution guard
+2dff3c8 Remove canonical-only checks
+74df3d0 Merge pull request #11 from flynn33/fix/product-manifest-release-readiness
+47d90a6 Validate release manifest alignment
+4be0df8 Merge pull request #10 from flynn33/release/aps-1.0.0-release-corrections
+e620c12 Refresh release candidate artifacts
+09d07b5 Strengthen product release validation
+4ff9f40 Merge pull request #9 from flynn33/governance/gate-product-math-note-allowance
+fe10a8c Allow product math-change note additions
+0f5488d Merge APS 1.0 release candidate
+44a2898 upstream/release/aps-1.0.0-completion-clean Complete APS 1.0 release candidate
+e123f5d Make ASH Pattern System self-contained
+1ac5c7f Rebuild repository under ASH Model source math
+a1ead20 Remove legacy materials and align specs to ASH Model
+66668d3 Add Windows branch conformance deliverables
+941cf49 Implement first Windows conformance subset (StateModel, TransitionRegistry, Diagnostics, RecoveryEngine)
+c1ab778 Add ASH module headers and module declarations
+b5ef463 Add Windows branch scaffold and workflow scope
+6310479 Close out main repository as canonical agnostic baseline
+3d59795 Initial commit: ASH Pattern System foundation
+
+Notes:
+- Merge base between selected Windows base and upstream/main: 631047989227fbf938d45ed73c5287f292591904.
+- Later upstream canonical commits add canonical data, corpus, release evidence, and governance updates.
+- A direct merge from upstream/main would remove the Windows implementation tree, so the Windows branch must preserve platform history and synchronize semantics intentionally.

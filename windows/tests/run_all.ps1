@@ -1,6 +1,6 @@
 # run_all.ps1
 #
-# Runs all four slice-module test executables and aggregates exit
+# Runs all Windows module test executables and aggregates exit
 # codes. Intended to be invoked after a successful build via:
 #
 #   .\build\build.ps1 -Test
@@ -33,7 +33,8 @@ $tests = @(
     'ash-test-statemodel.exe',
     'ash-test-transitionregistry.exe',
     'ash-test-diagnostics.exe',
-    'ash-test-recoveryengine.exe'
+    'ash-test-recoveryengine.exe',
+    'ash-test-completionmodules.exe'
 )
 
 $totalFailures = 0

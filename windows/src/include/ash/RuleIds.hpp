@@ -1,6 +1,6 @@
 // ash/RuleIds.hpp
 //
-// Canonical rule IDs used by the Windows branch slice modules.
+// Canonical rule IDs used by the Windows branch semantic core modules.
 //
 // Canonical source of truth:
 //   specs/interfaces/rule-id-taxonomy.md on main
@@ -10,9 +10,7 @@
 // pattern {FAMILY}-{CATEGORY}-{NUMBER}. The comment on each constant
 // cites the canonical invariant or rule it reflects.
 //
-// Branch-local extension: ASH-WINDOWS-STUB-NNN is a branch-local
-// family used by non-slice module stubs that currently return
-// NOT_IMPLEMENTED diagnostics. See windows/conformance/deviation-log.md.
+// Rule constants used by the Windows semantic core.
 
 #pragma once
 
@@ -55,6 +53,34 @@ inline constexpr std::string_view kTrans001 = "ASH-TRANS-001";
 inline constexpr std::string_view kTrans002 = "ASH-TRANS-002";
 // INV-TRANS-002: "Transitions operate on full 9-bit states via XOR."
 
+// ASH-REALM family — realm identity and canonical encoding
+inline constexpr std::string_view kRealm001 = "ASH-REALM-001";
+// Canonical realm ID, index, and signature encoding.
+
+// ASH-TOPOLOGY family — deterministic structural topology
+inline constexpr std::string_view kTopology001 = "ASH-TOPOLOGY-001";
+// Ordered ternary topology generation.
+inline constexpr std::string_view kTopology002 = "ASH-TOPOLOGY-002";
+// Resource limit rejection before partial output.
+
+// ASH-AXIOM family — evidence-based axiom evaluation
+inline constexpr std::string_view kAxiom001 = "ASH-AXIOM-001";
+// PASS/FAIL/INDETERMINATE result model.
+inline constexpr std::string_view kAxiom002 = "ASH-AXIOM-002";
+// Missing evidence remains indeterminate.
+
+// ASH-GENERATION family — side-effect-free planning
+inline constexpr std::string_view kGeneration001 = "ASH-GENERATION-001";
+// Generation plan is inspectable and self-contained.
+inline constexpr std::string_view kGeneration002 = "ASH-GENERATION-002";
+// Deterministic plan hash.
+
+// ASH-EMISSION family — plan-bound materialization
+inline constexpr std::string_view kEmission001 = "ASH-EMISSION-001";
+// Every artifact traces to a plan element.
+inline constexpr std::string_view kEmission002 = "ASH-EMISSION-002";
+// Incomplete plan is blocked.
+
 // ASH-RECOVERY family — recovery semantics
 inline constexpr std::string_view kRecovery001 = "ASH-RECOVERY-001";
 // INV-RECOVERY-001: "Recovery classification is deterministic."
@@ -88,13 +114,5 @@ inline constexpr std::string_view kDiag003 = "ASH-DIAG-003";
 // INV-DIAG-003: "Chain is complete; references intact."
 inline constexpr std::string_view kDiag004 = "ASH-DIAG-004";
 // INV-DIAG-004: "No silent omission."
-
-// Branch-local stub family — see windows/conformance/deviation-log.md.
-// Used by the five non-slice module stubs (RealmEncoder,
-// TopologyGenerator, AxiomEvaluator, GenerationPlanner, ArtifactEmitter)
-// to emit NOT_IMPLEMENTED diagnostics while maintaining schema
-// conformance until those modules receive real implementations.
-inline constexpr std::string_view kWindowsStub001 = "ASH-WINDOWS-STUB-001";
-// Non-slice module not implemented on this branch.
 
 }  // namespace ash::rule_ids

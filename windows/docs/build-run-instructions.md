@@ -23,9 +23,9 @@ cd windows\build
 The `build.ps1` script:
 
 1. Locates `msbuild.exe` via `vswhere.exe` (which ships with Visual Studio).
-2. Restores any build artifacts from a previous run.
+2. Invokes the configured build or clean target.
 3. Invokes MSBuild on `ash-windows.sln` with `/p:Configuration=Debug /p:Platform=x64` by default.
-4. On success, prints the paths to `ash_core.lib` and the four test executables.
+4. On success, prints the output directory containing `ash_core.lib` and the test executables.
 
 ### Build options
 
@@ -44,7 +44,7 @@ cd windows\tests
 .\run_all.ps1
 ```
 
-The `run_all.ps1` script runs all four slice-module test executables in order, prints `[PASS]` or `[FAIL]` per test case, and exits with the total failure count. A zero exit code means all tests passed.
+The `run_all.ps1` script runs all five test executables in order, prints `[PASS]` or `[FAIL]` per test case, and exits with the total failure count. A zero exit code means all tests passed.
 
 The test executables can also be run individually from `windows\build\bin\x64-Debug\`:
 
@@ -53,6 +53,7 @@ The test executables can also be run individually from `windows\build\bin\x64-De
 .\ash-test-transitionregistry.exe
 .\ash-test-diagnostics.exe
 .\ash-test-recoveryengine.exe
+.\ash-test-completionmodules.exe
 ```
 
 Each test executable exits with the number of failed test cases (0 if all pass).
@@ -63,7 +64,7 @@ Each test executable exits with the number of failed test cases (0 if all pass).
 
 **`cl.exe` cannot find standard headers.** The build is configured to use the Visual Studio toolchain's own include paths via the `.vcxproj` files, not the environment. If MSBuild reports missing headers, verify the Windows SDK is installed (Visual Studio Installer → Individual components → Windows 11 SDK).
 
-**Test failures.** All slice-module tests are deterministic and should pass on any supported Windows host. A failing test usually means a build artifact from a previous configuration is stale — run `.\build.ps1 -Configuration Debug -Clean` and retry.
+**Test failures.** All module tests are deterministic and should pass on any supported Windows host. A failing test may mean a build artifact from a previous configuration is stale — run `.\build.ps1 -Configuration Debug -Clean` and retry before investigating source changes.
 
 ## What is *not* required
 

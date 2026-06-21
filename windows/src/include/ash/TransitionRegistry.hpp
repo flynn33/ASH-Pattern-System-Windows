@@ -62,8 +62,8 @@ public:
 
     // Apply a canonical transformation x' = x ⊕ c on the full 9-bit
     // state. If `codeword` is not a member of the canonical set, the
-    // result still computes x ⊕ c (a pure bitwise operation), but the
-    // diagnostic is ERROR severity and cites ASH-CODEWORD-004.
+    // input state is returned unchanged with ERROR severity and
+    // ASH-CODEWORD-004.
     [[nodiscard]] TransitionResult apply_transition(const Bit9State& state,
                                                     const Codeword& codeword) const;
 };
