@@ -1,0 +1,39 @@
+{
+  "repository_url": "https://github.com/flynn33/ASH-Pattern-System-Windows.git",
+  "canonical_remote": "https://github.com/flynn33/ASH-Pattern-System.git",
+  "canonical_main_head": "cc253f3d137a27f0eeb471bed62bbdb939e3b6d1",
+  "canonical_release_tag": null,
+  "selected_platform_branch_ref": "origin/main",
+  "selected_platform_branch_head": "b832f6e9b76a8c08038ba9dfdaf76f64691405e5",
+  "merge_base": "631047989227fbf938d45ed73c5287f292591904",
+  "candidate_branches_considered": [
+    {
+      "ref": "origin/main",
+      "head": "b832f6e9b76a8c08038ba9dfdaf76f64691405e5",
+      "disposition": "selected",
+      "reason": "Contains the preserved Windows implementation tree, native Visual Studio build metadata, C++ source, PowerShell build script, tests, and Windows conformance documentation."
+    },
+    {
+      "ref": "upstream/main",
+      "head": "cc253f3d137a27f0eeb471bed62bbdb939e3b6d1",
+      "disposition": "canonical_reference_only",
+      "reason": "Contains the current canonical product baseline but not the Windows implementation tree."
+    },
+    {
+      "ref": "upstream/release/aps-1.0.0-completion-clean",
+      "head": "44a28980639e79bd68161422ce53c50e0791356f",
+      "disposition": "canonical_reference_only",
+      "reason": "Contains canonical release-candidate work but not the current Windows implementation tree."
+    },
+    {
+      "ref": "upstream/release/aps-1.0.0-release-corrections",
+      "head": "e620c1207b3cd05307371e5d25a89b4bd472ec33",
+      "disposition": "canonical_reference_only",
+      "reason": "Contains canonical release-correction work but not the current Windows implementation tree."
+    }
+  ],
+  "selection_reason": "origin/main is the only current ref containing the Windows platform implementation history and native build/test structure. The canonical upstream refs are authoritative for APS semantics but are not a replacement for the Windows platform branch.",
+  "branch_history_complete_or_shallow": "complete",
+  "is_shallow_repository": false,
+  "completion_branch": "release/aps-windows-1.0.0-completion-clean"
+}
