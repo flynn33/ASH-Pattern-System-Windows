@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Packaging and Signing Baseline
 
 Date: 2026-06-21
@@ -21,3 +22,4 @@ Date: 2026-06-21
 5. Verify signatures.
 6. Perform clean install, exercise, upgrade, and uninstall checks.
 7. Create checksums, SBOM, release manifest, and release-readiness evidence.
+

@@ -1,0 +1,104 @@
+{
+  "name": "ASH Pattern System Windows",
+  "version": "1.0.0",
+  "platform": "x64",
+  "type": "SDK",
+  "description": "Native C++ semantic core library for APS pattern matching",
+  "dependencies": [],
+  "files": [
+    {
+      "name": "ArtifactEmitter.hpp",
+      "path": "ArtifactEmitter.hpp",
+      "type": "other"
+    },
+    {
+      "name": "ash-core.lib",
+      "path": "ash-core.lib",
+      "type": "library"
+    },
+    {
+      "name": "AxiomEvaluator.hpp",
+      "path": "AxiomEvaluator.hpp",
+      "type": "other"
+    },
+    {
+      "name": "Codeword.hpp",
+      "path": "Codeword.hpp",
+      "type": "other"
+    },
+    {
+      "name": "DiagnosticEnvelope.hpp",
+      "path": "DiagnosticEnvelope.hpp",
+      "type": "other"
+    },
+    {
+      "name": "Diagnostics.hpp",
+      "path": "Diagnostics.hpp",
+      "type": "other"
+    },
+    {
+      "name": "GenerationPlanner.hpp",
+      "path": "GenerationPlanner.hpp",
+      "type": "other"
+    },
+    {
+      "name": "README.md",
+      "path": "README.md",
+      "type": "other"
+    },
+    {
+      "name": "RealmEncoder.hpp",
+      "path": "RealmEncoder.hpp",
+      "type": "other"
+    },
+    {
+      "name": "RecoveryEngine.hpp",
+      "path": "RecoveryEngine.hpp",
+      "type": "other"
+    },
+    {
+      "name": "RuleIds.hpp",
+      "path": "RuleIds.hpp",
+      "type": "other"
+    },
+    {
+      "name": "State.hpp",
+      "path": "State.hpp",
+      "type": "other"
+    },
+    {
+      "name": "StateModel.hpp",
+      "path": "StateModel.hpp",
+      "type": "other"
+    },
+    {
+      "name": "TopologyGenerator.hpp",
+      "path": "TopologyGenerator.hpp",
+      "type": "other"
+    },
+    {
+      "name": "TransitionRegistry.hpp",
+      "path": "TransitionRegistry.hpp",
+      "type": "other"
+    }
+  ],
+  "checksums": {
+    "ArtifactEmitter.hpp": "4c23be0b139a6a27f4023bb08776cc9bc18067a315d4170f73e05eda93ce0773",
+    "ash-core.lib": "45b9883c3de69f32e7b33772899bc88e872315d970ed584c85813638ed23c16b",
+    "AxiomEvaluator.hpp": "57f91f680970042b6864932e370db671e01aeffefcb3e795aebbb6d34a438b40",
+    "Codeword.hpp": "7884edf3910fffcdd8b310ce329cc47f7c9a695c6842fa6eebdbfd331a34ccb2",
+    "DiagnosticEnvelope.hpp": "017c757e3013321e441b59e2c17c1e89f2d0e6b7c526071958d6def552d2023a",
+    "Diagnostics.hpp": "900562382aa568df59f9f22a4a56fb267d07169d66aed7876cad7de19f967729",
+    "GenerationPlanner.hpp": "ebf76f229cc99c0fdfbcb52de23a2a805a2d8ec04715f61e4bbb8c4fb7b2963c",
+    "README.md": "7ec1f301bb125aa8f50a3ff55bc737bdd8f0c9f7f8435e6261d122a611cc94b0",
+    "RealmEncoder.hpp": "ca71e3235cda7d7e81ed4d845ac0e260310bf4f4fa3d3d2dc5d2cc37598c46c6",
+    "RecoveryEngine.hpp": "ff5e24f1a5e3db07b41e0390edf7837eff8a12921c1d0930f871b8dc512feecb",
+    "RuleIds.hpp": "3ea7f31b682d1f0d93463ca7c2c7a87b56c133fd175cd4c8d02eaf9299928e49",
+    "State.hpp": "b91c6d58ab1d0a83f9c979aa56231c9e8376b1b0bfdce84f562f7e514912316d",
+    "StateModel.hpp": "abb67db62334111bf86f7c6267f6bff10925d0798ed2aefef85e744744e76d89",
+    "TopologyGenerator.hpp": "c42b4be0ee9d69acbdec6222f0c0dbaa611557d3d2d77fdbcd67c6741d53c2a7",
+    "TransitionRegistry.hpp": "344ff62a2aa4e894753169aef5f6aa3584691bcd830cdfe49f70aa13171e5290"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "buildDate": "The system cannot accept the date entered.\nEnter the new date: (mm-dd-yy)"
+}

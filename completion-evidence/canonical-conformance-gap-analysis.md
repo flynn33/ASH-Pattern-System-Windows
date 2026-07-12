@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Canonical Conformance Gap Analysis
 
 Date: 2026-06-21
@@ -22,3 +23,4 @@ Date: 2026-06-21
 | APSWIN-GAP-002 | Blocker | Local tests cover all 512 realm identities and all 8,192 state/codeword pairs, but the full upstream JSON/vector corpus is not wired to Windows build/test commands. | Add and run corpus verification covering every upstream canonical vector category. |
 | APSWIN-GAP-003 | Blocker | Native Windows build, package, signing, and clean-install evidence is absent. | Run the Visual Studio/MSBuild matrix and release packaging on a Windows build host. |
 | APSWIN-GAP-004 | Blocker | Production UI/accessibility scope is not represented in this branch. | Either implement the product UI/accessibility surface or record an owner-approved scope decision that the Windows repo is a native core package. |
+

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Migration Report
 
 Date: 2026-06-21
@@ -21,3 +22,4 @@ Before release, the Windows product needs:
 ## Judgment
 
 `NOT_SHIPPABLE`
+

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Final Acceptance Report
 
 Date: 2026-06-21
@@ -48,3 +49,4 @@ Date: 2026-06-21
 ## Evidence Limitation
 
 The package protected-surface baseline was written and verified at `/tmp/aps-windows-protected-surface-baseline.json`. A repository-local copy was not added because that baseline records protected governance path names that are not appropriate for new product artifacts.
+

@@ -12,6 +12,7 @@ This log records known Windows-platform limitations relative to the final produc
 
 **Resolution:** Add a typed Windows fallback policy instance model and tests for declared known-good and last-verified-stable candidates. That work must preserve the rule that cross-orbit replacement is fallback, not a codeword transition.
 
+<<<<<<< HEAD
 ## D-002 — No Production UI or Signed Installer in This Local Iteration
 
 **What:** The current repository state provides a native C++ semantic core and tests, not a WinUI 3 product UI or signed MSIX installer.
@@ -22,6 +23,7 @@ This log records known Windows-platform limitations relative to the final produc
 
 **Resolution:** Complete these on a Windows build host with Visual Studio/MSBuild, Windows App SDK, production signing credentials, and clean supported Windows validation targets. Do not mark the release shippable until those gates pass.
 
+<<<<<<< HEAD
 ## D-003 — Operational Context Model Is Incomplete
 
 **What:** The semantic core distinguishes structural operations from recovery/fallback/halt diagnostics, but it does not yet expose a complete versioned `OperationalContext` schema in C++.
@@ -31,3 +33,5 @@ This log records known Windows-platform limitations relative to the final produc
 **Scope:** `StateModel`, `RecoveryEngine`, data/configuration, migration, and product workflow evidence.
 
 **Resolution:** Add the typed context model, validation, persistence rules, negative tests, and migration evidence before any final release judgment.
+<<<<<<< HEAD
+

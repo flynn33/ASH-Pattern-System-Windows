@@ -79,6 +79,7 @@ inline std::string canonical_realm_id(const Bit9State& s) {
 }
 
 // Coordinate accessors. Named bN() for clarity in unit tests.
+<<<<<<< HEAD
 inline constexpr bool b0(const Bit9State& s) noexcept { return s.test(0); }
 inline constexpr bool b1(const Bit9State& s) noexcept { return s.test(1); }
 inline constexpr bool b2(const Bit9State& s) noexcept { return s.test(2); }
@@ -90,3 +91,4 @@ inline constexpr bool b7(const Bit9State& s) noexcept { return s.test(7); }
 inline constexpr bool b8(const Bit9State& s) noexcept { return s.test(8); }
 
 }  // namespace ash
+

@@ -22,6 +22,7 @@ This repository does not currently provide:
 - a completed clean-install validation matrix;
 - final owner-controlled release approval.
 
+<<<<<<< HEAD
 The current acceptance judgment is `NOT_SHIPPABLE`. See [windows/conformance/acceptance-judgment.md](windows/conformance/acceptance-judgment.md).
 
 ## Platform Scope
@@ -50,6 +51,7 @@ The Windows semantic core implements these APS modules:
 
 See [windows/conformance/module-mapping.md](windows/conformance/module-mapping.md) for module-to-file mapping and test coverage.
 
+<<<<<<< HEAD
 ## Repository Map
 
 ```text
@@ -91,6 +93,7 @@ cd windows\build
 
 See [windows/docs/build-run-instructions.md](windows/docs/build-run-instructions.md).
 
+<<<<<<< HEAD
 ## Release Status
 
 The semantic core is implemented, but the Windows product is not release-ready until the remaining gates are complete:
@@ -104,3 +107,4 @@ The semantic core is implemented, but the Windows product is not release-ready u
 - final owner-controlled release approval.
 
 Release evidence is tracked under [completion-evidence/](completion-evidence/).
+

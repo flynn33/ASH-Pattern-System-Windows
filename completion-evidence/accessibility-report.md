@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Accessibility Report
 
 Date: 2026-06-21
@@ -20,3 +21,4 @@ Before release, a Windows product UI or owner-approved core-only scope decision 
 ## Judgment
 
 `NOT_SHIPPABLE`
+

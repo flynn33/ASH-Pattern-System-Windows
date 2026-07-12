@@ -1,0 +1,7 @@
+# SHA256 Checksums - x64-Release
+
+98eae4d26bc1b085a6fdd6a9e0bcb257f19213ff4ac4eae7e844d7e55c079b55  ash-test-completionmodules.exe
+edb314fde36dd554a4d3baf8641be86308223e761a8f7f3b921a89dce9a7701f  ash-test-diagnostics.exe
+f683890264e875f2445d522267b82fdb88f24c79d360625d726b5b1b6efd5a6e  ash-test-recoveryengine.exe
+11095e6983fc500051b56a19aa0d72c2f39e411bfb293f5447bfbe5325d71e00  ash-test-statemodel.exe
+ac16bc6ddb7805739a1219a012d2a58c396ed056651b75b443ac950af1673f46  ash-test-transitionregistry.exe

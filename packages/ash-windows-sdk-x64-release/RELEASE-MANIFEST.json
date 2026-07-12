@@ -1,0 +1,12 @@
+﻿{
+    "name":  "ASH Pattern System Windows SDK",
+    "version":  "1.0.0-alpha",
+    "platform":  "x64",
+    "configuration":  "Release",
+    "packageZip":  "ash-windows-sdk-x64-release.zip",
+    "stageDirectory":  "ash-windows-sdk-x64-release",
+    "signingStatus":  "unsigned",
+    "signingBlocked":  "Production signing certificate not configured",
+    "artifactRoot":  "D:\\GitHub\\APS\\windows\\build\\bin\\x64-Release",
+    "releaseDate":  "2026-07-12"
+}

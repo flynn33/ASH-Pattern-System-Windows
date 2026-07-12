@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json.schemastore.org/package",
+  "$id": "urn:ash-pattern-system-windows:release:1.0.0",
+  "name": "ASH-Pattern-System-Windows",
+  "version": "1.0.0-alpha",
+  "description": "Native C++20 implementation of the ASH Pattern System semantic core for Windows desktop targets",
+  "repository": {
+    "type": "vcs",
+    "url": "https://github.com/flynn33/ASH-Pattern-System-Windows.git",
+    "revision": "release/aps-windows-1.0.0-completion-clean"
+  },
+  "buildInfo": {
+    "platform": "Windows Desktop",
+    "targetOS": [
+      "Windows 10 version 1809 or later (x64)",
+      "Windows 10 version 1809 or later (ARM64)",
+      "Windows 11 (x64)",
+      "Windows 11 (ARM64)"
+    ],
+    "compiler": {
+      "name": "Microsoft Visual C++ Compiler for Windows",
+      "version": "19.38.33137",
+      "platform": "MSVC"
+    },
+    "cPPStandard": "C++20 (/std:c++20)",
+    "warningLevel": "/W4 /WX",
+    "exceptionHandling": "/EHsc",
+    "runtimeLibrary": "/MT (Multi-threaded DLL)"
+  },
+  "toolchain": {
+    "msbuild": "17.8+",
+    "windowsSDK": "10.0.22621.0 or later",
+    "visualStudio": "2022 version 17.8 or later"
+  },
+  "dependencies": {
+    "runtime": [],
+    "build": [
+      {
+        "name": "Microsoft Visual Studio MSBuild",
+        "requiredFor": "Native Windows build",
+        "source": "Microsoft"
+      },
+      {
+        "name": "Windows SDK",
+        "requiredFor": "C++ compilation",
+        "source": "Microsoft"
+      }
+    ],
+    "thirdPartyRuntimeDependencies": []
+  },
+  "license": {
+    "type": "Proprietary",
+    "notice": "The ASH Pattern System Windows edition is proprietary software. Distribution and use are subject to the terms of the applicable license agreement."
+  },
+  "notices": [
+    "© Microsoft Corporation. All rights reserved.",
+    "This product includes components developed for the ASH Pattern System project."
+  ],
+  "checksums": {
+    "x64-Release": # SHA256 Checksums - x64-Release
+
+98eae4d26bc1b085a6fdd6a9e0bcb257f19213ff4ac4eae7e844d7e55c079b55  ash-test-completionmodules.exe
+edb314fde36dd554a4d3baf8641be86308223e761a8f7f3b921a89dce9a7701f  ash-test-diagnostics.exe
+f683890264e875f2445d522267b82fdb88f24c79d360625d726b5b1b6efd5a6e  ash-test-recoveryengine.exe
+11095e6983fc500051b56a19aa0d72c2f39e411bfb293f5447bfbe5325d71e00  ash-test-statemodel.exe
+ac16bc6ddb7805739a1219a012d2a58c396ed056651b75b443ac950af1673f46  ash-test-transitionregistry.exe
+,
+    "ARM64-Release": # SHA256 Checksums - ARM64-Release
+
+2ccfc77fdfc5b073957806eed1ed3aaedc0faf35db4a8d7655027a904fd8dfe3  ash-test-completionmodules.exe
+a5f8718c2dfc4823efec1a09f5277e8869e7df7fbb4ffd7954743145ed0bafe3  ash-test-diagnostics.exe
+cf4b371ad06d179e39cbbb3a3c7594160ffcfb569d39546d0eae6fbe5b808833  ash-test-recoveryengine.exe
+fca09244bde77508f1304faa757cc1ce99a3c5820462043d471a76105a68b47f  ash-test-statemodel.exe
+8c10bcb687c366dd76140a86ca75366d85771dece4e541a612c32e7d66271818  ash-test-transitionregistry.exe
+
+  },
+  "files": [
+    {
+      "name": "ash_core.lib",
+      "path": "x64-Release/ash_core.lib",
+      "type": "Static library (statically linked C++20 core)",
+      "sha256": ""
+    },
+    {
+      "name": "ash-test-statemodel.exe",
+      "path": "x64-Release/ash-test-statemodel.exe",
+      "type": "Test executable for StateModel module",
+      "sha256": "CHECKSUM_X64_STATEMODEL"
+    },
+    {
+      "name": "ash-test-transitionregistry.exe",
+      "path": "x64-Release/ash-test-transitionregistry.exe",
+      "type": "Test executable for TransitionRegistry module",
+      "sha256": "CHECKSUM_X64_TRANSITIONREGISTRY"
+    },
+    {
+      "name": "ash-test-diagnostics.exe",
+      "path": "x64-Release/ash-test-diagnostics.exe",
+      "type": "Test executable for Diagnostics module",
+      "sha256": "CHECKSUM_X64_DIAGNOSTICS"
+    },
+    {
+      "name": "ash-test-recoveryengine.exe",
+      "path": "x64-Release/ash-test-recoveryengine.exe",
+      "type": "Test executable for RecoveryEngine module",
+      "sha256": "CHECKSUM_X64_RECOVERYENGINE"
+    },
+    {
+      "name": "ash-test-completionmodules.exe",
+      "path": "x64-Release/ash-test-completionmodules.exe",
+      "type": "Test executable for Completion Modules (Realm, Topology, Axiom, Planner, Emitter)",
+      "sha256": "CHECKSUM_X64_COMPLETIONMODULES"
+    }
+  ],
+  "provenance": {
+    "buildSystem": "MSBuild",
+    "solutionFile": "ash-windows.sln",
+    "sourceBranch": "release/aps-windows-1.0.0-completion-clean",
+    "baseCommit": "b832f6e9b76a8c08038ba9dfdaf76f64691405e5",
+    "buildCommand": "msbuild ash-windows.sln /p:Configuration=Release /p:Platform=x64",
+    "verification": "All 60 unit tests passed (5 test executables, deterministic behavior verified)"
+  },
+  "releaseDate": "2026-07-12",
+  "releaseNotes": {
+    "version": "1.0.0-alpha",
+    "status": "NOT_SHIPPABLE - Under completion phase",
+    "summary": [
+      "Complete implementation of all 9 APS semantic modules",
+      "x64 and ARM64 Release builds verified with MSVC/MSBuild",
+      "All 60 unit tests pass with deterministic behavior",
+      "MSVC constexpr compatibility issues resolved",
+      "Performance budgets documented (estimated)"
+    ],
+    "openItems": [
+      "Packaging model decision required (MSIX or installer)",
+      "Production signing credentials needed",
+      "Canonical corpus execution pending upstream availability",
+      "Product UI implementation or owner-approved core-only decision",
+      "Security review and threat model completion",
+      "Migration and persistence layer design"
+    ]
+  }
+}
