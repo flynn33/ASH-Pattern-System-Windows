@@ -60,7 +60,7 @@ The semantic core is implemented, but the Windows product is not yet shippable u
 
 - Visual Studio/MSBuild release matrix on supported Windows hosts: **✅ Complete**
 - static analysis where configured: **✅ Complete**
-- signed packaging or another owner-approved Microsoft-supported distribution artifact: **⏳ Pending decision**
+- signed packaging or another owner-approved Microsoft-supported distribution artifact: **✅ Packaging workflow complete; awaiting owner decision on signing path**
 - clean install, launch, upgrade, repair, and uninstall validation: **⏳ Pending installer generation**
 - UI and accessibility validation after a product UI exists: **✅ Deferred (core-only release approved)**
 - SBOM, checksum, signing, and release-manifest evidence: **✅ Complete**
@@ -80,7 +80,7 @@ Release evidence is tracked under [completion-evidence/](completion-evidence/).
 | Release Evidence (SBOM, Checksums) | ✅ 100% Complete |
 | Migration Design | ✅ 100% Designed |
 | Accessibility Decision | ✅ 100% Made |
-| Packaging Workflow | ⏳ Pending Implementation |
+| Packaging Workflow | ✅ Complete |
 | Canonical Corpus Execution | ⏳ Pending Data Acquisition |
 | Performance Benchmarks | ⏳ Ready for Execution |
 | Migration Layer Implementation | ⏳ Pending Implementation |
