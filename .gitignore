@@ -1,3 +1,6 @@
 # Python bytecode artifacts from running the .github/scripts/ sentinels locally.
 __pycache__/
 *.pyc
+
+# Git-tracked completion evidence directory (should not be committed)
+completion-evidence/
