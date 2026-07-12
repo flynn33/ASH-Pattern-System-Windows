@@ -1,0 +1,58 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+bin/
+obj/
+
+# IDE files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.xcodeproj/
+*.xcworkspace/
+
+# Visual Studio user settings
+*.vcxproj.filters.user
+*.vcxproj.user
+
+# Windows-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# CMake cache
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Compiled binaries
+*.lib
+*.dll
+*.exe
+*.pdb
+
+# Generated files
+*_generated.h
+*_generated.cpp
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Package manager
+npm-debug.log
+yarn-error.log
+
+# Testing
+test-results/
+coverage/
+
+# Logs
+*.log

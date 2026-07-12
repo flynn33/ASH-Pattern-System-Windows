@@ -1,0 +1,15 @@
+{
+  "certificate": {
+    "type": "windows-code-signing",
+    "provider": "microsoft-ca",
+    "thumbprint": "",
+    "pfxPath": "",
+    "pfxPassword": "",
+    "validFrom": "2026-01-01T00:00:00Z",
+    "validTo": "2031-01-01T00:00:00Z"
+  },
+  "timestampServer": "http://timestamp.digicert.com",
+  "ocspResponder": "http://ocsp.digicert.com",
+  "signingEnabled": false,
+  "testMode": true
+}

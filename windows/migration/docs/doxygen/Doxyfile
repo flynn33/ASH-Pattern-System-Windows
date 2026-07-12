@@ -1,0 +1,61 @@
+# Doxyfile for ASH Pattern System — Windows Development Migration
+
+# Project name
+PROJECT_NAME           = "ASH Pattern System — Windows Development Migration"
+
+# Project description
+PROJECT_DESCRIPTION    = "Modern C++ features, cross-platform abstractions, and migration guide for Windows development."
+
+# Project version
+PROJECT_VERSION        = "1.0.0"
+
+# The root directory containing the project
+INPUT                  = "../../.."
+
+# The output directory for the documentation
+OUTPUT_DIRECTORY       = "../api"
+
+# The language of the documentation
+LANGUAGE               = C++
+
+# The extension used for generated HTML files
+HTML_OUTPUT            = "html"
+
+# The style sheet to use for the HTML output
+HTML_EXTRA_STYLESHEET  = ""
+
+# The directory containing the source code
+SOURCE_BROWSER         = YES
+
+# The maximum number of source code lines that will be shown in the output
+MAX_DOT_GRAPH_DEPTH    = 1000
+
+# Generate a graph showing which classes are included by and include which classes
+DOT_GRAPH_MAX_NODES    = 50
+
+# If set to YES, HTML examples are generated
+GENERATE_HTMLDOCS      = NO
+
+# If set to YES, the output will be written to a single file
+CREATE_SUBDIRS         = NO
+
+# The number of characters in the title of the HTML pages
+HTML_EXTRA_FILES       = ""
+
+# The maximum number of sections that will be shown in the navigation tree
+MAX_DOT_GRAPH_WIDTH    = 1000
+
+# The maximum number of sections that will be shown in the navigation tree
+MAX_DOT_GRAPH_HEIGHT   = 1000
+
+# If set to YES, a search box is generated
+SEARCHDATA             = NO
+
+# If set to YES, the output will be written to a single file
+ALWAYS_DEPLOT          = YES
+
+# The maximum number of sections that will be shown in the navigation tree
+MAX_DOT_GRAPH_WIDTH    = 1000
+
+# The maximum number of sections that will be shown in the navigation tree
+MAX_DOT_GRAPH_HEIGHT   = 1000
