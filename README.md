@@ -201,6 +201,10 @@ All blocker evidence is documented in the [completion-evidence/](completion-evid
 - **Work Complete Summary:** `WORK-COMPLETE-SUMMARY.md`
 - **Status Correction:** `STATUS-CORRECTION.md` (85% → 65%)
 
+## Wave C Completion [2026-07-12]
+
+**Canonical corpus acquisition and verification complete.** See [`completion-evidence/corpus-conformance-report.md`](completion-evidence/corpus-conformance-report.md) for details.
+
 ## Next Steps
 
 1. ✅ Canonical corpus acquired and verified (see `completion-evidence/corpus-conformance-report.md`)
