@@ -81,7 +81,7 @@ Release evidence is tracked under [completion-evidence/](completion-evidence/).
 | Migration Design | ✅ 100% Designed |
 | Accessibility Decision | ✅ 100% Made |
 | Packaging Workflow | ✅ Complete |
-| Canonical Corpus Execution | ⏳ Pending Data Acquisition |
+| Canonical Corpus Execution | ✅ Complete (Acquisition + Verification) |
 | Performance Benchmarks | ⏳ Ready for Execution |
 | Migration Layer Implementation | ⏳ Pending Implementation |
 | Owner Release Approval | ⏳ Required |
@@ -203,10 +203,10 @@ All blocker evidence is documented in the [completion-evidence/](completion-evid
 
 ## Next Steps
 
-1. **Review and approve packaging model decision** (MSIX or standalone installer)
-2. **Configure production signing path** (requires Microsoft Code Signing certificate)
-3. **Generate release installers** for x64 and ARM64
-4. **Acquire upstream canonical corpus** from main branch
+1. ✅ Canonical corpus acquired and verified (see `completion-evidence/corpus-conformance-report.md`)
+2. **Review and approve packaging model decision** (MSIX or standalone installer)
+3. **Configure production signing path** (requires Microsoft Code Signing certificate)
+4. **Generate release installers** for x64 and ARM64
 5. **Execute performance benchmarks** and document baselines
 6. **Implement migration layer** (OperationalContext, PersistenceLayer, etc.)
 7. **Obtain owner-controlled release approval**

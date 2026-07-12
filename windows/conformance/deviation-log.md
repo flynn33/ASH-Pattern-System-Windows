@@ -38,21 +38,17 @@ This log records known Windows-platform limitations relative to the final produc
 
 ---
 
-## D-004 — Canonical Corpus Execution Pending
+## D-004 — Canonical Corpus Execution Complete ✅
 
-**What:** Canonical upstream JSON corpus has been vendored into Windows branch (`windows/canonical-data/`), but full corpus verification against Windows implementation not yet executed on Release builds.
-
-**Why:** Canonical data acquired from `flynn33/ASH-Pattern-System@cc253f3d137a27f0eeb471bed62bbdb939e3b6d1` but verification framework (`windows/packaging/run-canonical-conformance.py`) needs to be wired into build/test commands and executed on Release x64/ARM64 builds.
-
-**Scope:** `windows/canonical-data/`, `windows/packaging/run-canonical-conformance.py`, build/test integration.
+**What:** Canonical upstream JSON corpus has been vendored and verified against Windows implementation on Release builds.
 
 **Resolution:** 
-1. Wire corpus verification step to `windows/build/build.ps1`
-2. Execute on both x64 and ARM64 Release builds
-3. Document results in `completion-evidence/corpus-conformance-report.md`
-4. Update this deviation log when closed
+1. ✅ Wired corpus verification step to `windows/build/build.ps1`
+2. ✅ Executed on both x64 and ARM64 Release builds
+3. ✅ Documented results in `completion-evidence/corpus-conformance-report.md`
+4. ✅ Updated deviation log when closed
 
-**Status:** ⏳ PENDING EXECUTION (Wave C)
+**Status:** ✅ RESOLVED (2026-07-12)
 
 ---
 
@@ -83,4 +79,4 @@ This log records known Windows-platform limitations relative to the final produc
 ---
 
 *Deviation log updated: 2026-07-12*  
-*Wave C progress: Canonical corpus acquisition complete, execution pending*
+*Wave C progress: Canonical corpus acquisition and execution complete ✅*

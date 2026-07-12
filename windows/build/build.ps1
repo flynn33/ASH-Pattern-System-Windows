@@ -2,7 +2,7 @@
 #
 # Discovers MSBuild via vswhere.exe (both Microsoft-produced), builds the
 # ash-windows.sln solution, and optionally runs the test suite after a
-# successful build.
+# successful build. Also runs canonical corpus conformance verification.
 #
 # Usage:
 #   .\build.ps1
@@ -84,6 +84,27 @@ if ($Clean) {
 $binDir = Join-Path $scriptDir ("bin\{0}-{1}" -f $Platform, $Configuration)
 Write-Host ''
 Write-Host "Build complete. Artifacts in: $binDir" -ForegroundColor Green
+
+# Run canonical corpus conformance verification
+Write-Host ''
+Write-Host 'Running canonical corpus conformance verification...' -ForegroundColor Cyan
+
+$canonicalConformancePath = Join-Path (Split-Path -Parent $scriptDir) 'windows\packaging\run-canonical-conformance.py'
+if (-not (Test-Path $canonicalConformancePath)) {
+    Write-Error "Canonical conformance script not found: $canonicalConformancePath"
+    exit 1
+}
+
+& python $canonicalConformancePath
+
+$exitCode = $LASTEXITCODE
+if ($exitCode -ne 0) {
+    Write-Error "Canonical corpus conformance verification failed with exit code $exitCode"
+    exit $exitCode
+}
+
+Write-Host ''
+Write-Host 'Canonical corpus conformance verification complete.' -ForegroundColor Green
 
 if ($Test) {
     $runAllPath = Join-Path (Split-Path -Parent $scriptDir) 'tests\run_all.ps1'

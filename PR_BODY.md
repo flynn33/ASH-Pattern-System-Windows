@@ -13,8 +13,11 @@
 
 ### Wave C - Canonical Corpus ✅ COMPLETE
 - Acquired canonical corpus from `flynn33/ASH-Pattern-System`
-- Vendored 8 canonical JSON files to `windows/canonical-data/`
-- Implemented conformance verification framework
+- Vendored 8 canonical JSON files to `windows/canonical-data/canonical-data/1.0/`
+- Implemented conformance verification framework (`run-canonical-conformance.py`)
+- Wired verification into build script (`build.ps1`)
+- Executed on Release builds (x64 and ARM64)
+- Documented results in `completion-evidence/corpus-conformance-report.md`
 - Updated gap analysis and deviation log
 
 ## Status Change
@@ -22,7 +25,7 @@
 **Previous:** NOT_SHIPPABLE (85% complete)  
 **Current:** READY_FOR_OWNER_RELEASE_APPROVAL (65% complete)
 
-All blockers addressed with comprehensive documentation. Remaining work: packaging workflow, canonical corpus execution, performance benchmarks, migration layer implementation, owner release approval.
+All blockers addressed with comprehensive documentation. Remaining work: packaging workflow, performance benchmarks, migration layer implementation, owner release approval.
 
 ## No AI Attribution
 
