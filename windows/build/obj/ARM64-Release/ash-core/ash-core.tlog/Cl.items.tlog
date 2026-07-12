@@ -1,0 +1,11 @@
+D:\GitHub\APS\windows\src\Codeword.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\Codeword.obj
+D:\GitHub\APS\windows\src\DiagnosticEnvelope.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\DiagnosticEnvelope.obj
+D:\GitHub\APS\windows\src\StateModel.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\StateModel.obj
+D:\GitHub\APS\windows\src\TransitionRegistry.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\TransitionRegistry.obj
+D:\GitHub\APS\windows\src\Diagnostics.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\Diagnostics.obj
+D:\GitHub\APS\windows\src\RecoveryEngine.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\RecoveryEngine.obj
+D:\GitHub\APS\windows\src\RealmEncoder.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\RealmEncoder.obj
+D:\GitHub\APS\windows\src\TopologyGenerator.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\TopologyGenerator.obj
+D:\GitHub\APS\windows\src\AxiomEvaluator.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\AxiomEvaluator.obj
+D:\GitHub\APS\windows\src\GenerationPlanner.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\GenerationPlanner.obj
+D:\GitHub\APS\windows\src\ArtifactEmitter.cpp;D:\GitHub\APS\windows\build\obj\ARM64-Release\ash-core\ArtifactEmitter.obj
