@@ -5,6 +5,9 @@ out/
 bin/
 obj/
 
+# Old license file (now at document.md)
+LICENSE
+
 # IDE files
 .vs/
 *.suo

@@ -1,0 +1,91 @@
+# ASH Pattern System — Windows Development Migration
+
+## Proprietary Software License Agreement
+
+Copyright (c) 2024 ASH Pattern System — Windows Development Migration
+
+---
+
+### TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+#### 1. DEFINITIONS
+
+"License" shall mean the terms and conditions for use, reproduction, and distribution
+as defined in Sections 1 through 9 of this document.
+
+"Licensor" shall mean the copyright owner or entity authorized by the copyright owner
+that is granting the License.
+
+"Legal Entity" shall mean the union of the acting entity and all other entities that
+control, are controlled by, or are under common control with that entity.
+
+#### 2. GRANT OF LICENSE
+
+Subject to the terms and conditions of this Agreement, Licensor hereby grants you a
+non-exclusive, non-transferable, limited license to use, reproduce, prepare derivative
+works of, and distribute copies of the Software solely for internal development and
+testing purposes within your organization.
+
+#### 3. RESTRICTIONS
+
+You may not:
+- a) Sell, license, sub-license, assign, rent, or lease the Software;
+- b) Reverse engineer, decompile, disassemble, or attempt to derive the source code of
+   the Software except as expressly permitted by applicable law;
+- c) Remove, alter, or remove any proprietary notices or labels from the Software;
+- d) Use the Software for any commercial purpose without written authorization;
+- e) Distribute the Software to third parties without written authorization;
+- f) Create derivative works of the Software without prior written consent.
+
+#### 4. OWNERSHIP
+
+The Software is proprietary intellectual property of ASH Pattern System — Windows Development Migration.
+All rights, title, and interest in and to the Software are reserved by Licensor.
+This License does not grant you ownership of the Software or any intellectual property
+rights therein.
+
+#### 5. CONFIDENTIALITY
+
+The Software constitutes confidential and proprietary information. You agree to keep
+the Software confidential and not disclose it to any third party without prior written
+authorization from Licensor.
+
+#### 6. LIMITED WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+#### 7. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL,
+CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS,
+BUSINESS INTERRUPTION, OR LOSS OF INFORMATION, ARISING OUT OF YOUR USE OF OR
+INABILITY TO USE THE SOFTWARE, EVEN IF LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY
+OF SUCH DAMAGES.
+
+#### 8. TERMINATION
+
+This Agreement and all rights granted hereunder will terminate automatically without
+notice from Licensor if you fail to comply with any term or condition of this
+Agreement. All provisions of this Agreement which by their nature should survive
+termination shall survive termination.
+
+#### 9. GOVERNING LAW
+
+This Agreement shall be governed by and construed in accordance with the laws of the
+jurisdiction in which ASH Pattern System operates, without regard to its conflict of
+law principles.
+
+#### 10. CONTACT INFORMATION
+
+For questions regarding this License or the Software, please contact:
+ASH Pattern System — Windows Development Migration
+[Contact information as appropriate]
+
+---
+
+**END OF LICENSE AGREEMENT**
