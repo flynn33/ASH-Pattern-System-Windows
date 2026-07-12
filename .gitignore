@@ -4,3 +4,11 @@ __pycache__/
 
 # Git-tracked completion evidence directory (should not be committed)
 completion-evidence/
+
+# Build artifacts - should not be committed
+windows/build/assets/
+windows/build/bin/
+windows/build/obj/
+windows/build/package.appxmanifest
+windows/conformance/packaging-and-signing-baseline.md
+windows/release/
