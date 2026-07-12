@@ -23,8 +23,8 @@ namespace {
 // Construct a codeword from 9 booleans given in (b0..b8) order.
 // This matches the spec's coordinate layout so the tables below read
 // identically to specs/core/codeword-set.pseudo.md.
-constexpr Codeword cw(bool v0, bool v1, bool v2, bool v3,
-                      bool v4, bool v5, bool v6, bool v7, bool v8) noexcept {
+Codeword cw(bool v0, bool v1, bool v2, bool v3,
+           bool v4, bool v5, bool v6, bool v7, bool v8) noexcept {
     Codeword c{};
     c.set(0, v0);
     c.set(1, v1);
@@ -41,7 +41,7 @@ constexpr Codeword cw(bool v0, bool v1, bool v2, bool v3,
 }  // namespace
 
 // clang-format off
-const std::array<Codeword, kCodewordCount> kCanonicalCodewords{{
+const std::array<Codeword, kCodewordCount> kCanonicalCodewords{
     //   b0 b1 b2 b3 b4 b5 b6 b7 b8   index weight (from spec)
     cw(  0, 0, 0, 0, 0, 0, 0, 0, 0),  //  0   0
     cw(  0, 0, 0, 0, 1, 1, 1, 1, 0),  //  1   4
@@ -59,15 +59,15 @@ const std::array<Codeword, kCodewordCount> kCanonicalCodewords{{
     cw(  1, 1, 0, 0, 1, 1, 0, 0, 0),  // 13   4
     cw(  1, 1, 1, 1, 0, 0, 0, 0, 0),  // 14   4
     cw(  1, 1, 1, 1, 1, 1, 1, 1, 0),  // 15   8
-}};
+};
 
-const std::array<Codeword, kCodewordGeneratorCount> kCodewordGenerators{{
+const std::array<Codeword, kCodewordGeneratorCount> kCodewordGenerators{
     //   b0 b1 b2 b3 b4 b5 b6 b7 b8
     cw(  1, 1, 1, 1, 0, 0, 0, 0, 0),  // g1
     cw(  1, 1, 0, 0, 1, 1, 0, 0, 0),  // g2
     cw(  1, 0, 1, 0, 1, 0, 1, 0, 0),  // g3
     cw(  1, 0, 0, 1, 1, 0, 0, 1, 0),  // g4
-}};
+};
 // clang-format on
 
 bool is_canonical_codeword(const Codeword& c) noexcept {
