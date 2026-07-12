@@ -1,6 +1,6 @@
 # ASH Pattern System — Windows Development Migration
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-orange.svg)](LICENSE)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B20)
 
@@ -155,4 +155,6 @@ std::string reportStr = report.GetReport();
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is proprietary software and is subject to the terms of the Proprietary Software License Agreement. See the [LICENSE](LICENSE) file for details.
+
+By using this software, you agree to be bound by the terms of the license.
