@@ -1,0 +1,11 @@
+{
+  "command": "C:\\Users\\james\\forge-conductor\\.worktrees\\forge-conductor-impl\\.venv\\Scripts\\forge-conductor.exe",
+  "args": [
+    "serve"
+  ],
+  "env": {
+    "FORGE_CONDUCTOR_HOME": "C:\\Users\\james\\.forge-conductor",
+    "FASTMCP_SHOW_SERVER_BANNER": "false",
+    "PATH": "C:\\Program Files\\nodejs;C:\\Users\\james\\.local\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\GitHub CLI;C:\\Program Files\\Python312;C:\\Program Files\\Python312\\Scripts;C:\\WINDOWS\\system32;C:\\WINDOWS"
+  }
+}
