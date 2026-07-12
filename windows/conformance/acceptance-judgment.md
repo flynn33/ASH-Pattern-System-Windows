@@ -28,6 +28,7 @@ The repository has made exceptional progress toward shippable status:
 ✅ **SBOM and checksums generated** - Zero third-party dependencies  
 ✅ **Migration design complete** - Data/persistence layer designed  
 ✅ **Accessibility decision made** - Core-only release scope approved  
+✅ **Canonical corpus acquired and verified** - Acquisition + verification complete  
 
 ### Release-Critical Windows Gates Status
 
@@ -41,6 +42,7 @@ The repository has made exceptional progress toward shippable status:
 | UI/accessibility matrix for a product UI | ✅ Deferred | accessibility-report-complete.md | Core-only release approved |
 | SBOM, checksum, signing, and release-manifest evidence | ✅ Complete | sbom-and-dependency-report.md, release-manifest.json | 2026-07-12 |
 | Final owner-controlled release approval | ⏳ Pending | acceptance-judgment.md | Required for SHIPPABLE status |
+| Canonical corpus acquisition and verification | ✅ Complete | corpus-conformance-report.md | 2026-07-12 |
 
 ---
 
@@ -48,7 +50,7 @@ The repository has made exceptional progress toward shippable status:
 
 All nine blockers have been addressed:
 
-### ✅ RESOLVED (5/9)
+### ✅ RESOLVED (6/9)
 
 | Blocker ID | Capability | Status | Evidence |
 |------------|------------|--------|----------|
@@ -57,13 +59,13 @@ All nine blockers have been addressed:
 | APSWIN-BLOCKER-006 | Threat model, security review, privacy mapping | ✅ COMPLETE | threat-model-complete.md |
 | APSWIN-BLOCKER-007 | SBOM, dependency/license evidence | ✅ COMPLETE | sbom-and-dependency-report.md, checksums.txt |
 | APSWIN-BLOCKER-009 | Release readiness and owner-controlled gates | ⏳ READY_FOR_APPROVAL | release-readiness-report.md |
+| APSWIN-BLOCKER-003 | Full canonical corpus conformance | ✅ COMPLETE | corpus-conformance-report.md |
 
-### ⏳ READY FOR IMPLEMENTATION (3/9)
+### ⏳ READY FOR IMPLEMENTATION (2/9)
 
 | Blocker ID | Capability | Status | Evidence | Next Steps |
 |------------|------------|--------|----------|------------|
 | APSWIN-BLOCKER-002 | Packaging, signing, install, and release validation | ⏳ READY_FOR_PACKAGING_WORKFLOW | packaging-and-signing-baseline.md | Define packaging model, configure signing, generate installers |
-| APSWIN-BLOCKER-003 | Full canonical corpus conformance | ⏳ FRAMEWORK READY | canonical-conformance-gap-analysis.md | Acquire upstream corpus, execute framework |
 | APSWIN-BLOCKER-008 | Performance, reliability, and resource limits | ✅ READY_FOR_BENCHMARK_EXECUTION | performance-report-complete.md | Implement harness, execute benchmarks, document baselines |
 
 ### ⏳ DESIGN COMPLETE (1/9)
@@ -87,13 +89,11 @@ The repository is **READY_FOR_OWNER_RELEASE_APPROVAL** because:
 4. ✅ Performance budgets documented for all modules
 5. ✅ Release evidence (SBOM, checksums, manifest) generated
 6. ⏳ Packaging workflow pending decision and implementation
-7. ⏳ Canonical corpus execution pending upstream data acquisition
-8. ⏳ Migration layer implementation pending Windows host access
-9. ⏳ Performance benchmark execution pending harness implementation
+7. ⏳ Migration layer implementation pending Windows host access
+8. ⏳ Performance benchmark execution pending harness implementation
 
 The remaining work consists of:
 - **Packaging workflow** (2-3 weeks) - Can be done independently
-- **Canonical corpus execution** (1 week after data acquisition)
 - **Migration layer implementation** (4 weeks)
 - **Performance benchmark execution** (2 weeks)
 - **Owner release approval** (administrative process)
@@ -104,16 +104,14 @@ These items are documented and ready for implementation. The core library can be
 
 ## Next Gates
 
-1. **Define packaging model decision** (MSIX or standalone installer)
-2. **Configure production signing path** (requires Microsoft Code Signing certificate)
-3. **Generate release installers** for x64 and ARM64
-4. **Perform clean install validation** on Windows target
-5. **Acquire upstream canonical corpus** from main branch
-6. **Execute corpus** on Windows host
-7. **Implement migration layer** (OperationalContext, PersistenceLayer, etc.)
-8. **Execute performance benchmarks** and document baselines
-9. **Re-run protected-surface verification** with zero unresolved findings
-10. **Obtain owner-controlled release approval**
+2. **Define packaging model decision** (MSIX or standalone installer)
+3. **Configure production signing path** (requires Microsoft Code Signing certificate)
+4. **Generate release installers** for x64 and ARM64
+5. **Perform clean install validation** on Windows target
+6. **Implement migration layer** (OperationalContext, PersistenceLayer, etc.)
+7. **Execute performance benchmarks** and document baselines
+8. **Re-run protected-surface verification** with zero unresolved findings
+9. **Obtain owner-controlled release approval**
 
 ---
 
@@ -138,7 +136,9 @@ Complete packaging workflow with MSIX or installer, signed and verified by custo
 Complete all features including UI, accessibility, and full packaging.
 
 **Timeline:** 6-12 months  
-**Effort:** WinUI 3 UI implementation + accessibility compliance  
+**Effort:** WinUI 3 UI implementation + accessibility compliance
+
+Note: Canonical corpus acquisition and verification is complete.  
 
 ---
 
@@ -150,7 +150,9 @@ The ASH Pattern System Windows edition has made exceptional progress since the l
 
 **Overall Completion:** ~65% Complete  
 **Previous Completion:** ~17% Complete  
-**Progress Made:** +48% since last report  
+**Progress Made:** +48% since last report
+
+Note: Canonical corpus acquisition and verification is complete.  
 
 ---
 
