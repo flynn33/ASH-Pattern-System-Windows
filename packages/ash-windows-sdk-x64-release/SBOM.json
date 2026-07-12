@@ -1,0 +1,112 @@
+﻿{
+    "name":  "ASH Pattern System Windows SDK",
+    "version":  "1.0.0-alpha",
+    "platform":  "x64",
+    "configuration":  "Release",
+    "type":  "SDK",
+    "sourceBinDir":  "D:\\GitHub\\APS\\windows\\build\\bin\\x64-Release",
+    "library":  "ash-core.lib",
+    "dependencies":  [
+
+                     ],
+    "files":  [
+                  {
+                      "name":  "README.md",
+                      "path":  "README.md",
+                      "size":  656,
+                      "sha256":  "4F1DC24D0ED169BDE2F05FA259CEDB4CF0CD7C9FB1968DDC9CE56D371F5A5B24"
+                  },
+                  {
+                      "name":  "ArtifactEmitter.hpp",
+                      "path":  "include/ash/ArtifactEmitter.hpp",
+                      "size":  3743,
+                      "sha256":  "4C23BE0B139A6A27F4023BB08776CC9BC18067A315D4170F73E05EDA93CE0773"
+                  },
+                  {
+                      "name":  "AxiomEvaluator.hpp",
+                      "path":  "include/ash/AxiomEvaluator.hpp",
+                      "size":  2141,
+                      "sha256":  "57F91F680970042B6864932E370DB671E01AEFFEFCB3E795AEBBB6D34A438B40"
+                  },
+                  {
+                      "name":  "Codeword.hpp",
+                      "path":  "include/ash/Codeword.hpp",
+                      "size":  2701,
+                      "sha256":  "7884EDF3910FFFCDD8B310CE329CC47F7C9A695C6842FA6EEBDBFD331A34CCB2"
+                  },
+                  {
+                      "name":  "DiagnosticEnvelope.hpp",
+                      "path":  "include/ash/DiagnosticEnvelope.hpp",
+                      "size":  6173,
+                      "sha256":  "017C757E3013321E441B59E2C17C1E89F2D0E6B7C526071958D6DEF552D2023A"
+                  },
+                  {
+                      "name":  "Diagnostics.hpp",
+                      "path":  "include/ash/Diagnostics.hpp",
+                      "size":  2968,
+                      "sha256":  "900562382AA568DF59F9F22A4A56FB267D07169D66AED7876CAD7DE19F967729"
+                  },
+                  {
+                      "name":  "GenerationPlanner.hpp",
+                      "path":  "include/ash/GenerationPlanner.hpp",
+                      "size":  4597,
+                      "sha256":  "EBF76F229CC99C0FDFBCB52DE23A2A805A2D8EC04715F61E4BBB8C4FB7B2963C"
+                  },
+                  {
+                      "name":  "RealmEncoder.hpp",
+                      "path":  "include/ash/RealmEncoder.hpp",
+                      "size":  1730,
+                      "sha256":  "CA71E3235CDA7D7E81ED4D845AC0E260310BF4F4FA3D3D2DC5D2CC37598C46C6"
+                  },
+                  {
+                      "name":  "RecoveryEngine.hpp",
+                      "path":  "include/ash/RecoveryEngine.hpp",
+                      "size":  4882,
+                      "sha256":  "FF5E24F1A5E3DB07B41E0390EDF7837EFF8A12921C1D0930F871B8DC512FEECB"
+                  },
+                  {
+                      "name":  "RuleIds.hpp",
+                      "path":  "include/ash/RuleIds.hpp",
+                      "size":  5577,
+                      "sha256":  "3EA7F31B682D1F0D93463CA7C2C7A87B56C133FD175CD4C8D02EAF9299928E49"
+                  },
+                  {
+                      "name":  "State.hpp",
+                      "path":  "include/ash/State.hpp",
+                      "size":  3263,
+                      "sha256":  "B91C6D58AB1D0A83F9C979AA56231C9E8376B1B0BFDCE84F562F7E514912316D"
+                  },
+                  {
+                      "name":  "StateModel.hpp",
+                      "path":  "include/ash/StateModel.hpp",
+                      "size":  3400,
+                      "sha256":  "ABB67DB62334111BF86F7C6267F6BFF10925D0798ED2AEFEF85E744744E76D89"
+                  },
+                  {
+                      "name":  "TopologyGenerator.hpp",
+                      "path":  "include/ash/TopologyGenerator.hpp",
+                      "size":  2076,
+                      "sha256":  "C42B4BE0EE9D69ACBDEC6222F0C0DBAA611557D3D2D77FDBCD67C6741D53C2A7"
+                  },
+                  {
+                      "name":  "TransitionRegistry.hpp",
+                      "path":  "include/ash/TransitionRegistry.hpp",
+                      "size":  2637,
+                      "sha256":  "344FF62A2AA4E894753169AEF5F6AA3584691BCD830CDFE49F70AA13171E5290"
+                  },
+                  {
+                      "name":  "ash-core.lib",
+                      "path":  "lib/ash-core.lib",
+                      "size":  2006038,
+                      "sha256":  "45B9883C3DE69F32E7B33772899BC88E872315D970ED584C85813638ED23C16B"
+                  },
+                  {
+                      "name":  "ash-core.pdb",
+                      "path":  "lib/ash-core.pdb",
+                      "size":  651264,
+                      "sha256":  "3DBBDBFB4BD8F94E5D9E6B1B60B2FC7823622EDA25F745E647B80060377F8CD3"
+                  }
+              ],
+    "signingStatus":  "unsigned",
+    "buildDate":  "2026-07-12T08:51:10.3624703-05:00"
+}

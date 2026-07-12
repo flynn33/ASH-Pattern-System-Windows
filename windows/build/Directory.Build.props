@@ -3,7 +3,7 @@
     Shared MSBuild properties for every project in ash-windows.sln.
 
     Scope: Windows desktop C++ implementation branch of the ASH Pattern System.
-    Compiler: MSVC cl.exe from Visual Studio 2022. Microsoft-produced.
+    Compiler: MSVC cl.exe from Visual Studio 2022 or later. Microsoft-produced.
     Language: C++20.
     Warning level: W4, warnings as errors.
     Runtime library: static (MT / MTd) to minimize runtime dependencies.
@@ -41,7 +41,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\\src\\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -1,0 +1,837 @@
+{
+  "artifacts": [
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/CODEOWNERS"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/rulesets/main-release-platform-protection.md"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/_common.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/alignment_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/docs_maintenance_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/downstream_conformance_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/gate_integrity_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/gate_integrity_selftest.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/math_integrity_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/no_attribution_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/semantic_integrity_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/scripts/wiki_maintenance_check.py"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/alignment-agent.yml"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/canonical-semantic-integrity-agent.yml"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/docs-maintenance-agent.yml"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/downstream-conformance-agent.yml"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/gate-integrity.yml"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/math-integrity-agent.yml"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/no-ai-attribution.yml"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": ".github/workflows/wiki-maintenance-agent.yml"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": ".gitignore"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "CITATION.cff"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "CODE_OF_CONDUCT.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "COMPATIBILITY.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "CONTRIBUTING.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "DEPRECATION-POLICY.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "LICENSE.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "MIGRATION-GUIDE.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "NORMATIVE-ARTIFACT-INDEX.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "NOTICE.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "PRODUCT-STATUS.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "PUBLIC-SPECIFICATION-API.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "README.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "RELEASE-NOTES.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "RELEASE-PROCESS.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "SECURITY.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "SUPPORT.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "VERSION"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/codewords.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/fallback-policy-definitions.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/mathematical-properties.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/normative-artifact-index.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/orbits.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/realms.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/rule-registry.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "canonical-data/1.0/transitions.json"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/audit-iterations.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/baseline-audit.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/conformance-report.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/final-acceptance-report.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/governance/gate-integrity-hardening-request.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/governance/local-verification.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/governance/owner-server-side-steps.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/governance/pinned-actions.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/governance/server-ruleset-evidence-2026-06-21.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/initial-traceability-matrix.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/owner-server-side-override.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/protected-surface-baseline.json"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/release-readiness-report.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/repository-inventory.json"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/reproducibility-report.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/schema-validation-report.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/security-review.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/symbol-inventory.json"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/traceability-matrix.md"
+    },
+    {
+      "classification": "HISTORICAL",
+      "path": "completion-evidence/unresolved-language-inventory.md"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/README.md"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/SHA256SUMS"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/invalid/invalid-state-signature.json"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/invalid/manifest.json"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/invalid/undeclared-rule-id.json"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/manifest.json"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/reachability-proof.json"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/averaging.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/axioms.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/codewords.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/containment.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/diagnostics.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/fallback.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/generation-plans.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/materialization-boundary.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/reachability.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/realm-identities.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/recovery.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/safe-halt.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/state-assessments.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/states.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/topology.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/1.0/vectors/transformations.jsonl"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/acceptance-judgment.md"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/deviation-log.md"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/diagnostics-conformance.md"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/materialization-boundary.md"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/module-mapping.md"
+    },
+    {
+      "classification": "CONFORMANCE",
+      "path": "conformance/verification-report.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "docs/00-repository-purpose.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "docs/01-design-philosophy.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "docs/02-target-repository-shape.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "docs/03-design-roadmap.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "examples/invalid/ash-state-too-short.json"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "examples/invalid/manifest.json"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "examples/valid/ash-state-minimal.json"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": "governance/ai-coding-handoff.md"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": "governance/github-agents-governance.md"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": "governance/math-change-notes/2026-05-02-self-contained-canonical-language.md"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": "governance/math-change-notes/2026-06-21-product-semantic-closure.md"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": "governance/math-change-notes/README.md"
+    },
+    {
+      "classification": "GOVERNANCE",
+      "path": "governance/repository-governance.md"
+    },
+    {
+      "classification": "TEMPLATE",
+      "path": "handoff-templates/README.md"
+    },
+    {
+      "classification": "TEMPLATE",
+      "path": "handoff-templates/common-downstream-handoff-requirements.md"
+    },
+    {
+      "classification": "TEMPLATE",
+      "path": "handoff-templates/desktop-implementation-handoff-template.md"
+    },
+    {
+      "classification": "TEMPLATE",
+      "path": "handoff-templates/mobile-implementation-handoff-template.md"
+    },
+    {
+      "classification": "TEMPLATE",
+      "path": "handoff-templates/service-implementation-handoff-template.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "product-manifest.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/artifact-description.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/ash-state.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/axiom-diagnostic.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/axiom-evaluation-profile.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/axiom-subject.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/branch-state-assignment-profile.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/codeword-set.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/codeword.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/conformance-manifest.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/conformance-vector.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/containment-record.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/diagnostic-envelope.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/emission-result.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/fallback-policy-definition.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/fallback-policy-instance.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/generation-plan.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/generation-request.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/operational-context.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/orbit-record.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/product-manifest.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/reachability-result.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/realm-identity.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/recovery-result.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/release-evidence.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/role-assignment.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/rule-registry.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/safe-halt-record.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/state-assessment.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/state-input.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/topology-node.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/topology-request.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/topology-result.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/transition-entry.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "schemas/1.0/transition-result.schema.json"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/averaging-operator-semantics.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/axiom-evaluation.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/branching-semantics.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/codeword-transformation-semantics.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/containment-safe-failure-semantics.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/generation-planning.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/recovery-fallback-semantics.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/topology-expansion.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/algorithms/transition-system.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/core/ash-state-space.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/core/codeword-set.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/core/realm-identity.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/core/recoverability-semantics.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/core/state-admissibility.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/core/state-validity-diagnostics.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/core/system-state-classification.pseudo.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/artifact-emitter-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/axiom-evaluator-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/diagnostics-module-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/generation-planner-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/realm-encoder-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/recovery-engine-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/state-model-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/topology-generator-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/contracts/transition-registry-contract.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/diagnostic-schema.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/rule-id-taxonomy.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/interfaces/semantic-contracts.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/registries/fallback-policy-registry.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/verification/conformance-categories.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/verification/implementation-acceptance.md"
+    },
+    {
+      "classification": "NORMATIVE",
+      "path": "specs/verification/invariant-spec.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/__init__.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/aps_product.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/build_release_archive.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/cli.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/generate_canonical_data.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/generate_conformance_corpus.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/release_readiness.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/tests/test_aps_product.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/validate_rule_registry.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/validate_schemas.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/validate_traceability.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/verify_canonical_data.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/verify_conformance_corpus.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "tools/product/verify_release_archive.py"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Canonical-Math-Baseline.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Contracts-and-Verification.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Downstream-Handoff-Guide.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Getting-Started.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Glossary.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Governance-and-Agents.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Home.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/README.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Recovery-and-Safety-Semantics.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Specification-Layers.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/Wiki-Maintenance-Playbook.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/_Footer.md"
+    },
+    {
+      "classification": "INFORMATIVE",
+      "path": "wiki/_Sidebar.md"
+    }
+  ],
+  "version": "1.0"
+}
