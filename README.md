@@ -220,3 +220,10 @@ See [completion-evidence/RESOLUTION-SUMMARY.md](completion-evidence/RESOLUTION-S
 ## Acknowledgments
 
 This work was completed on 2026-07-12 with significant progress made toward shippable status.
+
+## License
+
+Copyright 2026 James Daley
+
+This project is licensed under the Apache License, Version 2.0.
+See the [LICENSE](LICENSE) file for the full terms.
