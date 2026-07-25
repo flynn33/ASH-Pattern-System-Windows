@@ -221,6 +221,12 @@ See [completion-evidence/RESOLUTION-SUMMARY.md](completion-evidence/RESOLUTION-S
 
 This work was completed on 2026-07-12 with significant progress made toward shippable status.
 
+## Contributing
+
+This project is open source under Apache License, Version 2.0. You are welcome to use, modify, and redistribute the code under that license.
+
+Outside contributions to this repository are not accepted. Pull requests and collaboration requests will not be reviewed or merged. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 Copyright 2026 James Daley
