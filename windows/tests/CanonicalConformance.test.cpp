@@ -473,19 +473,26 @@ CONFORMANCE_CASE(canonical_category_4_plans_and_materialization_golden_scenarios
         auto selected = target;
         if (*row.profile) selected.profile_id = row.profile;
         const auto source = *row.source ? parse(row.source) : from_int(0);
-        auto first = planner.generate_plan(source, selected);
+        GenerationRequest request{"ash-plan", source, {}, 0, selected.profile_id,
+                                  "aps-windows-realm-names-1.0", "descriptor"};
+        if (*row.transition) request.transition_sequence.push_back(row.transition);
+        GenerationPlanningInputs inputs;
+        inputs.target = selected;
+        auto first = planner.generate_plan(request, inputs);
         if (*row.failure) {
             ASSERT_EQ(first.diagnostic->disposition, Disposition::BLOCKED);
             ASSERT_TRUE(first.diagnostic->summary.find(row.failure) != std::string::npos);
             evidence(row.id, row.failure, row.failure);
         } else if (row.registry_changed) {
-            selected.registry_version = "aps-windows-1.0-synthetic-revision";
-            auto changed = planner.generate_plan(source, selected);
+            ASSERT_EQ(first.plan.request.transition_sequence, request.transition_sequence);
+            inputs.target.registry_version = "aps-windows-1.0-synthetic-revision";
+            auto changed = planner.generate_plan(request, inputs);
             ASSERT_EQ(first.plan.plan_hash != changed.plan.plan_hash, row.hash_changes);
             evidence(row.id, "plan_hash_changes=true", "plan_hash_changes=true");
         } else {
-            ASSERT_EQ(first.plan.plan_hash == planner.generate_plan(source, selected).plan.plan_hash, row.hash_stable);
-            evidence(row.id, first.plan.plan_hash, planner.generate_plan(source, selected).plan.plan_hash);
+            ASSERT_EQ(first.plan.request.transition_sequence, request.transition_sequence);
+            ASSERT_EQ(first.plan.plan_hash == planner.generate_plan(request, inputs).plan.plan_hash, row.hash_stable);
+            evidence(row.id, first.plan.plan_hash, planner.generate_plan(request, inputs).plan.plan_hash);
         }
     }
     auto plan = planner.generate_plan(from_int(30), target).plan;
