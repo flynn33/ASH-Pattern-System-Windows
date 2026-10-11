@@ -14,4 +14,6 @@ Bounds are 4096 retained events, 4 MiB retained accounting, 16 KiB per event and
 
 Export requires an explicit existing absolute directory without traversal/reparse points. It reserves a new child, flushes matching JSON/Markdown and creates COMPLETED.json only after both are durable. Invalid paths, denied access, cancellation, write/rename failures and bounds return explicit errors. Export is opt-in, not automatic telemetry.
 
+Existing ordinary absolute drive and UNC destinations support paths beyond `MAX_PATH` without caller registry changes or an executable long-path manifest. Caller-supplied device or extended namespace destinations are rejected. Returned `ExportResult` paths may use Windows extended-length prefixes (`\\?\` or `\\?\UNC\`); use the returned paths for later file access. Traversal/reparse checks remain in force. This API path support does not establish UNC runtime qualification; release evidence must identify the destination types actually exercised.
+
 Retain the paired files and completion marker together. Inspect incident/correlation IDs, expected/observed facts, supported findings, hypotheses and unknown evidence separately. Release qualification includes privacy/bounds/error/concurrency tests and full retained-field equivalence checks.

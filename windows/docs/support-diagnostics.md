@@ -79,7 +79,14 @@ and Markdown. Untrusted strings cannot introduce headings, active HTML, or links
 
 Exports require a caller-supplied existing absolute destination directory, reject
 traversal and reparse points, and reserve a unique `ash-support-<bundle-id>` child
-directory. Callers choose a local destination with the desired access controls;
+directory. Ordinary absolute drive and UNC destinations support paths beyond
+`MAX_PATH` without caller registry changes or an executable long-path manifest.
+Caller-supplied device or extended namespace destinations are rejected.
+Returned `ExportResult` paths may carry a Windows extended-length prefix
+(`\\?\` for drive paths or `\\?\UNC\` for UNC paths); use those returned paths for
+subsequent file access. Path support does not establish UNC runtime qualification;
+release evidence must identify the destination types actually exercised.
+Callers choose a destination with the desired access controls;
 new directories inherit that destination's ACL. No privileged directory is
 required, and no file outside the reserved child is overwritten. Each bundle has
 `evidence.json`, `evidence.md`, and `COMPLETED.json`. Files are written with native

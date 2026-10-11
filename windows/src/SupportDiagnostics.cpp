@@ -295,17 +295,29 @@ std::string health_json(const Health& h) {
         ",\"closed\":" + (h.closed ? "true" : "false") + "}";
 }
 
+std::filesystem::path native_path(const std::filesystem::path& path) {
+    const auto value = path.lexically_normal().make_preferred().native();
+    return value.starts_with(L"\\\\")
+        ? std::filesystem::path(L"\\\\?\\UNC\\" + value.substr(2))
+        : std::filesystem::path(L"\\\\?\\" + value);
+}
+
 bool destination_valid(const std::filesystem::path& destination) {
     if (destination.empty() || !destination.is_absolute()) return false;
     for (const auto& part : destination) if (part == "..") return false;
+    const auto normalized = destination.lexically_normal().make_preferred();
+    const auto& value = normalized.native();
+    // Accept ordinary filesystem destinations, not caller-supplied device namespaces.
+    if (value.starts_with(L"\\\\?\\") || value.starts_with(L"\\\\.\\")) return false;
     std::error_code ec;
-    if (!std::filesystem::is_directory(destination, ec) || ec) return false;
-    auto current = destination.lexically_normal();
+    if (!std::filesystem::is_directory(native_path(normalized), ec) || ec) return false;
+    auto current = normalized;
     while (!current.empty()) {
-        const auto attributes = GetFileAttributesW(current.c_str());
+        const auto attributes = GetFileAttributesW(native_path(current).c_str());
         if (attributes == INVALID_FILE_ATTRIBUTES || (attributes & FILE_ATTRIBUTE_REPARSE_POINT)) return false;
         auto parent = current.parent_path();
-        if (parent == current) break;
+        // A UNC share is the filesystem root; its server name is not a directory.
+        if (parent == current || (value.starts_with(L"\\\\") && parent == current.root_path())) break;
         current = std::move(parent);
     }
     return true;
@@ -588,7 +600,10 @@ ExportResult export_snapshot(const Snapshot& snapshot, const std::filesystem::pa
         if (json.size() > max_export_bytes || md.size() > max_export_bytes) {
             result.error = ExportError::SizeLimit; return result;
         }
-        result.directory = destination / ("ash-support-" + result.bundle_id);
+        result.directory = (destination / ("ash-support-" + result.bundle_id)).lexically_normal().make_preferred();
+        constexpr std::wstring_view longest_suffix = L"\\COMPLETED.json.tmp";
+        if (result.directory.native().size() + longest_suffix.size() >= MAX_PATH)
+            result.directory = native_path(result.directory);
         std::error_code ec;
         if (!std::filesystem::create_directory(result.directory, ec) || ec) {
             result.error = ExportError::CreateFailure; result.system_error = static_cast<std::uint32_t>(ec.value()); return result;

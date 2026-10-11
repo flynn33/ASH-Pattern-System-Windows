@@ -13,6 +13,7 @@
 - Add the exact seven-field generation request and separate target/optional axiom inputs. Retain complete topology/roles, all five explanatory axiom results, declared descriptors and registry metadata; keep missing/failing evidence explicit.
 - Replace incomplete plan identity with `aps-windows-plan-2`, binding every request/evidence/registry field. Preserve the legacy overload's source defaults, regenerate old plan hashes and clean rebuild consumers after plan/artifact layout changes. The descriptor emitter audits complete stored evidence before copying every declared field.
 - Add bounded caller-owned support diagnostics with the actual rich collector compiled only in Debug, minimal Release collection and explicit paired private export.
+- Support export to existing ordinary absolute drive and UNC destinations beyond `MAX_PATH` without caller registry or executable-manifest changes. Preserve traversal/reparse checks; returned `ExportResult` paths may use Windows extended-length prefixes. UNC runtime qualification remains separate from this path-support contract.
 - Add native corpus comparisons and script/archive/import/consumer failure checks. Preserve original rc.1 contradiction evidence as history; use the corrected immutable rc.3 expectations for current comparisons.
 - Stop tracking generated binaries and legacy packages. Prior completion records remain history.
 

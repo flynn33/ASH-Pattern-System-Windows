@@ -275,7 +275,12 @@ def main():
     output.append("inline constexpr const char* default_plan_sha256 = " + q(hashlib.sha256(payload.encode()).hexdigest()) + ";")
     output.append("} // namespace canonical_fixture")
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text("\n".join(output) + "\n", encoding="utf-8", newline="\n")
+    fixture_bytes = ("\n".join(output) + "\n").encode("utf-8")
+    # All configurations share these exact immutable inputs. Preserve the
+    # timestamp when bytes match so a later configuration does not invalidate
+    # completed earlier outputs during the direct solution verification.
+    if not args.output.is_file() or args.output.read_bytes() != fixture_bytes:
+        args.output.write_bytes(fixture_bytes)
     args.output.with_suffix(".provenance.json").write_text(json.dumps({
         "schemaVersion": "1.0", "sourceCommit": PIN,
         "resourceIntegrity": integrity, "counts": {k: len(v) for k, v in datasets.items()},

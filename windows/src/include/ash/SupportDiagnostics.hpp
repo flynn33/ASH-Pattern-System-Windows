@@ -195,6 +195,9 @@ struct ExportResult {
 // The destination must be an existing absolute directory, with no traversal or
 // reparse points. The exporter reserves a new child directory, never overwrites
 // existing files, and publishes COMPLETED.json only after both files are durable.
+// Long ordinary drive/UNC destinations do not require caller long-path opt-in;
+// returned bundle paths may carry the Windows extended-length namespace prefix.
+// Caller-supplied device/extended namespace destinations are rejected.
 // Cancellation is cooperative; the flag must outlive this call.
 [[nodiscard]] ExportResult export_snapshot(const Snapshot& snapshot,
     const std::filesystem::path& destination,

@@ -339,6 +339,32 @@ TEST_CASE(support_export_does_not_overwrite_unrelated_files) {
     ASSERT_NE(first.directory, second.directory); ASSERT_EQ(read(unrelated), "unrelated sentinel");
 }
 
+TEST_CASE(support_export_accepts_long_ordinary_destination_and_preserves_boundary) {
+    auto destination = evidence_directory("long-path");
+    while (destination.native().size() < 320) destination /= std::wstring(60, L'L');
+    const std::filesystem::path physical(L"\\\\?\\" + destination.native());
+    std::filesystem::create_directories(physical);
+    ASSERT_TRUE(destination.native().size() > MAX_PATH);
+    Session session;
+    ASSERT_EQ(session.capture(fault()).status, CaptureStatus::Captured);
+    const auto snapshot = session.snapshot();
+    std::atomic_bool cancellation{true};
+    ASSERT_EQ(export_snapshot(snapshot, destination, &cancellation).error, ExportError::Cancelled);
+    ASSERT_TRUE(std::filesystem::is_empty(physical));
+    ASSERT_EQ(export_snapshot(snapshot, destination / ".." / destination.filename()).error,
+        ExportError::InvalidDestination);
+    ASSERT_EQ(export_snapshot(snapshot, physical).error, ExportError::InvalidDestination);
+    const auto output = export_snapshot(snapshot, destination);
+    ASSERT_EQ(output.error, ExportError::None);
+    ASSERT_TRUE(output.directory.native().starts_with(L"\\\\?\\"));
+    ASSERT_TRUE(std::filesystem::is_regular_file(output.completion_marker));
+    ASSERT_TRUE(read(output.json).find(output.bundle_id) != std::string::npos);
+    ASSERT_TRUE(read(output.markdown).find(output.bundle_id) != std::string::npos);
+    ASSERT_TRUE(read(output.completion_marker).find(output.bundle_id) != std::string::npos);
+    ASSERT_TRUE(std::filesystem::file_size(output.json) <= max_export_bytes);
+    ASSERT_TRUE(std::filesystem::file_size(output.markdown) <= max_export_bytes);
+}
+
 TEST_CASE(support_export_rejects_read_only_destination_with_actual_io_failure) {
     Session session;
     const auto destination = evidence_directory("io-failure");
