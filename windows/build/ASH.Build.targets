@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Target Name="GenerateASHVersion" BeforeTargets="ClCompile" Condition="'$(MSBuildProjectName)'=='ash-core'">
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(ASHBuildDirectory)generate-version.ps1&quot; -BuildRoot &quot;$(ASHBuildRoot)&quot; -Configuration &quot;$(Configuration)&quot; -Platform &quot;$(Platform)&quot;" />
+  </Target>
+  <Target Name="RequireCanonicalFixtures" BeforeTargets="ClCompile" Condition="'$(MSBuildProjectName)'=='ash-test-canonicalconformance'">
+    <Error Condition="!Exists('$(ASHGeneratedTests)\CanonicalFixtures.hpp')" Text="Canonical fixtures are missing. Use build.ps1 -CanonicalAuthorityRoot with the pinned external authority checkout." />
+  </Target>
+</Project>

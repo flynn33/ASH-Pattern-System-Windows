@@ -18,11 +18,13 @@
 //   - rule_ids               (>= 1 taxonomy-compliant rule IDs)
 //   - summary                (non-empty)
 //   - notes                  (>= 1 non-empty notes)
+//   - details                (required semantic JSON object)
+//   - occurrence_metadata    (required occurrence object or null)
 //
 // Rule IDs must match the canonical rule-ID taxonomy
 //   specs/interfaces/rule-id-taxonomy.md on main
-// pattern: {FAMILY}-{CATEGORY}-{NUMBER} where NUMBER is a 3-digit
-// zero-padded integer. Example: ASH-STATE-VALIDITY-001.
+// and the canonical JSON schema's ASH family allowlist. NUMBER is a
+// 3-digit zero-padded integer. Example: ASH-STATE-VALIDITY-001.
 //
 // Prohibited behaviors (from the canonical Diagnostics contract):
 //   - MUST NOT emit envelopes with missing required fields
@@ -40,8 +42,17 @@
 #pragma once
 
 #include <memory>
+#include <concepts>
+#include <cstdint>
+#include <limits>
+#include <map>
+#include <optional>
+#include <stdexcept>
 #include <string>
 #include <string_view>
+#include <type_traits>
+#include <utility>
+#include <variant>
 #include <vector>
 
 namespace ash {
@@ -58,6 +69,11 @@ enum class DiagnosticKind {
     FALLBACK,
     CONTAINMENT,
     SAFE_HALT,
+    INPUT_VALIDATION,
+    STATE_ASSESSMENT,
+    CLASSIFICATION,
+    SCHEMA_VALIDATION,
+    CONFORMANCE,
 };
 
 // Canonical severity — specs/interfaces/diagnostic-schema.md
@@ -68,16 +84,27 @@ enum class Severity {
     CRITICAL,
 };
 
-// Canonical stage — monotonically ordered.
-// Stage order constraint (from spec): ESCALATION parent must be
-// RECOVERY or CLASSIFICATION; TERMINAL parent must be ESCALATION or
-// RECOVERY.
+// Legacy and modern stage spellings retain their numeric values for source
+// compatibility. Numeric enum order is not causal order. See Diagnostics.
 enum class Stage {
     DETECTION,
     CLASSIFICATION,
     RECOVERY,
     ESCALATION,
     TERMINAL,
+    PARSE,
+    ASSESS,
+    CLASSIFY,
+    TRANSFORM,
+    PLAN,
+    EVALUATE,
+    EMIT,
+    RECOVER,
+    FALLBACK,
+    CONTAIN,
+    HALT,
+    VALIDATE,
+    VERIFY,
 };
 
 // Canonical disposition — how the diagnostic was handled.
@@ -87,11 +114,48 @@ enum class Disposition {
     BLOCKED,
     ESCALATED,
     TERMINAL,
+    RECORDED,
 };
 
-// The canonical envelope. All fields are required; parent_diagnostic_reference
-// may be null only for a root diagnostic.
+// Canonical JSON content uses signed 64-bit integers, with no floating point
+// values. Objects are sorted by UTF-8 key; strings must contain valid UTF-8.
+// Arrays preserve their order. Owning recursive values require no dependency.
+struct DiagnosticValue {
+    using Array = std::vector<DiagnosticValue>;
+    using Object = std::map<std::string, DiagnosticValue, std::less<>>;
+    using Storage = std::variant<std::nullptr_t, bool, std::int64_t,
+                                 std::string, Array, Object>;
+    Storage value{nullptr};
+
+    DiagnosticValue() = default;
+    DiagnosticValue(std::nullptr_t) noexcept : value(nullptr) {}
+    DiagnosticValue(bool v) noexcept : value(v) {}
+    template <std::integral T> requires (!std::same_as<T, bool>)
+    DiagnosticValue(T v) {
+        if constexpr (std::is_unsigned_v<T>) {
+            if (v > static_cast<std::make_unsigned_t<std::int64_t>>((std::numeric_limits<std::int64_t>::max)()))
+                throw std::logic_error("DiagnosticValue: integer exceeds signed 64-bit range");
+        }
+        value = static_cast<std::int64_t>(v);
+    }
+    template <std::floating_point T> DiagnosticValue(T) = delete;
+    DiagnosticValue(std::string v) : value(std::move(v)) {}
+    DiagnosticValue(std::string_view v) : value(std::string(v)) {}
+    DiagnosticValue(const char* v) : value(v ? std::string(v) : throw std::logic_error("DiagnosticValue: null string")) {}
+    DiagnosticValue(Array v) : value(std::move(v)) {}
+    DiagnosticValue(Object v) : value(std::move(v)) {}
+    bool operator==(const DiagnosticValue&) const = default;
+};
+using DiagnosticObject = DiagnosticValue::Object;
+
+// The canonical inner record plus native ownership links. Serialization uses
+// nullable parent_diagnostic_id and the root ID, never native pointer values.
 struct DiagnosticEnvelope {
+    std::string schema_version{"1.0"};
+    std::string diagnostic_id;
+    std::string parent_diagnostic_id;
+    std::string chain_root_diagnostic_id;
+    std::size_t sequence_number{1};
     DiagnosticKind diagnostic_kind{DiagnosticKind::STATE_VALIDITY};
     Severity severity{Severity::INFO};
     Stage stage{Stage::DETECTION};
@@ -106,8 +170,9 @@ struct DiagnosticEnvelope {
     // Null for root diagnostics only.
     std::shared_ptr<DiagnosticEnvelope> parent_diagnostic_reference;
 
-    // Never null after construction. For a root, this points to self.
-    std::shared_ptr<DiagnosticEnvelope> chain_root_reference;
+    // Non-owning identity. A root observes itself; a child owns its ancestry
+    // through parent_diagnostic_reference. Use lock() and check expiration.
+    std::weak_ptr<DiagnosticEnvelope> chain_root_reference;
 
     // Canonical requirement: at least one rule ID, each matching the
     // rule-ID taxonomy pattern.
@@ -118,6 +183,14 @@ struct DiagnosticEnvelope {
 
     // Canonical requirement: at least one non-empty note.
     std::vector<std::string> notes;
+
+    // Required semantic object; an empty object expresses no extra details.
+    DiagnosticObject details;
+
+    // Per-occurrence object or null. Excluded from semantic identity along
+    // with schema version, parent/root IDs, and sequence number. Adding these
+    // fields changes record ABI: applications must rebuild with this SDK.
+    std::optional<DiagnosticObject> occurrence_metadata;
 };
 
 // Fluent builder that enforces required fields. Throws
@@ -136,16 +209,18 @@ public:
     DiagnosticEnvelopeBuilder& rule_id(std::string_view id);
     DiagnosticEnvelopeBuilder& summary(std::string_view s);
     DiagnosticEnvelopeBuilder& note(std::string_view n);
+    DiagnosticEnvelopeBuilder& details(DiagnosticObject value);
+    DiagnosticEnvelopeBuilder& occurrence_metadata(std::optional<DiagnosticObject> value);
 
     // Build a root diagnostic. chain_root_reference is set to a
-    // shared_ptr pointing at the returned envelope after construction
+    // weak_ptr pointing at the returned envelope after construction
     // (we cannot set self-reference on a stack value, so this returns
     // a shared_ptr so the self-reference can be installed).
     [[nodiscard]] std::shared_ptr<DiagnosticEnvelope> build_root();
 
-    // Build a child diagnostic. Requires a non-null parent to have
-    // been set via parent(). chain_root_reference is copied from the
-    // parent's chain_root_reference. Stage ordering is enforced.
+    // Build a child diagnostic. Requires a complete valid parent chain.
+    // Copies its root observer and enforces explicit causal phases, severity,
+    // parent/sequence integrity, containment restrictions, and terminal freeze.
     [[nodiscard]] std::shared_ptr<DiagnosticEnvelope> build_child();
 
 private:
@@ -164,6 +239,8 @@ private:
     std::vector<std::string> rule_ids_;
     std::string summary_;
     std::vector<std::string> notes_;
+    DiagnosticObject details_;
+    std::optional<DiagnosticObject> occurrence_metadata_;
 };
 
 }  // namespace ash

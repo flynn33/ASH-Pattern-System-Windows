@@ -32,6 +32,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <type_traits>
 
 #include "DiagnosticEnvelope.hpp"
 #include "State.hpp"
@@ -46,11 +47,14 @@ struct TopologyNode {
     std::size_t global_ordinal{0};
     std::size_t parent_index{0};
     bool has_parent{false};
+    std::string parent_path;
+    bool is_leaf{false};
 };
 
 struct TopologyStructure {
     std::vector<TopologyNode> nodes;
     std::vector<std::size_t> leaf_indices;
+    std::size_t depth{0};
 };
 
 struct TopologyResult {
@@ -66,6 +70,13 @@ public:
 
     [[nodiscard]] TopologyResult generate_topology(const Bit9State& state,
                                                    std::size_t requested_depth = 0) const;
+    template<class Depth, std::enable_if_t<std::is_integral_v<Depth> && std::is_signed_v<Depth>, int> = 0>
+    [[nodiscard]] TopologyResult generate_topology(const Bit9State& state, Depth requested_depth) const {
+        if (requested_depth < 0) return reject_negative_depth_(static_cast<std::int64_t>(requested_depth));
+        return generate_topology(state, static_cast<std::size_t>(requested_depth));
+    }
+private:
+    [[nodiscard]] TopologyResult reject_negative_depth_(std::int64_t requested_depth) const;
 };
 
 }  // namespace ash

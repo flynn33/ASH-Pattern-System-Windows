@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0",
+  "tests": [
+    "ash-test-statemodel.exe",
+    "ash-test-transitionregistry.exe",
+    "ash-test-diagnostics.exe",
+    "ash-test-recoveryengine.exe",
+    "ash-test-completionmodules.exe",
+    "ash-test-supportdiagnostics.exe",
+    "ash-test-canonicalconformance.exe"
+  ]
+}

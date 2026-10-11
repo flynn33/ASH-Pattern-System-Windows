@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "1.0",
+  "files": [
+    {
+      "source": "windows/src/include/ash/State.hpp",
+      "destination": "include/ash/State.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/Codeword.hpp",
+      "destination": "include/ash/Codeword.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/DiagnosticEnvelope.hpp",
+      "destination": "include/ash/DiagnosticEnvelope.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/RuleIds.hpp",
+      "destination": "include/ash/RuleIds.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/StateModel.hpp",
+      "destination": "include/ash/StateModel.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/TransitionRegistry.hpp",
+      "destination": "include/ash/TransitionRegistry.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/Diagnostics.hpp",
+      "destination": "include/ash/Diagnostics.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/RecoveryEngine.hpp",
+      "destination": "include/ash/RecoveryEngine.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/RealmEncoder.hpp",
+      "destination": "include/ash/RealmEncoder.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/TopologyGenerator.hpp",
+      "destination": "include/ash/TopologyGenerator.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/AxiomEvaluator.hpp",
+      "destination": "include/ash/AxiomEvaluator.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/GenerationPlanner.hpp",
+      "destination": "include/ash/GenerationPlanner.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/ArtifactEmitter.hpp",
+      "destination": "include/ash/ArtifactEmitter.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/src/include/ash/SupportDiagnostics.hpp",
+      "destination": "include/ash/SupportDiagnostics.hpp",
+      "role": "public-header"
+    },
+    {
+      "source": "windows/packaging/sdk/ASHPatternSystem.props",
+      "destination": "msbuild/ASHPatternSystem.props",
+      "role": "native-integration"
+    },
+    {
+      "source": "windows/packaging/sdk/ASHPatternSystem.targets",
+      "destination": "msbuild/ASHPatternSystem.targets",
+      "role": "native-integration"
+    },
+    {
+      "source": "windows/samples/StandaloneConsumer/StandaloneConsumer.sln",
+      "destination": "samples/StandaloneConsumer/StandaloneConsumer.sln",
+      "role": "standalone-consumer-example"
+    },
+    {
+      "source": "windows/samples/StandaloneConsumer/StandaloneConsumer.vcxproj",
+      "destination": "samples/StandaloneConsumer/StandaloneConsumer.vcxproj",
+      "role": "standalone-consumer-example"
+    },
+    {
+      "source": "windows/samples/StandaloneConsumer/README.md",
+      "destination": "samples/StandaloneConsumer/README.md",
+      "role": "standalone-consumer-example"
+    },
+    {
+      "source": "windows/samples/StandaloneConsumer/src/ConsumerApp.cpp",
+      "destination": "samples/StandaloneConsumer/src/ConsumerApp.cpp",
+      "role": "standalone-consumer-example"
+    },
+    {
+      "source": "windows/samples/StandaloneConsumer/src/ConsumerApp.hpp",
+      "destination": "samples/StandaloneConsumer/src/ConsumerApp.hpp",
+      "role": "standalone-consumer-example"
+    },
+    {
+      "source": "windows/samples/StandaloneConsumer/src/main.cpp",
+      "destination": "samples/StandaloneConsumer/src/main.cpp",
+      "role": "standalone-consumer-example"
+    },
+    {
+      "source": "windows/packaging/sdk/README.md",
+      "destination": "README.md",
+      "role": "consumer-entry-point"
+    },
+    {
+      "source": "LICENSE",
+      "destination": "LICENSE",
+      "role": "original-license"
+    },
+    {
+      "source": "windows/docs/sdk-integration.md",
+      "destination": "docs/sdk-integration.md",
+      "role": "consumer-documentation"
+    },
+    {
+      "source": "windows/docs/support-diagnostics.md",
+      "destination": "docs/support-diagnostics.md",
+      "role": "consumer-documentation"
+    },
+    {
+      "source": "windows/docs/sdk-compatibility.md",
+      "destination": "docs/sdk-compatibility.md",
+      "role": "consumer-documentation"
+    },
+    {
+      "source": "windows/docs/sdk-migration.md",
+      "destination": "docs/sdk-migration.md",
+      "role": "consumer-documentation"
+    }
+  ]
+}

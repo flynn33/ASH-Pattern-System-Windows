@@ -1,86 +1,30 @@
-# ASH Pattern System - Windows Edition
+# Windows native implementation
 
-This directory contains the Windows-native implementation of the ASH Pattern System semantic core. It is written in C++20, built with Visual Studio/MSBuild, and verified through native C++ test executables.
+The product is a C++20 static SDK, `ash-core.lib`, built with Visual Studio 2022/MSBuild v143 for x64 and ARM64. SDK version `1.0.0-rc.1` uses Release `/MT` libraries, subject to the exact released `qualification.json`. Debug `/MTd` builds include a separate rich support collector; the Release source selection compiles only essential support collection.
 
-## Platform Role
+Public semantic headers are under `src/include/ash`. Consumers receive only the explicit payload in `packaging/sdk/sdk-public-files.json`, a generated Version header and their architecture library. Native implementations, helpers, tests, canonical data, governance and release tooling remain outside the installed SDK boundary.
 
-The Windows edition implements APS behavior for a Windows desktop target. Platform-specific decisions such as compiler flags, CRT linkage, solution layout, PowerShell wrappers, and release packaging evidence are documented here and under `windows/conformance/`.
+The current semantic authority is APS `1.0.0-rc.3` at `50d7e5ab88932a4a967ffc2c83bd18fae45b73c8`, with engineering policy `0.7.0` and realization-profile catalog `0.7.2` bound separately. The earlier rc.1 contradictions are historical; adopting the corrected pin does not establish final SDK release qualification. [Canonical deference](CANONICAL-DEFERENCE.md) gives exact commits, profile identities and hashes.
 
-See [`CANONICAL-DEFERENCE.md`](CANONICAL-DEFERENCE.md) for the semantic boundary between APS behavior and Windows-specific implementation decisions.
+Typed `RecoveryEngine::containment_record()` and `safe_halt_record()` projections expose the original/action diagnostics, complete causal chain, trigger and local UTC entry/adoption time. `retained_diagnostic_chains()` preserves earlier independent histories; `Diagnostics::serialize_chain()` exports each without inventing ancestry. Public record layout changes require a clean consumer rebuild/relink.
 
-## Target Environment
+The explicit `GenerationRequest` has seven fields; separate planning inputs carry target provenance and optional axiom measurements. Plans retain complete topology/roles, all five explanatory axiom results and declared artifacts. `aps-windows-plan-2` replaces earlier incomplete hashes, while the legacy overload retains documented source defaults. The emitter audits complete stored evidence and copies declared descriptors without file writes. See [planning integration](docs/sdk-integration.md#planning-and-descriptor-emission); plan/artifact layout changes also require consumer rebuilds.
 
-- **Operating systems:** Windows 10 version 1809 or later and Windows 11.
-- **Architectures:** x64 and ARM64.
-- **Language:** C++20.
-- **Compiler:** MSVC `cl.exe`.
-- **Build system:** MSBuild (`.sln` and `.vcxproj`).
-- **Script host:** PowerShell 5.1 or PowerShell 7.
-- **Runtime dependency policy:** no third-party runtime dependencies.
-
-## Windows Documentation Map
-
-| Area | Document |
+| Use | Documentation |
 |---|---|
-| Target environment and architecture | `windows/docs/architecture.md` |
-| Semantic module mapping | `windows/conformance/module-mapping.md` |
-| Verification plan | `windows/conformance/verification-plan.md` |
-| Diagnostics integration | `windows/conformance/diagnostics-conformance-plan.md` |
-| Materialization boundary | `windows/conformance/materialization-boundary-plan.md` |
-| Build and test instructions | `windows/docs/build-run-instructions.md` |
-| Caveat and deviation tracking | `windows/conformance/deviation-log.md` |
-| Acceptance status | `windows/conformance/acceptance-judgment.md` |
+| Install and link | [SDK integration](docs/sdk-integration.md) |
+| Lifetime/API migration | [Migration](docs/sdk-migration.md) |
+| Fault export and privacy | [Support diagnostics](docs/support-diagnostics.md) |
+| Platform, CRT and ABI contract | [Compatibility](docs/sdk-compatibility.md) |
+| Source build and qualification | [Build instructions](docs/build-run-instructions.md) |
+| Authority and core gates | [Canonical deference](CANONICAL-DEFERENCE.md), [acceptance](conformance/acceptance-judgment.md) |
+| ZIP and signing scope | [Packaging decision](docs/packaging-decision.md) |
 
-## Directory Layout
-
-```text
-windows/
-├── README.md
-├── CANONICAL-DEFERENCE.md
-├── build/                       # Visual Studio solution, project files, PowerShell wrapper
-├── src/
-│   ├── include/ash/             # public C++ headers
-│   └── *.cpp                    # module implementations
-├── tests/                       # test_runner.hpp and module tests
-├── conformance/                 # Windows conformance and release-gate documentation
-└── docs/                        # architecture and build/run instructions
-```
-
-## Semantic Core Coverage
-
-The Windows semantic core implements:
-
-- `StateModel`
-- `TransitionRegistry`
-- `Diagnostics`
-- `RecoveryEngine`
-- `RealmEncoder`
-- `TopologyGenerator`
-- `AxiomEvaluator`
-- `GenerationPlanner`
-- `ArtifactEmitter`
-
-See `windows/conformance/module-mapping.md` for complete file mapping and `windows/conformance/verification-plan.md` for test coverage.
-
-## Current Acceptance Status
-
-`NOT_SHIPPABLE`
-
-The semantic core exists, but release-critical Windows gates remain:
-
-- MSVC/MSBuild release matrix;
-- packaging model and signed distribution evidence;
-- production signing verification;
-- clean install, launch, upgrade, repair, and uninstall validation;
-- product UI and accessibility validation;
-- SBOM, checksums, release manifest, and final owner-controlled approvals.
-
-## Build And Run
+Build from the product root with an explicitly validated offline resource cache:
 
 ```powershell
-cd windows\build
-.\build.ps1
-..\tests\run_all.ps1
+.\windows\build\build.ps1 -Configuration Release -Platform x64 -AuthorityCache $AuthorityCache
+.\windows\tests\run_all.ps1 -BinDir .\windows\build\out\bin\x64-Release
 ```
 
-Prerequisites: Visual Studio 2022 or Build Tools for Visual Studio 2022 with the C++ workload, plus PowerShell 5.1 or PowerShell 7.
+Normal builds never download authority files. Test success requires all seven executables and nonempty successful case reports. Cross-build success does not imply execution. Intended Windows 10 1809+/Windows 11 deployment and physical-device qualification are separate from host-local evidence. Historical status records are not current qualification.

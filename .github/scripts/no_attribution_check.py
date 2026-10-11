@@ -93,6 +93,19 @@ def commit_selector(event_name: str, event: dict) -> str | list[str]:
         after = event.get("after", "") or os.environ.get("GITHUB_SHA", "")
         if not after:
             raise AttributionError("push payload missing after SHA")
+        if (event.get("ref") or "").startswith("refs/tags/"):
+            ref = event["ref"]
+            if event.get("deleted") or after == ZERO_SHA:
+                raise AttributionError("tag deletion cannot qualify a publication")
+            if not re.fullmatch(r"[0-9a-f]{40}", after):
+                raise AttributionError("tag push requires a full object SHA")
+            run_git("check-ref-format", ref)
+            target = run_git("rev-parse", "--verify", f"{after}^{{commit}}").strip()
+            observed = run_git("rev-parse", "--verify", f"{ref}^{{commit}}").strip()
+            head = (event.get("head_commit") or {}).get("id", "")
+            if observed != target or (head and head != target):
+                raise AttributionError("tag event/ref/head commit identity mismatch")
+            return [target]
         if before and before != ZERO_SHA:
             return f"{before}..{after}"
         pushed = [
@@ -205,6 +218,15 @@ def check_commit_metadata(commit_list: list[str], errors: list[str]) -> None:
             errors.append(f"prohibited attribution token in commit metadata: {commit}")
 
 
+def check_tag_metadata(event_name: str, event: dict, errors: list[str]) -> None:
+    ref = event.get("ref") or ""
+    if event_name != "push" or not ref.startswith("refs/tags/"):
+        return
+    if run_git("cat-file", "-t", ref).strip() == "tag":
+        if metadata_pattern().search(run_git("cat-file", "tag", ref)):
+            errors.append(f"prohibited attribution token in annotated tag metadata: {ref}")
+
+
 def check_file_content(paths: set[str], errors: list[str]) -> None:
     patterns = content_patterns()
     for rel in sorted(paths):
@@ -234,6 +256,7 @@ def main() -> int:
         check_ref_name(errors)
         check_paths(paths, errors)
         check_commit_metadata(commit_list, errors)
+        check_tag_metadata(event_name, event, errors)
         check_file_content(paths, errors)
 
         if errors:

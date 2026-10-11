@@ -33,6 +33,12 @@
 #pragma once
 
 #include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <vector>
+#include <cstdint>
+#include <array>
 #include <utility>
 
 #include "DiagnosticEnvelope.hpp"
@@ -74,6 +80,64 @@ struct NormalizeResult {
     std::shared_ptr<DiagnosticEnvelope> diagnostic;
 };
 
+enum class RuntimeMode { NORMAL, CONTAINED, FAILED, SAFE_HALT };
+
+// The canonical registry defines selection rules, not domain-safe states.
+// Applications provide verified candidates and the explicit operational policy.
+struct FallbackCandidate {
+    Bit9State state;
+    std::uint64_t configured_rank{0};
+    std::uint64_t verification_sequence{0};
+    bool applicable{true};
+    bool verification_valid{true};
+    std::string evidence_reference;
+    bool escalate_on_validation_failure{false};
+};
+
+struct FallbackPolicyInstance {
+    std::string instance_id;
+    std::string policy_id;
+    std::string registry_version{"1.0"};
+    bool available{true};
+    std::vector<FallbackCandidate> candidates;
+};
+
+struct OperationalContext {
+    std::string context_id;
+    std::string context_version;
+    std::vector<Bit9State> allowed_stable_states;
+    std::optional<Bit9State> preferred_state;
+    FallbackPolicyInstance fallback_policy_instance;
+    std::string codeword_registry_version{"1.0"};
+    bool propagation_risk_policy_defined{false};
+    bool propagation_risk_permits_mutation{false};
+    bool containment_policy_defined{false};
+    bool halt_policy_defined{false};
+    std::vector<std::string> restricted_operations{"inspect", "diagnostics", "export", "safe_halt"};
+};
+
+struct InputNormalizationResult {
+    std::optional<Bit9State> state;
+    std::shared_ptr<DiagnosticEnvelope> diagnostic;
+};
+
+struct StateAssessment {
+    std::optional<Bit9State> state;
+    std::string operational_context_id;
+    std::vector<Bit9State> candidate_targets;
+    std::optional<Bit9State> selected_target;
+    std::optional<std::size_t> correction_codeword_id;
+    RuntimeMode runtime_mode{RuntimeMode::NORMAL};
+    std::optional<SystemStateClass> state_class;
+    bool blocked{true};
+    std::shared_ptr<DiagnosticEnvelope> diagnostic;
+};
+
+struct AveragingResult {
+    std::array<double, kStateSpaceSize> values{};
+    std::shared_ptr<DiagnosticEnvelope> diagnostic;
+};
+
 class StateModel {
 public:
     StateModel() = default;
@@ -93,6 +157,18 @@ public:
     // Structural normalization returns the input unchanged with a
     // RESOLVED diagnostic for every well-formed Bit9State.
     [[nodiscard]] NormalizeResult normalize(const Bit9State& candidate) const;
+
+    // Boundary parsing rejects malformed signatures before an ASH state exists.
+    [[nodiscard]] InputNormalizationResult normalize_input(std::string_view candidate) const;
+    [[nodiscard]] bool validate_context(const OperationalContext& context) const noexcept;
+    [[nodiscard]] StateAssessment assess_state(std::string_view candidate,
+                                              const OperationalContext* context,
+                                              RuntimeMode mode = RuntimeMode::NORMAL) const;
+    [[nodiscard]] StateAssessment assess_state(const Bit9State& state,
+                                              const OperationalContext& context,
+                                              RuntimeMode mode = RuntimeMode::NORMAL) const;
+    // Canonical T f(x) = sum_c f(x XOR c) / 16 over the full state space.
+    [[nodiscard]] AveragingResult average(const std::array<double, kStateSpaceSize>& values) const;
 };
 
 }  // namespace ash

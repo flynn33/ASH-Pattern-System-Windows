@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Shared MSBuild properties for every project in ash-windows.sln.
-
-    Scope: Windows desktop C++ implementation branch of the ASH Pattern System.
-    Compiler: MSVC cl.exe from Visual Studio 2022 or later. Microsoft-produced.
-    Language: C++20.
-    Warning level: W4, warnings as errors.
-    Runtime library: static (MT / MTd) to minimize runtime dependencies.
--->
 <Project>
-  <PropertyGroup Label="Globals">
+  <PropertyGroup>
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Configuration">
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <ASHBuildDirectory>$(MSBuildThisFileDirectory)</ASHBuildDirectory>
+    <ASHBuildRoot Condition="'$(ASHBuildRoot)'==''">$(MSBuildThisFileDirectory)out</ASHBuildRoot>
+    <OutDir>$(ASHBuildRoot)\bin\$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(ASHBuildRoot)\obj\$(Platform)-$(Configuration)\$(MSBuildProjectName)\</IntDir>
+    <ASHGeneratedInclude>$(ASHBuildRoot)\generated\$(Platform)-$(Configuration)\include</ASHGeneratedInclude>
+    <ASHGeneratedTests>$(ASHBuildRoot)\generated\tests</ASHGeneratedTests>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <OutDir>$(SolutionDir)bin\$(Platform)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)obj\$(Platform)-$(Configuration)\$(ProjectName)\</IntDir>
-  </PropertyGroup>
-
   <ItemDefinitionGroup>
     <ClCompile>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -38,14 +27,18 @@
       <RuntimeLibrary Condition="'$(Configuration)'=='Release'">MultiThreaded</RuntimeLibrary>
       <Optimization Condition="'$(Configuration)'=='Debug'">Disabled</Optimization>
       <Optimization Condition="'$(Configuration)'=='Release'">MaxSpeed</Optimization>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\\src\\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ASHGeneratedInclude);$(ASHBuildDirectory)..\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
 </Project>

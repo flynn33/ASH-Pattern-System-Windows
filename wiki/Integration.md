@@ -1,0 +1,15 @@
+# Native integration
+
+Use MSVC v143 19.44 or later, C++20, Release /MT, iterator debug level zero and the matching x64 or ARM64 architecture. Define ASHSDKRoot with a trailing separator; import msbuild/ASHPatternSystem.props after Microsoft C++ props and ASHPatternSystem.targets after Microsoft C++ targets. The SDK preserves inherited flags and rejects incompatible per-file runtime/language settings.
+
+The standalone sample owns ConsumerApp and includes only public ash headers. It links the packaged ash-core.lib without producer ProjectReferences. Relocated SDK paths, including spaces, are exercised by consumer acceptance. Do not suppress mismatch diagnostics or force incompatible CRT linkage.
+
+Clean rebuild/relink after public record/ownership changes. Diagnostic chain-root references are weak and require `lock()`; child parent references retain ancestry. Borrowed StateModel/TransitionRegistry instances must outlive RecoveryEngine. Semantic mutable objects require caller synchronization; support Session permits capture/snapshot/close concurrency with joined lifetime.
+
+Use `generate_plan(GenerationRequest, GenerationPlanningInputs)` for explicit project/seed/transitions/depth/profile/naming/target-kind requests and separate target provenance/optional measured axiom evidence. The complete plan retains every topology node/leaf/role and all five explanatory axiom results; unavailable evidence remains `INDETERMINATE`. The native descriptor profile, realm/project naming policies and desktop/mobile/service classes are explicit supported references. Legacy state/target calls use `ash-plan`, no transitions, depth zero, realm naming and no measured subject. `aps-windows-plan-2` replaces old hashes and binds complete evidence/registry fields; regenerate stored plans and clean rebuild after plan/artifact layout changes. The emitter audits the stored plan and copies its declared descriptors without file writes.
+
+Use the optional `containment_record()` and `safe_halt_record()` getters to retrieve typed safety projections, then `Diagnostics::serialize_transport(record, ash::sdk_version)` with the generated Version header. Their UTC timestamps record local entry/adoption outside semantic identity. Prevented contained operations append blocked evidence; confirmed breach enters frozen terminal halt. Importing external terminal evidence records local `POLICY_HALT_REQUEST` enforcement, preserves that terminal chain and retains prior independent histories. Invalid imported graph/action evidence throws before adoption changes the engine. Export `retained_diagnostic_chains()` entries separately with `Diagnostics::serialize_chain()`.
+
+SDK `1.0.0-rc.1` currently binds canonical APS `1.0.0-rc.3`; engineering policy and realization profiles have separate pins. Release acceptance must be established by the exact released `qualification.json`, bound to its clean source and asset bytes. ARM64 evidence is cross-build/link only; runtime execution and the physical deployment floor remain owner phases.
+
+See [Public API and Boundaries](Public-API-and-Boundaries) and [Diagnostics](Diagnostics).

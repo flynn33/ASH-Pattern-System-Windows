@@ -12,3 +12,7 @@ windows/build/obj/
 windows/build/package.appxmanifest
 windows/conformance/packaging-and-signing-baseline.md
 windows/release/
+
+# SDK archives and local native build outputs.
+packages/
+windows/build/out/

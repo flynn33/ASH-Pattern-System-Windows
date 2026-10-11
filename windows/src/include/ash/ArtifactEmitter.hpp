@@ -51,19 +51,21 @@
 
 namespace ash {
 
-// Placeholder target configuration. Concrete shape is target-class-specific.
+// Configuration for deterministic descriptor materialization.
 struct TargetConfiguration {
-    std::string output_directory;  // branch-local: not used until runtime materialization
+    std::string output_directory;  // reserved caller value; descriptors perform no filesystem writes
     std::string target_class;
 };
 
-// A materialized artifact. Shape is a simple descriptor on this
-// branch; the canonical spec leaves the concrete artifact type open
-// to the target runtime.
+// One descriptor for a plan-declared artifact. The caller owns any subsequent
+// filesystem or runtime materialization.
 struct Artifact {
     std::string plan_element_reference;  // traces back to a plan element
     std::string kind;                     // e.g. "file", "module", "manifest"
     std::string summary;                  // human-readable description
+    std::string artifact_id;
+    std::string name;
+    std::vector<std::string> role_references;
 };
 
 struct EmissionResult {
@@ -75,8 +77,8 @@ class ArtifactEmitter {
 public:
     ArtifactEmitter() = default;
 
-    // Stub on this branch. Signature rejects any planner callback
-    // by construction — only plan and config are accepted.
+    // Validates the recognized plan/hash and emits every declared descriptor.
+    // The signature accepts the complete plan and target configuration.
     [[nodiscard]] EmissionResult
     materialize_plan(const GenerationPlan& plan,
                      const TargetConfiguration& config) const;

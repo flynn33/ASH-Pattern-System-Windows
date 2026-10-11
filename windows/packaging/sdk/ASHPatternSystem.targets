@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ValidateASHSDK" BeforeTargets="ClCompile;Link">
+    <Error Condition="'$(Configuration)'!='Release'" Text="ASH SDK assets support Release only. Rebuild source separately for Debug." />
+    <Error Condition="'$(Platform)'!='x64' and '$(Platform)'!='ARM64'" Text="ASH SDK requires x64 or ARM64." />
+    <Error Condition="'$(PlatformToolset)'!='v143'" Text="ASH SDK requires the verified Microsoft v143 toolset." />
+    <Error Condition="'$(ConfigurationType)'!='Application' and '$(ConfigurationType)'!='DynamicLibrary' and '$(ConfigurationType)'!='StaticLibrary'" Text="ASH SDK requires a native C++ target." />
+    <Error Condition="!Exists('$(ASHSDKRoot)include\ash\Version.hpp')" Text="ASH SDK public include directory is missing." />
+    <Error Condition="!Exists('$(ASHSDKLibrary)')" Text="ASH SDK architecture-specific Release ash-core.lib is missing." />
+    <Error Condition="'%(ClCompile.RuntimeLibrary)'!='MultiThreaded'" Text="ASH SDK requires /MT on every compilation unit: %(ClCompile.Identity). Set RuntimeLibrary=MultiThreaded explicitly." />
+    <Error Condition="'%(ClCompile.LanguageStandard)'!='stdcpp20' and '%(ClCompile.LanguageStandard)'!='stdcpplatest'" Text="ASH SDK requires C++20 or later on every compilation unit: %(ClCompile.Identity)." />
+    <Error Condition="'%(ClCompile.WholeProgramOptimization)'=='true'" Text="ASH SDK consumption does not qualify /GL builds." />
+  </Target>
+</Project>

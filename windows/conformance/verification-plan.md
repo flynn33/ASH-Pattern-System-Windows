@@ -1,50 +1,23 @@
-# Verification Plan — APS Windows
+# Native verification plan
 
-This plan maps Windows C++ tests to APS module behavior and platform release gates.
+The authoritative inventory is `../tests/test-inventory.json`. Each required executable must exist, launch on a compatible architecture, complete within the bound, report nonempty cases and return success.
 
-## Local Test Executables
+The current canonical binding is APS `1.0.0-rc.3` at `50d7e5ab88932a4a967ffc2c83bd18fae45b73c8`; engineering policy remains `0.7.0` at `8dd6e75a06336491b249fac3577db75458db8c13`, and the separate profile catalog is `0.7.2` at `82049af6b10d4dc21d24fb9c67f1b93155e4b7e3`. [Canonical deference](../CANONICAL-DEFERENCE.md) identifies profiles and exact hashes. Preserve original rc.1 and actual rc.2 repair/integration evidence; qualify current resources together. Release acceptance must be established by the exact released `qualification.json`, bound to its clean source and asset bytes.
 
-| Executable | Source test file | Coverage |
-|---|---|---|
-| `ash-test-statemodel` | `windows/tests/StateModel.test.cpp` | 512-state structural coverage, normalization identity, system-state/recovery mapping |
-| `ash-test-transitionregistry` | `windows/tests/TransitionRegistry.test.cpp` | 16 codewords, closure, weights, b8 invariance, deterministic XOR transitions, all 8,192 state/codeword pairs, noncanonical rejection |
-| `ash-test-diagnostics` | `windows/tests/Diagnostics.test.cpp` | Diagnostic builder requirements, rule ID validation, chain integrity |
-| `ash-test-recoveryengine` | `windows/tests/RecoveryEngine.test.cpp` | Recovery diagnostics, empty fallback escalation, containment, safe halt |
-| `ash-test-completionmodules` | `windows/tests/CompletionModules.test.cpp` | Realm/orbit encoding, topology, axiom tri-state evaluation, generation planning, emission traceability |
-
-## Requirement Coverage
-
-| Requirement | Evidence |
+| Executable | Ownership |
 |---|---|
-| 512 well-formed states remain realm-preserving under structural normalization | `normalize_all_well_formed_states_is_identity_with_resolved_diagnostic` |
-| Canonical b0-most-significant integer/signature mapping | `from_int_uses_canonical_msb_bit_order` |
-| Exact 16-member codeword set | `codeword_set_has_exactly_16_members`, `codeword_set_is_closed_under_xor`, `codeword_set_weights_are_in_0_4_8` |
-| Full-vector XOR transitions and involution | `apply_transition_operates_on_full_9_bits`, `apply_transition_is_involutive` |
-| Realm and orbit identity format | `realm_encoder_returns_canonical_identity`, `realm_encoder_matches_canonical_orbit_partition_for_all_512_states` |
-| 8,192 state/codeword transformations | `apply_transition_matches_all_8192_canonical_pairs` |
-| Ordered ternary topology | `topology_generator_builds_ordered_ternary_tree`, `topology_generator_rejects_depth_over_limit_before_output` |
-| Evidence-based axiom results | `axiom_evaluator_reports_pass_fail_and_indeterminate`, `axiom_evaluator_aggregates_required_axioms` |
-| Side-effect-free inspectable planning | `generation_planner_produces_inspectable_hashed_plan` |
-| Plan-bound emission traceability | `artifact_emitter_traces_each_artifact_to_plan_element`, `artifact_emitter_refuses_incomplete_plan` |
-| Diagnostic completeness | `Diagnostics.test.cpp`, recovery and transition diagnostic tests |
+| ash-test-statemodel | Structural state normalization, mapping and classification |
+| ash-test-transitionregistry | Exact codewords and all state/codeword XOR pairs |
+| ash-test-diagnostics | Envelope construction, identity, ancestry and graph rejection |
+| ash-test-recoveryengine | Correction, fallback, containment and terminal guards |
+| ash-test-completionmodules | Realm, topology, axiom, planner and emission |
+| ash-test-supportdiagnostics | Bounded privacy, profiles, paired export and concurrency |
+| ash-test-canonicalconformance | Independently pinned corpus expectations, invariant/category mapping |
 
-## Release Verification Command
+The canonical suite uses the validated offline authority and external generated fixtures. The exact invariant headings, rather than an approximate count, define obligations: all 28 IDs and five categories must be mapped to executed checks. Output preserves case IDs and expected/actual fields. Literal conflicts remain failures.
 
-On a supported Windows host:
+Use the single [qualification entry point](../docs/build-run-instructions.md). Required builds are x64/ARM64 Release and Debug; x64 native execution is required on the assigned host. ARM64 cross-build/link is separate from runtime qualification. Both public SDKs require isolated extracted header and consumer builds, configuration/import failure checks, symbols/dependency inspection and archive integrity.
 
-```powershell
-cd windows\build
-.\build.ps1 -Configuration Release -Platform x64 -Test
-.\build.ps1 -Configuration Release -Platform ARM64 -Test
-```
+Independent native-record verification consumes actual output from both x64 configurations, reads the selected immutable transport schemas, recomputes nine-field diagnostic identities and causal chains, and rejects corruption controls. Source-qualified metadata records every generated identity, fixture, library and test-executable digest. A direct solution invocation from the supported product root must succeed with identical completed-output hashes.
 
-The local macOS execution environment can compile and run the same C++ test sources with `clang++` for behavioral validation, but that does not replace the required MSVC/MSBuild release matrix.
-
-## Remaining Release Gates
-
-- MSVC/MSBuild Release x64 and ARM64 builds.
-- Windows static analysis where configured.
-- UI/accessibility verification after a product UI exists.
-- Signed MSIX or owner-approved Microsoft-supported distribution artifact.
-- Clean install, launch, upgrade, repair, and uninstall validation on supported Windows systems.
-- SBOM, signing, checksums, and release evidence.
+Resource validation, static policy checks, builds, executions, peer review, independent acceptance and publication are distinct results. A first complete substantive run may leave only independentReview incomplete. Final independent review binds that actual report's digest/size, all six conclusions with hashed evidence files, the exact clean source fingerprint, separate authority bindings, two Release library hashes and exact two ZIP identities. Optional completed-build reuse verifies all prior substantive gates and current output bytes while rerunning remaining mandatory checks; reused binaries are labeled rather than represented as rebuilt. Missing or stale independent review, failed native core conformance or inconsistent source provenance blocks release.

@@ -5,6 +5,7 @@
 #include "ash/DiagnosticEnvelope.hpp"
 #include "ash/RuleIds.hpp"
 #include "ash/State.hpp"
+#include <limits>
 
 namespace ash {
 
@@ -59,6 +60,13 @@ TopologyResult TopologyGenerator::generate_topology(const Bit9State& state,
     const std::string subject = "topology[state=" + canonical_signature(state) +
                                 ",depth=" + std::to_string(requested_depth) + "]";
     if (requested_depth > kDefaultMaxDepth) {
+        std::size_t leaves = 1;
+        bool overflow = false;
+        for (std::size_t i = 0; i < requested_depth; ++i) {
+            if (leaves > std::numeric_limits<std::size_t>::max() / 3) { overflow = true; break; }
+            leaves *= 3;
+        }
+        const bool node_overflow = overflow || leaves > (std::numeric_limits<std::size_t>::max() - 1) / 3;
         auto diagnostic =
             DiagnosticEnvelopeBuilder{}
                 .kind(DiagnosticKind::TOPOLOGY)
@@ -70,12 +78,15 @@ TopologyResult TopologyGenerator::generate_topology(const Bit9State& state,
                 .summary("Topology request exceeds configured resource limit")
                 .note("The request is rejected before partial output. The "
                       "Windows core default maximum topology depth is " +
-                      std::to_string(kDefaultMaxDepth) + ".")
+                      std::to_string(kDefaultMaxDepth) + "; requested_depth=" + std::to_string(requested_depth) +
+                      "; projected_leaves=" + (overflow ? "unrepresentable" : std::to_string(leaves)) +
+                      "; projected_nodes=" + (node_overflow ? "unrepresentable" : std::to_string((leaves * 3 - 1) / 2)) + ".")
                 .build_root();
         return TopologyResult{TopologyStructure{}, std::move(diagnostic)};
     }
 
     TopologyStructure topology;
+    topology.depth = requested_depth;
     const std::size_t total_nodes = (pow3(requested_depth + 1) - 1) / 2;
     topology.nodes.reserve(total_nodes);
 
@@ -91,7 +102,9 @@ TopologyResult TopologyGenerator::generate_topology(const Bit9State& state,
             node.has_parent = depth > 0;
             if (node.has_parent) {
                 node.parent_index = global_ordinal_for(depth - 1, ordinal / 3);
+                node.parent_path = node.path.substr(0, node.path.rfind('/'));
             }
+            node.is_leaf = depth == requested_depth;
             if (depth == requested_depth) {
                 topology.leaf_indices.push_back(node.global_ordinal);
             }
@@ -113,6 +126,15 @@ TopologyResult TopologyGenerator::generate_topology(const Bit9State& state,
             .build_root();
 
     return TopologyResult{std::move(topology), std::move(diagnostic)};
+}
+
+TopologyResult TopologyGenerator::reject_negative_depth_(std::int64_t requested_depth) const {
+    auto diagnostic = DiagnosticEnvelopeBuilder{}
+        .kind(DiagnosticKind::TOPOLOGY).severity(Severity::ERROR).stage(Stage::DETECTION)
+        .disposition(Disposition::BLOCKED).subject("topology[negative-depth=" + std::to_string(requested_depth) + "]")
+        .rule_id(rule_ids::kTopology002).summary("Requested topology depth must be non-negative")
+        .note("Request rejected before projected counts or partial topology construction.").build_root();
+    return {TopologyStructure{}, std::move(diagnostic)};
 }
 
 }  // namespace ash

@@ -1,82 +1,19 @@
-# Deviation Log — APS Windows
+# Current SDK limits and historical authority corrections
 
-This log records known Windows-platform limitations relative to the final product-completion package. A deviation here is not a change to APS behavior.
+Historical completion records describe earlier work. They do not establish acceptance of SDK `1.0.0-rc.1`.
 
-## D-001 — Empty Fallback Policy Instance Store
+The current native API exposes supplied operational context and fallback policy instances. No universal domain-safe fallback state is assumed. Applications own candidate verification evidence and runtime context. Persistence and migration-service implementation are outside this SDK scope.
 
-**What:** `RecoveryEngine::select_fallback()` currently observes an empty in-memory fallback policy instance store and escalates with a diagnostic.
+The adopted APS authority is `1.0.0-rc.3` at `50d7e5ab88932a4a967ffc2c83bd18fae45b73c8`. Historical rc.2 at `ea2c6494b0d40bd6975bd210efe33a0cf540812f` repaired the two conflicts observed at original rc.1 commit `7bb68bf3377b18c74d4b0ace6a561371e446bbee`: `APS-VEC-CONTAINMENT-BREACH` expected FAILED despite required SAFE_HALT, and fourteen diagnostic vectors omitted required notes. Original inputs, failing evidence and actual rc.2 repair/integration evidence remain unchanged; current tests bind the complete records to rc.3. These are authoritative successor changes, not local waivers.
 
-**Why:** APS does not declare a universal domain-safe fallback state. Concrete fallback candidates must come from validated operational context or declared policy instances. Until such an instance is supplied to the Windows product, selecting no replacement and escalating is the fail-closed behavior.
+Rc.3 preserves rc.2 semantic diagnostic IDs, closes machine-schema gaps for blank explanations and multiline summaries, and explicitly reconciles the named older conflicting clauses without changing the locked mathematics or operational model. Apply only that stated precedence; do not infer blanket acceptance of other stale reference prose or general repository reproducibility. Release acceptance must be established by the exact released `qualification.json`, bound to its clean source and asset bytes.
 
-**Scope:** `windows/src/RecoveryEngine.cpp`, `windows/tests/RecoveryEngine.test.cpp`.
+Engineering policy remains `0.7.0` at `8dd6e75a06336491b249fac3577db75458db8c13`; the adopted realization-profile catalog is separately bound to `0.7.2` at `82049af6b10d4dc21d24fb9c67f1b93155e4b7e3`. The native profile remains `rfd.aps.windows.b1c05f1`, identifying its original baseline. See [canonical deference](../CANONICAL-DEFERENCE.md) for profile hashes and roles. Release acceptance must be established by the exact released `qualification.json`, bound to its clean source and asset bytes.
 
-**Resolution:** Add a typed Windows fallback policy instance model and tests for declared known-good and last-verified-stable candidates. That work must preserve the rule that cross-orbit replacement is fallback, not a codeword transition.
+Typed safety projections describe this engine's entry or adoption time. Imported terminal evidence is locally enforced with `POLICY_HALT_REQUEST`; its unknown external trigger/time is not fabricated. Independent prior histories remain accessible through `retained_diagnostic_chains()` and are exported separately with `Diagnostics::serialize_chain()`. Invalid imported graphs or terminal actions reject before adoption. Public record changes require a clean rebuild/relink.
 
----
+The intended Windows 10 1809+/Windows 11 floor needs owner physical qualification. ARM64 libraries and consumers must cross-build/link and pass machine inspection; ARM64 runtime is explicitly untested on an x64 host. These can be named noncore candidate limitations.
 
-## D-002 — No Production UI or Signed Installer in This Local Iteration
+Distribution is an unsigned Release static SDK ZIP, with `/MT` and C++20/v143 requirements. Authenticode, GUI/installer/UI accessibility and unrelated runtime services are outside this work order. Embedded `/Z7` debug information is inspected; unavoidable Microsoft toolchain path metadata is disclosed in qualification evidence.
 
-**What:** The current repository state provides a native C++ semantic core and tests, not a WinUI 3 product UI or signed MSIX installer.
-
-**Why:** The local execution environment does not provide Visual Studio/MSBuild, Windows App SDK, signing credentials, or a clean Windows install target. Those gates are owner/environment controlled.
-
-**Scope:** Packaging, accessibility UI verification, install/upgrade/uninstall validation, and production signing evidence.
-
-**Resolution:** Complete these on a Windows build host with Visual Studio/MSBuild, Windows App SDK, production signing credentials, and clean supported Windows validation targets. Do not mark the release shippable until those gates pass.
-
----
-
-## D-003 — Operational Context Model Is Incomplete
-
-**What:** The semantic core distinguishes structural operations from recovery/fallback/halt diagnostics, but it does not yet expose a complete versioned `OperationalContext` schema in C++.
-
-**Why:** The current work closes module completion and canonical encoding first. The package still requires a fuller typed operational context with stable-state sets, preferred targets, fallback policy instance references, containment policy, halt policy, and registry versions.
-
-**Scope:** `StateModel`, `RecoveryEngine`, data/configuration, migration, and product workflow evidence.
-
-**Resolution:** Add the typed context model, validation, persistence rules, negative tests, and migration evidence before any final release judgment.
-
----
-
-## D-004 — Canonical Corpus Execution Complete ✅
-
-**What:** Canonical upstream JSON corpus has been vendored and verified against Windows implementation on Release builds.
-
-**Resolution:** 
-1. ✅ Wired corpus verification step to `windows/build/build.ps1`
-2. ✅ Executed on both x64 and ARM64 Release builds
-3. ✅ Documented results in `completion-evidence/corpus-conformance-report.md`
-4. ✅ Updated deviation log when closed
-
-**Status:** ✅ RESOLVED (2026-07-12)
-
----
-
-## D-005 — Canonical Corpus Acquisition Complete
-
-**What:** Canonical upstream JSON corpus successfully vendored into Windows branch.
-
-**Why:** Per APSWIN-GAP-001, the canonical corpus was missing from Windows branch. This deviation records its successful acquisition and integration.
-
-**Scope:** `windows/canonical-data/` contains 8 canonical JSON files:
-- `codewords.json` - 16-member codeword set definition
-- `realms.json` - 512 realm identities with b0 MSB ordering  
-- `orbits.json` - 32 orbit partitioning for [9,4,4] doubly-even code
-- `transitions.json` - All 8,192 state/codeword transition pairs
-- `fallback-policy-definitions.json` - Fallback policy instance model
-- `rule-registry.json` - Diagnostic rule family registry
-- `normative-artifact-index.json` - Normative artifact index
-- `mathematical-properties.json` - Mathematical properties of codeword set
-
-**Resolution:** 
-1. ✅ Canonical corpus acquired from upstream repository
-2. ✅ Verification framework implemented (`windows/packaging/run-canonical-conformance.py`)
-3. ⏳ Full execution on Release builds pending (see D-004)
-
-**Status:** ✅ RESOLVED (2026-07-12)  
-**Evidence:** `completion-evidence/corpus-conformance-report.md`
-
----
-
-*Deviation log updated: 2026-07-12*  
-*Wave C progress: Canonical corpus acquisition and execution complete ✅*
+See [acceptance judgment](acceptance-judgment.md) for mandatory gates and [compatibility](../docs/sdk-compatibility.md) for the consumer contract.

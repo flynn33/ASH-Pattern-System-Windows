@@ -1,149 +1,122 @@
 // GenerationPlanner.cpp
-
 #include "ash/GenerationPlanner.hpp"
 
-#include <array>
-#include <cstdint>
-#include <iomanip>
-#include <sstream>
-#include <string>
-#include <vector>
+#include <stdexcept>
+#include <utility>
 
-#include "ash/DiagnosticEnvelope.hpp"
 #include "ash/RuleIds.hpp"
-#include "ash/State.hpp"
+#include "ash/StateModel.hpp"
+#include "PlanIdentity.hpp"
 
 namespace ash {
-
 namespace {
-
-std::uint32_t rotr(std::uint32_t value, std::uint32_t bits) noexcept {
-    return (value >> bits) | (value << (32u - bits));
+PlanResult blocked_plan(std::string summary, std::string reason) {
+    auto diagnostic = DiagnosticEnvelopeBuilder{}
+        .kind(DiagnosticKind::GENERATION_PLAN).severity(Severity::ERROR)
+        .stage(Stage::PLAN).disposition(Disposition::BLOCKED)
+        .subject("GenerationPlanner::generate_plan").rule_id(rule_ids::kGeneration001)
+        .summary(std::move(summary)).note(std::move(reason)).build_root();
+    return {GenerationPlan{}, std::move(diagnostic)};
+}
 }
 
-std::string sha256_hex(const std::string& input) {
-    static constexpr std::array<std::uint32_t, 64> k{
-        0x428a2f98u, 0x71374491u, 0xb5c0fbcfu, 0xe9b5dba5u, 0x3956c25bu, 0x59f111f1u,
-        0x923f82a4u, 0xab1c5ed5u, 0xd807aa98u, 0x12835b01u, 0x243185beu, 0x550c7dc3u,
-        0x72be5d74u, 0x80deb1feu, 0x9bdc06a7u, 0xc19bf174u, 0xe49b69c1u, 0xefbe4786u,
-        0x0fc19dc6u, 0x240ca1ccu, 0x2de92c6fu, 0x4a7484aau, 0x5cb0a9dcu, 0x76f988dau,
-        0x983e5152u, 0xa831c66du, 0xb00327c8u, 0xbf597fc7u, 0xc6e00bf3u, 0xd5a79147u,
-        0x06ca6351u, 0x14292967u, 0x27b70a85u, 0x2e1b2138u, 0x4d2c6dfcu, 0x53380d13u,
-        0x650a7354u, 0x766a0abbu, 0x81c2c92eu, 0x92722c85u, 0xa2bfe8a1u, 0xa81a664bu,
-        0xc24b8b70u, 0xc76c51a3u, 0xd192e819u, 0xd6990624u, 0xf40e3585u, 0x106aa070u,
-        0x19a4c116u, 0x1e376c08u, 0x2748774cu, 0x34b0bcb5u, 0x391c0cb3u, 0x4ed8aa4au,
-        0x5b9cca4fu, 0x682e6ff3u, 0x748f82eeu, 0x78a5636fu, 0x84c87814u, 0x8cc70208u,
-        0x90befffau, 0xa4506cebu, 0xbef9a3f7u, 0xc67178f2u};
-
-    std::vector<std::uint8_t> data(input.begin(), input.end());
-    const std::uint64_t bit_length = static_cast<std::uint64_t>(data.size()) * 8u;
-    data.push_back(0x80u);
-    while ((data.size() % 64u) != 56u) {
-        data.push_back(0u);
-    }
-    for (int shift = 56; shift >= 0; shift -= 8) {
-        data.push_back(static_cast<std::uint8_t>((bit_length >> shift) & 0xffu));
-    }
-
-    std::array<std::uint32_t, 8> h{
-        0x6a09e667u, 0xbb67ae85u, 0x3c6ef372u, 0xa54ff53au,
-        0x510e527fu, 0x9b05688cu, 0x1f83d9abu, 0x5be0cd19u};
-
-    for (std::size_t chunk = 0; chunk < data.size(); chunk += 64u) {
-        std::array<std::uint32_t, 64> w{};
-        for (std::size_t i = 0; i < 16u; ++i) {
-            const std::size_t offset = chunk + i * 4u;
-            w[i] = (static_cast<std::uint32_t>(data[offset]) << 24u) |
-                   (static_cast<std::uint32_t>(data[offset + 1u]) << 16u) |
-                   (static_cast<std::uint32_t>(data[offset + 2u]) << 8u) |
-                   static_cast<std::uint32_t>(data[offset + 3u]);
-        }
-        for (std::size_t i = 16u; i < 64u; ++i) {
-            const std::uint32_t s0 = rotr(w[i - 15u], 7u) ^ rotr(w[i - 15u], 18u) ^ (w[i - 15u] >> 3u);
-            const std::uint32_t s1 = rotr(w[i - 2u], 17u) ^ rotr(w[i - 2u], 19u) ^ (w[i - 2u] >> 10u);
-            w[i] = w[i - 16u] + s0 + w[i - 7u] + s1;
-        }
-
-        std::uint32_t a = h[0], b = h[1], c = h[2], d = h[3];
-        std::uint32_t e = h[4], f = h[5], g = h[6], hash = h[7];
-        for (std::size_t i = 0; i < 64u; ++i) {
-            const std::uint32_t s1 = rotr(e, 6u) ^ rotr(e, 11u) ^ rotr(e, 25u);
-            const std::uint32_t ch = (e & f) ^ ((~e) & g);
-            const std::uint32_t temp1 = hash + s1 + ch + k[i] + w[i];
-            const std::uint32_t s0 = rotr(a, 2u) ^ rotr(a, 13u) ^ rotr(a, 22u);
-            const std::uint32_t maj = (a & b) ^ (a & c) ^ (b & c);
-            const std::uint32_t temp2 = s0 + maj;
-            hash = g;
-            g = f;
-            f = e;
-            e = d + temp1;
-            d = c;
-            c = b;
-            b = a;
-            a = temp1 + temp2;
-        }
-        h[0] += a; h[1] += b; h[2] += c; h[3] += d;
-        h[4] += e; h[5] += f; h[6] += g; h[7] += hash;
-    }
-
-    std::ostringstream out;
-    out << std::hex << std::setfill('0');
-    for (const std::uint32_t part : h) {
-        out << std::setw(8) << part;
-    }
-    return out.str();
+std::string generation_plan_identity_payload(const GenerationPlan& plan) {
+    return detail::canonical_plan_payload(plan);
 }
 
-std::string canonical_plan_payload(const GenerationPlan& plan, const std::string& runtime_hint) {
-    std::ostringstream out;
-    out << "source_realm_id=" << plan.source_realm_id << '\n';
-    out << "source_signature=" << plan.source_signature << '\n';
-    out << "target_class=" << plan.target_class << '\n';
-    out << "runtime_hint=" << runtime_hint << '\n';
-    out << "registry_version=" << plan.registry_version << '\n';
-    for (std::size_t i = 0; i < plan.artifact_descriptions.size(); ++i) {
-        out << "artifact[" << i << "]=" << plan.artifact_descriptions[i] << '\n';
-    }
-    for (std::size_t i = 0; i < plan.role_assignments.size(); ++i) {
-        out << "role[" << i << "]=" << plan.role_assignments[i] << '\n';
-    }
-    return out.str();
-}
+PlanResult GenerationPlanner::generate_plan(const GenerationRequest& request,
+                                             const GenerationPlanningInputs& inputs) const {
+    if (request.profile_id != "aps-windows-descriptor-1.0" ||
+        inputs.target.profile_id != request.profile_id)
+        return blocked_plan("PROFILE_REFERENCE_INVALID", "The request and target must reference the supported aps-windows-descriptor-1.0 profile.");
+    if (!detail::supported_naming(request.naming_policy_id))
+        return blocked_plan("NAMING_POLICY_REFERENCE_INVALID", "The native naming registry supports aps-windows-realm-names-1.0 and aps-windows-project-names-1.0.");
+    if (request.emission_target_kind != "descriptor" || !detail::supported_target(inputs.target.target_class))
+        return blocked_plan("EMISSION_TARGET_REFERENCE_INVALID", "The native target registry supports descriptor output for desktop, mobile, and service classes.");
+    if (!detail::project_name_valid(request.project_name) ||
+        !detail::nonblank(inputs.target.registry_version) || !detail::nonblank(inputs.axiom_profile.identifier) ||
+        (inputs.axiom_subject && !detail::nonblank(inputs.axiom_subject->identifier)))
+        return blocked_plan("INVALID_GENERATION_INPUT", "Project names require nonempty ASCII letters, digits, dot, underscore, or hyphen; target provenance and axiom identity labels must be nonblank.");
+    if (request.topology_depth < 0 || request.topology_depth > static_cast<std::int64_t>(TopologyGenerator::kDefaultMaxDepth))
+        return blocked_plan("INVALID_TOPOLOGY_DEPTH", "The native structural topology supports depths zero through six; negative or excessive depths are rejected.");
 
-}  // namespace
+    try {
+        GenerationPlan plan;
+        plan.request = request;
+        plan.inputs = inputs;
+        const auto normalized = StateModel{}.normalize(request.seed_state);
+        if (!normalized.diagnostic || normalized.diagnostic->disposition != Disposition::RESOLVED)
+            return blocked_plan("STATE_NORMALIZATION_FAILED", "Structural normalization did not resolve the supplied seed state.");
+        plan.normalized_state = normalized.state;
+        plan.transformed_state = normalized.state;
+        plan.source_realm = RealmEncoder{}.encode_realm_identity(normalized.state).identity;
+        const TransitionRegistry transitions;
+        for (const auto& id : request.transition_sequence) {
+            const auto index = detail::transition_index(id);
+            if (!index) return blocked_plan("TRANSITION_REFERENCE_INVALID", "Every transition must reference APS-TRANSITION-CW-00 through APS-TRANSITION-CW-15; no transition was silently dropped.");
+            const auto resolved = transitions.resolve_transition(plan.transformed_state, *index);
+            if (!resolved.diagnostic || resolved.diagnostic->disposition != Disposition::RESOLVED)
+                return blocked_plan("TRANSITION_RESOLUTION_FAILED", "The canonical transition registry did not resolve a requested transition.");
+            const auto applied = transitions.apply_transition(plan.transformed_state, resolved.codeword);
+            if (!applied.diagnostic || applied.diagnostic->disposition != Disposition::RESOLVED)
+                return blocked_plan("TRANSITION_APPLICATION_FAILED", "A requested full-state XOR transformation failed; no partial plan is returned.");
+            plan.transformed_state = applied.state;
+        }
+        plan.destination_realm = RealmEncoder{}.encode_realm_identity(plan.transformed_state).identity;
+        const auto topology = TopologyGenerator{}.generate_topology(plan.transformed_state, static_cast<std::size_t>(request.topology_depth));
+        if (!topology.diagnostic || topology.diagnostic->disposition != Disposition::RESOLVED)
+            return blocked_plan("TOPOLOGY_GENERATION_FAILED", "The structural topology generator rejected the requested topology; no partial plan is returned.");
+        plan.topology_nodes = topology.topology.nodes;
+        plan.leaf_indices = topology.topology.leaf_indices;
 
-PlanResult GenerationPlanner::generate_plan(const Bit9State& state,
-                                            const TargetMetadata& target) const {
-    GenerationPlan plan;
-    plan.source_signature = canonical_signature(state);
-    plan.source_realm_id = canonical_realm_id(state);
-    plan.target_class = target.target_class;
-    plan.registry_version = "aps-windows-1.0";
-    plan.artifact_descriptions = {
-        "canonical-state-summary:" + plan.source_realm_id,
-        "diagnostic-chain-export:" + plan.source_realm_id,
-    };
-    plan.role_assignments = {
-        "source-state=" + plan.source_realm_id,
-        "target-class=" + target.target_class,
-    };
-    plan.plan_hash = sha256_hex(canonical_plan_payload(plan, target.runtime_hint));
-
-    auto diagnostic =
-        DiagnosticEnvelopeBuilder{}
-            .kind(DiagnosticKind::GENERATION_PLAN)
-            .severity(Severity::INFO)
-            .stage(Stage::CLASSIFICATION)
-            .disposition(Disposition::RESOLVED)
+        plan.source_signature = canonical_signature(normalized.state);
+        plan.source_realm_id = plan.source_realm.realm_id;
+        plan.target_class = inputs.target.target_class;
+        plan.registry_version = inputs.target.registry_version;
+        plan.runtime_hint = inputs.target.runtime_hint;
+        plan.profile_id = request.profile_id;
+        plan.role_assignments = {"source-state=" + plan.source_realm_id, "target-class=" + plan.target_class};
+        std::vector<std::string> role_ids;
+        for (const auto& node : plan.topology_nodes) {
+            GenerationRoleAssignment role{"APS-ROLE-" + node.node_id, node.node_id,
+                node.depth == 0 ? "root" : node.is_leaf ? "leaf" : "branch", plan.destination_realm.realm_id};
+            role_ids.push_back(role.assignment_id);
+            plan.role_assignments.push_back(detail::role_projection(role));
+            plan.roles.push_back(std::move(role));
+        }
+        plan.axiom_subject = inputs.axiom_subject.value_or(AxiomSubject{
+            request.project_name + "/" + plan.destination_realm.realm_id, {}, {}, {}, {}, {}, {}, {}});
+        plan.axiom_profile = inputs.axiom_profile;
+        plan.axiom_diagnostic = AxiomEvaluator{}.diagnose_axioms(plan.axiom_subject, plan.axiom_profile);
+        plan.warnings = detail::generation_warnings(plan.axiom_diagnostic);
+        const std::string prefix = request.naming_policy_id == "aps-windows-project-names-1.0" ? request.project_name + ":" : "";
+        for (std::size_t i = 0; i < 2; ++i) {
+            const std::string suffix = i == 0 ? "state-summary" : "diagnostic-chain-export";
+            const std::string name = prefix + (i == 0 ? "canonical-state-summary:" : "diagnostic-chain-export:") + plan.destination_realm.realm_id;
+            plan.artifacts.push_back({request.project_name + "/" + suffix, "descriptor", name, name, role_ids});
+            plan.artifact_descriptions.push_back(name);
+        }
+        plan.metadata = detail::generation_metadata(request, inputs);
+        plan.plan_hash = detail::sha256_hex(detail::canonical_plan_payload(plan));
+        auto diagnostic = DiagnosticEnvelopeBuilder{}
+            .kind(DiagnosticKind::GENERATION_PLAN).severity(Severity::INFO)
+            .stage(Stage::PLAN).disposition(Disposition::RESOLVED)
             .subject("GenerationPlanner::generate_plan[" + plan.source_realm_id + "]")
-            .rule_id(rule_ids::kGeneration001)
-            .rule_id(rule_ids::kGeneration002)
-            .summary("Generated inspectable side-effect-free plan")
-            .note("The planner produced only an in-memory GenerationPlan and "
-                  "a deterministic SHA-256 plan hash; it performed no materialization.")
+            .rule_id(rule_ids::kGeneration001).rule_id(rule_ids::kGeneration002)
+            .summary("Generated complete inspectable side-effect-free descriptor plan")
+            .note("The plan records every requested transition, structural topology node and role, all five axiom evaluations, artifact description, target constraint, and versioned semantic identity. Missing or failing measurements remain explicit in the axiom records and warnings.")
             .build_root();
-
-    return PlanResult{std::move(plan), std::move(diagnostic)};
+        return {std::move(plan), std::move(diagnostic)};
+    } catch (const std::logic_error&) {
+        return blocked_plan("INVALID_GENERATION_INPUT", "A supplied identity or target provenance value could not be represented in a valid canonical diagnostic record; no partial plan is returned.");
+    }
 }
 
+PlanResult GenerationPlanner::generate_plan(const Bit9State& state, const TargetMetadata& target) const {
+    const GenerationRequest request{"ash-plan", state, {}, 0, target.profile_id,
+        "aps-windows-realm-names-1.0", "descriptor"};
+    GenerationPlanningInputs inputs;
+    inputs.target = target;
+    return generate_plan(request, inputs);
+}
 }  // namespace ash

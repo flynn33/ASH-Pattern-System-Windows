@@ -47,10 +47,10 @@ inline constexpr std::string_view kCodeword003 = "ASH-CODEWORD-003";
 inline constexpr std::string_view kCodeword004 = "ASH-CODEWORD-004";
 // INV-CODEWORD-004: "Codeword set matches research baseline [9,4,4]."
 
-// ASH-TRANS family — transition system
-inline constexpr std::string_view kTrans001 = "ASH-TRANS-001";
+// ASH-TRANSITION family — transition system
+inline constexpr std::string_view kTrans001 = "ASH-TRANSITION-001";
 // INV-TRANS-001: "Equal state + equal transition = equal output."
-inline constexpr std::string_view kTrans002 = "ASH-TRANS-002";
+inline constexpr std::string_view kTrans002 = "ASH-TRANSITION-002";
 // INV-TRANS-002: "Transitions operate on full 9-bit states via XOR."
 
 // ASH-REALM family — realm identity and canonical encoding
@@ -105,14 +105,14 @@ inline constexpr std::string_view kContainment001 = "ASH-CONTAINMENT-001";
 inline constexpr std::string_view kHalt001 = "ASH-HALT-001";
 // Canonical safe halt entry.
 
-// ASH-DIAG family — diagnostic envelope schema
-inline constexpr std::string_view kDiag001 = "ASH-DIAG-001";
+// ASH-DIAGNOSTIC family — diagnostic envelope schema
+inline constexpr std::string_view kDiag001 = "ASH-DIAGNOSTIC-001";
 // INV-DIAG-001: "Every diagnostic conforms to envelope schema."
-inline constexpr std::string_view kDiag002 = "ASH-DIAG-002";
+inline constexpr std::string_view kDiag002 = "ASH-DIAGNOSTIC-002";
 // INV-DIAG-002: "Rule IDs conform to taxonomy."
-inline constexpr std::string_view kDiag003 = "ASH-DIAG-003";
+inline constexpr std::string_view kDiag003 = "ASH-DIAGNOSTIC-003";
 // INV-DIAG-003: "Chain is complete; references intact."
-inline constexpr std::string_view kDiag004 = "ASH-DIAG-004";
+inline constexpr std::string_view kDiag004 = "ASH-DIAGNOSTIC-004";
 // INV-DIAG-004: "No silent omission."
 
 }  // namespace ash::rule_ids

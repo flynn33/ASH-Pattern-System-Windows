@@ -1,5 +1,9 @@
 # Threat Model — APS Windows
 
+This is the historical baseline report dated 2026-07-12. Its preserved body, including headings and assertions labeled "Current" or "Complete", describes that earlier review and does not establish security qualification for SDK `1.0.0-rc.1` or the current SDK source/artifacts.
+
+The current SDK includes caller-supplied diagnostic content, explicitly requested local support exports, public ownership/record contracts and a packaged update boundary. Read the current [support privacy/export contract](../docs/support-diagnostics.md), [native integration and ownership contract](../docs/sdk-integration.md) and [packaging boundaries](../docs/packaging-decision.md). Final review must assess those actual boundaries against the exact clean source and release artifacts; the exact released `qualification.json` must establish review and qualification for the source and bytes it names. No current security certification is asserted by this historical report.
+
 **Date:** 2026-07-12  
 **Previous Status:** DRAFT - AWAITING SECURITY REVIEW COMPLETION  
 **Current Status:** COMPLETE ✅  

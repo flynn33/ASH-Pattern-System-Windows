@@ -1,92 +1,46 @@
-# Windows Edition - Architecture
+# Windows SDK architecture
 
-## Target Environment
+The native product is `ash-core`, producing `ash-core.lib`. SDK `1.0.0-rc.1` uses separate x64 and ARM64 Release assets. Its current canonical binding is APS `1.0.0-rc.3` at `50d7e5ab88932a4a967ffc2c83bd18fae45b73c8`. Engineering policy and realization-profile catalog have separate immutable bindings in [canonical deference](../CANONICAL-DEFERENCE.md). Release acceptance must be established by the exact released `qualification.json`, bound to its clean source and asset bytes.
 
-The Windows edition targets supported Windows desktop systems.
+## Target and ownership
 
-- **Operating system:** Windows 10 version 1809 or later and Windows 11, 64-bit x64 and ARM64.
-- **Runtime environment:** Native Win32 / Universal C Runtime. The core library does not depend on Windows Runtime components.
-- **UI framework:** none in the current repository state. The current deliverable is a static library (`ash_core.lib`) and a set of test executables. A product UI remains a release blocker until implemented and accessibility-tested.
-- **File system access model:** none in the semantic core. `GenerationPlanner` returns an in-memory plan, and `ArtifactEmitter` returns in-memory descriptors that trace to plan elements; neither performs filesystem writes in the current implementation.
-- **Concurrency / threading model:** the semantic core is single-threaded. Module instances are externally synchronized if shared from multiple threads. The implementation does not introduce background work or mutable global state.
+The intended deployment range is Windows 10 1809+ and Windows 11 on x64/ARM64. The assigned x64 host does not establish ARM64 runtime coverage or the full physical deployment floor. ARM64 cross-build/link and machine inspection are distinct from execution; unverified OS/device coverage remains an owner phase.
 
-## Compiler And Language
+The deliverable is a C++20 static library with an authored console consumer example. A GUI, installer, hosted service and accessibility-qualified application UI are outside this SDK scope. The semantic core performs no filesystem materialization: planning returns values and emission returns descriptors. Separate support exports write only to an explicitly supplied destination.
 
-- **Compiler:** MSVC `cl.exe` from Visual Studio 2022 version 17.8 or later, or Build Tools for Visual Studio 2022 with the C++ workload installed.
-- **C++ standard:** C++20 (`/std:c++20`).
-- **Warning level:** `/W4 /WX`.
-- **Exception handling:** `/EHsc`.
-- **Runtime library:** `/MT` for the core library and test executables.
+Applications own semantic module instances. `RecoveryEngine` borrows `StateModel` and `TransitionRegistry`, which must outlive it. Mutable semantic objects and public diagnostic fields require caller serialization. A diagnostic leaf owns its parent ancestry; its root is a weak observer. Typed safety projections hold owning const references to their complete chains, extending lifetime without promising immutability against other mutable owners. Public record layout changes require a clean consumer rebuild/relink.
 
-## Build System
+## Module flow
 
-MSBuild assets live in `windows/build/`. The PowerShell wrapper `build.ps1` locates `msbuild.exe` through Visual Studio tooling, invokes the configured build or clean target, and can run tests after a successful build.
+| Responsibility | Native module |
+|---|---|
+| Structural validation and explicit-context operational assessment | `StateModel` |
+| Canonical codeword lookup and XOR transition | `TransitionRegistry` |
+| Correction, supplied-policy fallback, restricted containment and frozen halt | `RecoveryEngine` |
+| Complete record identity, causal-chain validation and canonical transport serialization | `Diagnostics` |
+| Realm/orbit and topology evidence | `RealmEncoder`, `TopologyGenerator` |
+| Five canonical subject predicates | `AxiomEvaluator` |
+| Inspectable pure plan and deterministic identity | `GenerationPlanner` |
+| Plan-traceable in-memory descriptors | `ArtifactEmitter` |
 
-The solution contains six projects:
+`GenerationPlanner` accepts the seven-field `GenerationRequest` and separate `GenerationPlanningInputs` for target provenance and optional axiom measurements. The complete `GenerationPlan` retains normalized/transformed state and realms, every requested structural topology node/leaf and typed role, all five explanatory axiom results, declared artifacts, warnings and registry metadata. Missing/failing measurements remain visible; planning success alone is not an axiom pass. No callable or I/O target is accepted. The length-prefixed `aps-windows-plan-2` identity binds that complete request/evidence/registry payload and changes earlier hashes. [Planning integration](sdk-integration.md#planning-and-descriptor-emission) lists supported references and legacy defaults.
 
-1. `ash-core` - static library, compiles all module `.cpp` files into `ash_core.lib`.
-2. `ash-test-statemodel` - application, links `ash_core.lib`, runs StateModel tests.
-3. `ash-test-transitionregistry` - application, links `ash_core.lib`, runs TransitionRegistry tests.
-4. `ash-test-diagnostics` - application, links `ash_core.lib`, runs Diagnostics tests.
-5. `ash-test-recoveryengine` - application, links `ash_core.lib`, runs RecoveryEngine tests.
-6. `ash-test-completionmodules` - application, links `ash_core.lib`, runs RealmEncoder, TopologyGenerator, AxiomEvaluator, GenerationPlanner, and ArtifactEmitter tests.
+`ArtifactEmitter` consumes the stored plan plus target configuration, audits complete evidence and hash through fixed semantic modules, and copies every declared descriptor field with its plan-element reference. It rejects inconsistent plans even after rehashing. There is no planner callback or filesystem write; the application owns later materialization. [Module mapping](../conformance/module-mapping.md) gives source and test paths. Public plan/artifact layout changes require consumer rebuilds.
 
-See `windows/docs/build-run-instructions.md` for step-by-step build instructions.
+## Diagnostics and runtime safety
 
-## Module Layout
+`DiagnosticEnvelope.hpp` defines complete canonical records, recursive owning JSON values and the fluent builder. Identity hashes the nine semantic fields under compact sorted UTF-8 JSON. Meaningful notes and a details object are required; occurrence metadata may be null. Schema, parent/root placement, sequence and occurrence metadata are outside the semantic digest. `Diagnostics` rejects malformed/cyclic ancestry, stale identity and invalid vocabulary and validates explicit causal phases rather than enum ordinals.
 
-All nine APS modules are declared as classes in `windows/src/include/ash/`. Each class is instantiable, non-virtual, and operates on value types.
+`RecoveryEngine::containment_record()` and `safe_halt_record()` expose original/action diagnostics, full ordered ancestry, typed triggers and local UTC entry/adoption times. A prevented contained operation appends blocked audit evidence without state mutation. A caller-confirmed boundary breach enters terminal SAFE_HALT; later calls return the same frozen terminal diagnostic. Valid external terminal evidence is locally enforced as `POLICY_HALT_REQUEST` with local adoption time, without inventing an external trigger/time. Invalid imported graph/action evidence rejects before adoption. Independent prior histories remain accessible and exportable separately through `retained_diagnostic_chains()` and `Diagnostics::serialize_chain()`.
 
-```text
-          +-------------+
-          |  StateModel |  classify_admissibility
-          +------+------+  classify_system_state
-                 |         classify_recoverability
-                 |         normalize
-                 v
-        +--------+--------+
-        | RecoveryEngine  |  execute_normalize_state
-        +--------+--------+  execute_apply_correction
-                 |            select_fallback
-                 |            enter_containment
-                 v            enter_safe_halt
-     +-----------+-----------+
-     |  TransitionRegistry   |  resolve_transition
-     +-----------+-----------+  apply_transition
-                 |
-                 v
-          +------+------+
-          | Diagnostics |  validate_envelope
-          +-------------+  validate_rule_id
-                         validate_chain
-                         build_root / build_child
+The support responsibility has its own `Session` and immutable `Snapshot`, distinct from canonical safety transports. Debug-only source contains actual rich state/duration/context/error-cause collection; Release-only source contains minimal Fault/Health collection. Shared capture retains common identity/privacy, bounds, health and storage behavior. No runtime setting activates the excluded rich collector. Capture/snapshot/close may run concurrently, but callers must join operations before session destruction.
 
-  RealmEncoder  TopologyGenerator  AxiomEvaluator
-  GenerationPlanner  ---[locked boundary]--->  ArtifactEmitter
-```
+Support retention is bounded to 4096 events, 4 MiB aggregate accounting and 16 KiB per event, with an essential reserve; each export file is limited to 8 MiB. Local JSON/Markdown exports use the same snapshot and publish a completion marker last. Development evidence is caller-instrumented and does not provide ambient collection, arbitrary memory/stack capture or automatic crash flush. See [support diagnostics](support-diagnostics.md).
 
-The arrows show data and dependency flow: `StateModel` is the foundation, `TransitionRegistry` provides the XOR-by-codeword primitive, `Diagnostics` is a cross-cutting validator used by every module, and `RecoveryEngine` composes the state and transition primitives. Realm encoding, topology, axiom evaluation, planning, and emission are implemented as module-local services.
+## Toolchain and build boundary
 
-The locked materialization boundary between `GenerationPlanner` and `ArtifactEmitter` is enforced by interface discipline and runtime tests: `GenerationPlanner` returns a `GenerationPlan` value and takes no callable or I/O arguments; `ArtifactEmitter` takes only `const GenerationPlan&` and `const TargetConfiguration&`, then traces every emitted descriptor to a plan element.
+Public Release consumers require C++20, Microsoft v143 compiler 19.44 or later, `/MT`, iterator debug level zero and the matching architecture. Producer Debug verification uses `/MTd`; Debug SDK archives are not public assets. Object debug information uses `/Z7` and `/GL` is disabled. Exact produced/consumed tools and evaluated settings belong to artifact-bound qualification; earlier linker compatibility is unverified.
 
-## Shared Types
+The solution contains the core library and seven test executables covering semantic modules, complete canonical comparisons and support diagnostics. Their required inventory is independent of a historical pass total. [Build instructions](build-run-instructions.md) own the supported source-build and qualification procedures.
 
-Four shared header files under `windows/src/include/ash/` define the types used by every module:
-
-- **`State.hpp`** - `using Bit9State = std::bitset<9>;` plus helpers for bit access and integer encoding.
-- **`Codeword.hpp`** - `using Codeword = std::bitset<9>;` plus the 16-element codeword set and the 4 generators.
-- **`DiagnosticEnvelope.hpp`** - the `DiagnosticEnvelope` struct and its supporting enums (`DiagnosticKind`, `Severity`, `Stage`, `Disposition`), plus a fluent `DiagnosticEnvelopeBuilder` that enforces all required fields before emitting an envelope.
-- **`RuleIds.hpp`** - compile-time constants for every rule ID used by the semantic core modules.
-
-## Performance / Resource Constraints
-
-The semantic core has no hard performance targets beyond deterministic and diagnosable behavior. Concretely:
-
-- **Memory budget:** the core library has zero heap allocations in the common path for `classify_admissibility`, `apply_transition`, and `validate_envelope`. `DiagnosticEnvelope` uses `std::shared_ptr` for parent and chain root references, which implies heap allocations per envelope; current tests treat that as acceptable for correctness and keep allocation-free diagnostics as a later optimization topic.
-- **Startup time:** sub-millisecond. The library is a static library with no global initialization other than the `kCanonicalCodewords` table.
-- **CPU budget:** core operations are constant, linear in the codeword count of 16, or bounded across the 512-state APS space.
-- **Storage:** not applicable. The semantic core does not persist state.
-
-## Platform Boundary
-
-This architecture records the Windows edition's implementation choices: thread model, memory model, CRT linkage, compiler flags, project layout, and test harness behavior. These choices are local to the Windows edition and are tracked here and in `windows/conformance/deviation-log.md` when they affect release readiness.
+Diagnostic records and their validation may allocate. `validate_envelope` and `validate_chain` return false when allocation fails; serialization and snapshot creation may throw. There is no measured universal allocation-free, startup or throughput guarantee. The support tests measure a synthetic capture loop, snapshot and local export on the assigned host, with method and limits recorded in evidence. Core persistence and migration services are outside this SDK.

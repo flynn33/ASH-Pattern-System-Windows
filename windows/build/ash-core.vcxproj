@@ -34,7 +34,6 @@
   </PropertyGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <Import Project="Directory.Build.props" />
 
   <ItemGroup>
     <ClInclude Include="..\src\include\ash\State.hpp" />
@@ -50,6 +49,8 @@
     <ClInclude Include="..\src\include\ash\AxiomEvaluator.hpp" />
     <ClInclude Include="..\src\include\ash\GenerationPlanner.hpp" />
     <ClInclude Include="..\src\include\ash\ArtifactEmitter.hpp" />
+    <ClInclude Include="..\src\include\ash\SupportDiagnostics.hpp" />
+    <ClInclude Include="..\src\support\SupportBackend.hpp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,7 +65,11 @@
     <ClCompile Include="..\src\AxiomEvaluator.cpp" />
     <ClCompile Include="..\src\GenerationPlanner.cpp" />
     <ClCompile Include="..\src\ArtifactEmitter.cpp" />
+    <ClCompile Include="..\src\SupportDiagnostics.cpp" />
+    <ClCompile Include="..\src\support\SupportDevelopmentBackend.cpp" Condition="'$(Configuration)'=='Debug'" />
+    <ClCompile Include="..\src\support\SupportReleaseBackend.cpp" Condition="'$(Configuration)'=='Release'" />
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="ASH.Build.targets" />
 </Project>
