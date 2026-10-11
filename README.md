@@ -22,4 +22,4 @@ The intended deployment floor is Windows 10 1809 and Windows 11. A Windows 11 x6
 
 Historical records under `completion-evidence/` remain history. Generated packages and build outputs are no longer tracked or used as current release inputs.
 
-Copyright 2026 James Daley. Licensed under [Apache License 2.0](LICENSE). Outside contributions are not accepted; see [CONTRIBUTING.md](CONTRIBUTING.md).
+Copyright 2026 James Daley. Licensed under the [Dual License](LICENSE). Outside contributions are not accepted; see [CONTRIBUTING.md](CONTRIBUTING.md).
