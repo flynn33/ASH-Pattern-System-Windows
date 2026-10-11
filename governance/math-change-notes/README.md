@@ -1,5 +1,7 @@
 # Math Change Notes
 
+> **Historical upstream note format:** The body below describes the canonical specification repository's math-change process. This Windows repository has no local Math Integrity workflow; its actual checks and native SDK responsibilities are documented in [GitHub governance](../github-agents-governance.md) and [repository governance](../repository-governance.md). Preserve the external canonical mathematics and applicable review requirements; this retained format does not establish that a local CI check or human sign-off occurred.
+
 This directory holds the change notes that the Math Integrity Agent requires when any math-critical file in the canonical ASH Pattern System repository is edited.
 
 See `governance/github-agents-governance.md` for the agent's full policy and for the current list of math-critical paths.

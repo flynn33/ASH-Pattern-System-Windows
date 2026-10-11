@@ -6,7 +6,9 @@ The public semantic modules are StateModel, TransitionRegistry, Diagnostics, Rec
 
 Planning accepts an explicit seven-field request plus separate target/optional axiom inputs and retains complete topology, roles and all five explanatory axiom results. Its `aps-windows-plan-2` identity binds request, evidence and registry fields; old plan hashes must be regenerated. [Planning integration](windows/docs/sdk-integration.md#planning-and-descriptor-emission) documents the native references, legacy defaults and descriptor audit.
 
-Use the named architecture SDK ZIP from [Releases](https://github.com/flynn33/ASH-Pattern-System-Windows/releases), after mandatory qualification passes. Verify external SHA256SUMS.txt and internal checksums before use. GitHub's source archives are source checkouts. The curated SDK includes public headers, one Release library, relocatable MSBuild integration, an authored standalone sample, license, component inventory, manifest and consumer documentation.
+**Use the named SDK release assets. GitHub's automatically generated Source code ZIP/tarball is not the SDK. Do not import this repository wholesale into an application.**
+
+Use the named architecture SDK ZIP from [Releases](https://github.com/flynn33/ASH-Pattern-System-Windows/releases), after mandatory qualification passes. Verify external SHA256SUMS.txt and internal checksums before use. The curated SDK includes public headers, one Release library, relocatable MSBuild integration, an authored standalone sample, license, component inventory, manifest and consumer documentation.
 
 Consumers require MSVC v143 19.44 or later, C++20, Release `/MT`, iterator debug level zero and a matching target architecture. The library uses `/Z7` information embedded in objects and disables `/GL`. Consumers must rebuild after the ownership/API changes described in [SDK migration](windows/docs/sdk-migration.md). C++ ABI compatibility with arbitrary compilers, Debug CRTs or earlier linkers is not established.
 

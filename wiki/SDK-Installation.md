@@ -1,6 +1,8 @@
 # SDK installation and replacement
 
-Choose the named x64 or ARM64 Release ZIP only after its mandatory release qualification passes. GitHub-generated source archives are not SDK installations.
+**Use the named SDK release assets. GitHub's automatically generated Source code ZIP/tarball is not the SDK. Do not import this repository wholesale into an application.**
+
+Choose the named x64 or ARM64 Release ZIP only after its mandatory release qualification passes.
 
 Verify downloaded assets against external SHA256SUMS.txt, extract into a selected empty directory, and verify every internal checksum. Each SDK has one versioned root with include/ash, lib, msbuild, samples, docs, license, SBOM and manifest. No global registration or administrator installation is required.
 

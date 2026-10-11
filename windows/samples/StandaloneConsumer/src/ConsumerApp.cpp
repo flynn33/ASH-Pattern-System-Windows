@@ -9,6 +9,7 @@
 #include <ash/SupportDiagnostics.hpp>
 #include <ash/TransitionRegistry.hpp>
 
+#include <cstdint>
 #include <iostream>
 #include <stdexcept>
 
@@ -59,7 +60,7 @@ int ConsumerApp::run(const std::filesystem::path& export_directory) const {
     incident.correlation_id.value = "sample-controlled-failure";
     incident.incident_id.value = "sample-incident-1";
     incident.message.value = "Noncanonical correction rejected";
-    incident.state_before = 0;
+    incident.state_before = std::uint16_t{0};
     incident.state_after = ash::to_int(rejected.state);
     incident.context = {
         {ash::support::Field::CanonicalRule, {"ASH-CODEWORD-004"}},

@@ -274,7 +274,6 @@ def version_contract(platform: str) -> str:
     machine = "_M_X64" if platform == "x64" else "_M_ARM64"
     return f'''
 // Installed Release SDK consumption contract.
-#include <cstddef>
 #if !defined(_MSC_VER) || _MSC_VER < 1944
 #error This SDK requires Microsoft v143 compiler 19.44 or later.
 #endif
@@ -287,6 +286,10 @@ def version_contract(platform: str) -> str:
 #if !defined(_MT) || defined(_DLL) || defined(_DEBUG)
 #error This SDK requires Release /MT; /MD and Debug are incompatible.
 #endif
+#if defined(_ITERATOR_DEBUG_LEVEL) && _ITERATOR_DEBUG_LEVEL != 0
+#error This SDK requires release iterator debugging level zero.
+#endif
+#include <string_view>
 #if !defined(_ITERATOR_DEBUG_LEVEL) || _ITERATOR_DEBUG_LEVEL != 0
 #error This SDK requires release iterator debugging level zero.
 #endif
@@ -294,7 +297,9 @@ def version_contract(platform: str) -> str:
 
 
 def project_version_header(source: Path, destination: Path, platform: str) -> None:
-    destination.write_text(source.read_text(encoding="utf-8-sig") + version_contract(platform), encoding="utf-8", newline="\n")
+    # Reject incompatible explicit settings before the first standard header can
+    # report its own error or instantiate an incompatible library configuration.
+    destination.write_text(version_contract(platform) + source.read_text(encoding="utf-8-sig"), encoding="utf-8", newline="\n")
 
 
 def validate_version_projection(identity: str, manifest: dict) -> None:
@@ -305,7 +310,7 @@ def validate_version_projection(identity: str, manifest: dict) -> None:
             raise ValueError("Archive generated identity mismatch: " + name)
     if re.findall(r'^#define ASH_SOURCE_DIRTY ([^\r\n]+)\r?$', identity, flags=re.MULTILINE) != ["0"]:
         raise ValueError("Archive generated identity is not clean")
-    if not identity.endswith(version_contract(manifest["platform"])):
+    if not identity.startswith(version_contract(manifest["platform"])):
         raise ValueError("Archive architecture/Release consumption projection mismatch")
 
 
@@ -356,7 +361,7 @@ def package(args) -> dict:
         with zipfile.ZipFile(archive) as zipped:
             for relative, item in public_allowlist(repo, args.platform).items():
                 source = payload_input(repo, build, args.platform, relative, item)
-                expected = ((source.read_text(encoding="utf-8-sig") + version_contract(args.platform)).encode("utf-8")
+                expected = ((version_contract(args.platform) + source.read_text(encoding="utf-8-sig")).encode("utf-8")
                             if relative == "include/ash/Version.hpp" else source.read_bytes())
                 if zipped.read(result["root"] + "/" + relative) != expected:
                     raise ValueError("Existing SDK archive differs from current curated input: " + relative)

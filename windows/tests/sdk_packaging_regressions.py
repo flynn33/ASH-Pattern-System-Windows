@@ -76,8 +76,9 @@ class ArchiveIntegrity(unittest.TestCase):
             file.parent.mkdir(parents=True, exist_ok=True)
             file.write_bytes(b"synthetic payload fixture\n")
         (self.stage / "include/ash/Version.hpp").write_text(
+            sdk.version_contract("x64") +
             '#pragma once\n#define ASH_SDK_VERSION "1.0.0-rc.1"\n#define ASH_SOURCE_COMMIT "' + "1" * 40 +
-            '"\n#define ASH_SOURCE_DIRTY 0\n#define ASH_DIAGNOSTICS_PROFILE "release"\n' + sdk.version_contract("x64"),
+            '"\n#define ASH_SOURCE_DIRTY 0\n#define ASH_DIAGNOSTICS_PROFILE "release"\n',
             encoding="utf-8", newline="\n")
         bindings = sdk.authority_bindings(REPO)
         sbom = {"schemaVersion": "1.0", "version": "1.0.0-rc.1", "sourceCommit": "1" * 40,

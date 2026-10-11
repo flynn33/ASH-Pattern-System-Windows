@@ -2,70 +2,85 @@
 
 ## Repository role
 
-This repository is the canonical semantic definition of the ASH Pattern System.
-It is not a language implementation repository.
+This repository owns the Windows native realization of the ASH Pattern System:
+C++20 semantic modules, their MSBuild projects and tests, and the static
+`ash-core.lib` SDK. Native source, build files, packaging metadata and integration
+material belong here. The SDK consumer boundary is the curated release payload,
+not a wholesale import of this repository.
 
-## Governance rules
+Canonical semantics are defined by the immutable external
+[APS 1.0.0-rc.3 source](https://github.com/flynn33/ASH-Pattern-System/tree/50d7e5ab88932a4a967ffc2c83bd18fae45b73c8).
+Copied specifications and historical handoffs in this repository do not override
+that authority. [Canonical deference](../windows/CANONICAL-DEFERENCE.md) records
+the owning precedence decisions and native realization boundary.
 
-### 1. Language neutrality
+## Authority and policy bindings
 
-No programming language may be described as the canonical identity of the engine in this repository.
+The [machine-readable bindings](../windows/packaging/sdk-authority-bindings.json)
+keep three roles distinct:
 
-### 2. Platform neutrality
+| Role | Version | Immutable source commit |
+|---|---|---|
+| Canonical semantic authority | `1.0.0-rc.3` | `50d7e5ab88932a4a967ffc2c83bd18fae45b73c8` |
+| Engineering policy | `0.7.0` | `8dd6e75a06336491b249fac3577db75458db8c13` |
+| Realization-profile catalog | `0.7.2` | `82049af6b10d4dc21d24fb9c67f1b93155e4b7e3` |
 
-No operating system, runtime family, or device category may be described as the canonical platform identity of the engine in this repository.
+Updating a catalog does not upgrade engineering policy or redefine mathematics.
+The native profile `rfd.aps.windows.b1c05f1` names the original native baseline;
+the SDK product version and current source commit remain separate identities.
+Upstream [canonical repository governance](https://github.com/flynn33/ASH-Pattern-System/blob/50d7e5ab88932a4a967ffc2c83bd18fae45b73c8/governance/repository-governance.md)
+is an external reference for its specification repository, not a ban on this
+product's native source or build/package files.
 
-### 3. Spec-first rule
+## Semantic and safety precedence
 
-Changes that affect semantics must be made in the specification documents first.
-Implementation repositories must follow the specifications, not redefine them.
+Windows, C++ and compiler choices describe this realization, not the canonical
+identity of APS. Native implementation changes must preserve the pinned
+nine-dimensional binary state model, canonical codewords, realm/orbit transforms,
+averaging, topology and axiom predicates. Convenience behavior, copied prose and
+generated self-agreement cannot replace the owning canonical contracts.
 
-### 4. Pseudocode rule
+Structural normalization and operational assessment have separate responsibilities.
+Fallback requires the supplied policy and verification evidence. Prevented
+contained operations retain blocked evidence; a confirmed containment breach
+requires terminal SAFE_HALT. Terminal records and their causal history remain
+frozen. Required diagnostic identity, explanations, structured facts and safety
+transports are part of conformance, not optional logging.
 
-When algorithmic examples are needed, use pseudocode unless a target-specific handoff explicitly requires implementation syntax.
+Resolve a semantic ambiguity through an explicit owning decision and immutable
+authority binding before treating it as settled in production. Native fixes must
+not invent locked algebraic values, substitute placeholders, weaken mandatory
+checks or claim that administrator bypass waives correctness. Preserve historical
+failure evidence when adopting a correction.
 
-### 5. Semantic clarity rule
+## Source and consumer boundaries
 
-A document is only complete if a downstream coding agent can determine:
+Files admitted here must support the Windows implementation, its tests/build,
+SDK packaging, consumer integration, documentation or repository maintenance.
+Upstream research remains external to the consumer dependency graph. SDK consumers
+use the curated headers, Release library, integration files and authored sample;
+implementation source, test binaries, governance and authority repositories are
+not SDK dependencies. See [SDK integration](../windows/docs/sdk-integration.md).
 
-- what the model means
-- what invariants must hold
-- what boundary separates planning from materialization
-- what behaviors are prohibited
+The owner-maintained contribution and security policies remain in
+[CONTRIBUTING.md](../CONTRIBUTING.md) and [SECURITY.md](../SECURITY.md).
+Outside contributions are not accepted. Repository access controls and rulesets
+restrict writes to the owner; automated checks do not grant write authority or
+constitute human approval.
 
-### 6. Standalone baseline rule
+## GitHub checks and release evidence
 
-This repository stands on its own as a canonical agnostic baseline.
-It should not depend on explanation through older implementation layouts.
+The actual local workflow is the [attribution sentinel](../.github/workflows/no-ai-attribution.yml),
+implemented by [no_attribution_check.py](../.github/scripts/no_attribution_check.py).
+Its responsibilities and event boundaries are documented in
+[GitHub governance agents](github-agents-governance.md). It checks attribution
+metadata and content; it does not execute mathematics, native conformance, builds
+or SDK consumer acceptance.
 
-### 7. State-layer closure discipline
-
-Specifications that define foundational state-layer behavior (control-bit derivation, core admissibility, state-validity diagnostics) are authoritative.
-
-Downstream implementation repositories must not:
-
-- invent foundational semantics that are not defined in this repository
-- substitute alternative values for locked algebraic definitions (the control-bit derivation formula and the admissibility codeword set are locked design decisions)
-- guess values for any remaining unresolved items (e.g., fallback-policy registry)
-- silently use placeholder values for unresolved items in production code
-- treat convenience behavior as canonical if the specifications do not define it
-
-If a specification marks a rule as an **unresolved item**, that item must be resolved by an explicit design decision recorded in this repository before any downstream implementation may treat it as settled. Locked design decisions (marked as **LOCKED** in the specs) are normative and must be implemented exactly.
-
-## Admission rule for future files
-
-A new file belongs in this repository only if it strengthens the semantic source of truth.
-If it mainly expresses one platform's build, runtime, or packaging concerns, it belongs in a downstream implementation repository instead.
-
-## Main-repository closeout
-
-The canonical main repository is closed as the agnostic specification baseline. It remains canonical and implementation-free.
-
-- Main remains canonical. The canonical semantic, contract, verification, and downstream build handoff template layers are the authoritative source of truth for the ASH Pattern System.
-- Main remains implementation-free. Platform-specific source code, build files, package manifests, lockfiles, and platform source trees do not belong in the canonical main repository. Those artifacts belong in downstream implementation repositories that consume the canonical baseline.
-- Future edits to the canonical main repository are limited to canonical corrections, ambiguity resolution, validation and governance maintenance, and other source-of-truth upkeep — typically revealed by downstream implementation work.
-- The sentinel agent layer in `governance/github-agents-governance.md` enforces the canonical-authority boundary and the implementation-free invariant at the CI boundary.
-
-## GitHub governance agents
-
-A sentinel agent layer is defined in `governance/github-agents-governance.md` and enforced via workflows under `.github/workflows/`. The agents detect canonical-repo boundary drift, guard the locked research-baseline math, block reintroduction of superseded canonical language, and provide a reusable conformance workflow for downstream repositories. The agents are gatekeepers only — they do not own or redefine canonical truth.
+Native and artifact qualification use the supported
+[release verification entry point](../windows/packaging/verify-sdk-release.ps1)
+and the [required acceptance evidence](../windows/conformance/acceptance-judgment.md).
+All mandatory semantic, native, diagnostic, consumer and integrity gates must
+pass. Release acceptance is established by the exact released `qualification.json`
+bound to its clean source and asset bytes; historical totals, a passing sentinel
+or a scoped prerequisite review cannot establish that result.

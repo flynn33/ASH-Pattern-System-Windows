@@ -1,5 +1,7 @@
 # AI Coding Handoff
 
+> **Historical canonical handoff:** The body below is retained from the earlier specification baseline. References to this repository as canonical or implementation-free describe that historical upstream role, not this Windows SDK repository. Current native repository and workflow responsibilities are defined in [repository governance](repository-governance.md), [GitHub governance](github-agents-governance.md), and [canonical deference](../windows/CANONICAL-DEFERENCE.md).
+
 > **Post-R3 status**: The ASH Pattern System is grounded in the **full 9-dimensional research baseline**. The contract and verification layers have been rebuilt on the 9D foundation (R3). The codeword set `C ⊂ F2^9` is fully closed — exact generators and exhaustive enumeration have been extracted from published research. The canonical semantic, contract, verification, and downstream build handoff template layers are complete. The canonical main repository is now closed as the agnostic specification baseline and operates in maintenance mode; platform-specific implementation work is out of scope for main.
 
 ## Purpose
