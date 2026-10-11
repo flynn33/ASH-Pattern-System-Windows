@@ -302,6 +302,20 @@ std::filesystem::path native_path(const std::filesystem::path& path) {
         : std::filesystem::path(L"\\\\?\\" + value);
 }
 
+bool directory_without_reparse(const std::filesystem::path& path) {
+    // Handle metadata also works at a UNC share root, where GetFileAttributesW fails.
+    HANDLE directory = CreateFileW(native_path(path).c_str(), 0,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING,
+        FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, nullptr);
+    if (directory == INVALID_HANDLE_VALUE) return false;
+    FILE_ATTRIBUTE_TAG_INFO info{};
+    const bool inspected = GetFileInformationByHandleEx(directory, FileAttributeTagInfo,
+        &info, sizeof(info)) != 0;
+    const bool closed = CloseHandle(directory) != 0;
+    return inspected && closed && (info.FileAttributes & FILE_ATTRIBUTE_DIRECTORY) &&
+        !(info.FileAttributes & FILE_ATTRIBUTE_REPARSE_POINT);
+}
+
 bool destination_valid(const std::filesystem::path& destination) {
     if (destination.empty() || !destination.is_absolute()) return false;
     for (const auto& part : destination) if (part == "..") return false;
@@ -309,12 +323,9 @@ bool destination_valid(const std::filesystem::path& destination) {
     const auto& value = normalized.native();
     // Accept ordinary filesystem destinations, not caller-supplied device namespaces.
     if (value.starts_with(L"\\\\?\\") || value.starts_with(L"\\\\.\\")) return false;
-    std::error_code ec;
-    if (!std::filesystem::is_directory(native_path(normalized), ec) || ec) return false;
     auto current = normalized;
     while (!current.empty()) {
-        const auto attributes = GetFileAttributesW(native_path(current).c_str());
-        if (attributes == INVALID_FILE_ATTRIBUTES || (attributes & FILE_ATTRIBUTE_REPARSE_POINT)) return false;
+        if (!directory_without_reparse(current)) return false;
         auto parent = current.parent_path();
         // A UNC share is the filesystem root; its server name is not a directory.
         if (parent == current || (value.starts_with(L"\\\\") && parent == current.root_path())) break;
